@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
-* Студент: [Daniil Kondrashov](https://up.htmlacademy.ru/react/14/user/2006153).
-* Наставник: `Неизвестно`.
+- Студент: [Daniil Kondrashov](https://up.htmlacademy.ru/react/14/user/2006153).
+- Наставник: `Глеб Клецков`.
 
 ---
 
