@@ -1,10 +1,10 @@
 import Card from '../../Components/Card/component';
 
-type MainCardsProps = {
+type MainProps = {
   quantity: number;
-};
+}
 
-function Main({ quantity }: MainCardsProps): JSX.Element {
+function Main({ quantity }: MainProps): JSX.Element {
   function getCards() {
     const cards = [];
     for (let index: number = 0; index < quantity; index++) {

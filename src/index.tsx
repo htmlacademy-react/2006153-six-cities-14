@@ -7,11 +7,8 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-type IndexProps = {
-  quantity: number;
-};
 root.render(
   <React.StrictMode>
-    <App cardsQuantity={Quantity.cards} />
+    <App quantity={Quantity.cards} />
   </React.StrictMode>
 );

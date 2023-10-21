@@ -1,11 +1,11 @@
 import Main from '../../Pages/Main/component';
 
-type AppCardsProps = {
+export type AppProps = {
   quantity: number;
 };
 
-function App({ cardsQuantity }: AppCardsProps): JSX.Element {
-  return <Main quantity={cardsQuantity} />;
+function App({ quantity }: AppProps): JSX.Element {
+  return <Main quantity={quantity} />;
 }
 
 export default App;
