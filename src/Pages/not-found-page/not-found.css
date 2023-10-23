@@ -1,0 +1,8 @@
+.main-content-wrp {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.main-content {
+}
