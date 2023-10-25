@@ -1,6 +1,7 @@
 import Card from '../../Components/card/card';
 import Header from '../../Components/header/header';
 import LocationLink from '../../Components/location-link/location-link';
+import {Helmet} from 'react-helmet-async';
 type MainProps = {
   quantity: number;
 };
@@ -16,6 +17,11 @@ function Main({ quantity }: MainProps): JSX.Element {
 
   return (
     <div>
+      <Helmet>
+        <title>
+          Главная Страница
+        </title>
+      </Helmet>
       <div className="page page--gray page--main">
         <Header />
         <main className="page__main page__main--index">
