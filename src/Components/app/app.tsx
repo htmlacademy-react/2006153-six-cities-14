@@ -16,8 +16,11 @@ function App({ quantity }: AppProps): JSX.Element {
       <Routes>
         <Route path="/" element={<Main quantity={quantity} />}></Route>
         <Route path="/login" element={<Login />}></Route>
-        <PrivateRoute></PrivateRoute>
-        {/* <Route path="/favorites" element={<Favorites />}></Route> */}
+        <Route
+          path="/favorites"
+          element={<PrivateRoute childrenProps={<Favorites />} />}
+        >
+        </Route>
         <Route path="/offer" element={<Offer />}></Route>
         <Route path="*" element={<NotFound />}></Route>
       </Routes>

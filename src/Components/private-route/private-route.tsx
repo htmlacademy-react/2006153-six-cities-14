@@ -1,17 +1,12 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Favorites from '../../Pages/favorites/favorites';
-import Login from '../../Pages/login/login';
+import { Navigate } from 'react-router-dom';
 import { isAuthorized } from '../../const/const';
-function PrivateRoute(): JSX.Element {
-  return (
-    <Routes>
-      {isAuthorized ? (
-        <Route path="/favorites" element={<Favorites />}></Route>
-      ) : (
-        <Route path="/login" element={<Login />}></Route>
-      )}
-    </Routes>
-  );
+
+interface PrivateRouteProps {
+  childrenProps: JSX.Element;
+}
+
+function PrivateRoute({ childrenProps }: PrivateRouteProps): JSX.Element {
+  return isAuthorized ? childrenProps : <Navigate to="/Login" />;
 }
 
 export default PrivateRoute;
