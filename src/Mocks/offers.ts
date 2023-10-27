@@ -1,0 +1,53 @@
+import { Offers } from '../const/const';
+
+export const offers: Offers[] = [
+  {
+    imageSrc: 'img/apartment-01.jpg',
+    price: 120,
+    name: 'Beautiful & luxurious apartment at great location',
+    rating: 80,
+    type: 'Apartment',
+    isPremium: true,
+    location: 'Amsterdam',
+    id: 2183217382176487,
+  },
+  {
+    imageSrc: 'img/room.jpg',
+    price: 80,
+    name: 'Wood and stone place',
+    rating: 50,
+    type: 'Room',
+    isPremium: false,
+    location: 'Cologne',
+    id: 2183217356765756,
+  },
+  {
+    imageSrc: 'img/apartment-02.jpg',
+    price: 132,
+    name: 'Canal View Prinsengracht',
+    rating: 60,
+    type: 'Apartment',
+    isPremium: false,
+    location: 'Cologne',
+    id: 218321745453,
+  },
+  {
+    imageSrc: 'img/apartment-03.jpg',
+    price: 180,
+    name: 'Nice, cozy, warm big bed apartment',
+    rating: 100,
+    type: 'Apartment',
+    isPremium: true,
+    location: 'Cologne',
+    id: 2183217323423487,
+  },
+  {
+    imageSrc: 'img/room.jpg',
+    price: 80,
+    name: 'Wood and stone place',
+    rating: 50,
+    type: 'Room',
+    isPremium: false,
+    id: 211332323423487,
+  },
+];
