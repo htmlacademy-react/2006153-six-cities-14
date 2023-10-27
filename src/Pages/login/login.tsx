@@ -1,7 +1,9 @@
+import Header from '../../Components/header/header';
+
 function Login(): JSX.Element {
   return (
     <div className="page page--gray page--login">
-      <header className="header">
+      {/* <header className="header">
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
@@ -17,8 +19,8 @@ function Login(): JSX.Element {
             </div>
           </div>
         </div>
-      </header>
-
+      </header> */}
+      <Header />
       <main className="page__main page__main--login">
         <div className="page__login-container container">
           <section className="login">
