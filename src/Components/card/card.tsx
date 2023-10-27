@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Offers } from '../../const/const';
 import { useState } from 'react';
+
 type cardProps = {
   cardProp: Offers;
 };
@@ -17,7 +18,7 @@ function Card({ cardProp }: cardProps) {
 
   return (
     <Link
-      to="/offer"
+      to={`/offer/:${cardProp.id}`}
       className={
         isActive ? 'cities__card place-card active' : 'cities__card place-card'
       }
