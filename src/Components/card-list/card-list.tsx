@@ -9,7 +9,7 @@ function CardList({ offersList }: offersListProps) {
   return (
     <div className="cities__places-list places__list tabs__content">
       {offersList.map((card) => (
-        <Card cardProp={card} key={card.id} />
+        <Card card={card} key={card.id} />
       ))}
     </div>
   );
