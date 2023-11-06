@@ -3,6 +3,17 @@ interface Location {
   id: number;
 }
 
+export interface Offers {
+  imageSrc: string;
+  price: number;
+  name: string;
+  rating: number;
+  type: string;
+  isPremium: boolean;
+  location?: string;
+  id: number;
+}
+
 export const locations: Location[] = [
   {
     city: 'Paris',
@@ -36,4 +47,4 @@ const Quantity = {
 
 export default Quantity;
 
-export const isAuthorized = false;
+export const isAuthorized = true;

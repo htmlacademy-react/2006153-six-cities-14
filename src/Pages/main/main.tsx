@@ -1,26 +1,17 @@
-import Card from '../../Components/card/card';
+import CardList from '../../Components/card-list/card-list';
 import Header from '../../Components/header/header';
 import LocationLink from '../../Components/location-link/location-link';
-import {Helmet} from 'react-helmet-async';
+import { Offers } from '../../const/const';
+import { Helmet } from 'react-helmet-async';
 type MainProps = {
-  quantity: number;
+  offersList: Offers[];
 };
 
-function Main({ quantity }: MainProps): JSX.Element {
-  function getCards() {
-    const cards = [];
-    for (let index: number = 0; index < quantity; index++) {
-      cards.push(<Card key={index} />);
-    }
-    return cards;
-  }
-
+function Main({ offersList }: MainProps): JSX.Element {
   return (
     <div>
       <Helmet>
-        <title>
-          Главная Страница
-        </title>
+        <title>Главная Страница</title>
       </Helmet>
       <div className="page page--gray page--main">
         <Header />
@@ -94,9 +85,7 @@ function Main({ quantity }: MainProps): JSX.Element {
                     </li>
                   </ul>
                 </form>
-                <div className="cities__places-list places__list tabs__content">
-                  {getCards().map((el) => el)}
-                </div>
+                <CardList offersList={offersList} />
               </section>
               <div className="cities__right-section">
                 <section className="cities__map map"></section>
