@@ -1,5 +1,13 @@
 import SendingCommentsForm from '../../Components/sending-comment-form/sending-comment-form';
-function Offer(): JSX.Element {
+import { Offers } from '../../const/const';
+import { useParams } from 'react-router-dom';
+
+type OffersProps = {
+  offersList: Offers[];
+};
+function Offer({ offersList }: OffersProps): JSX.Element {
+  const params = useParams();
+
   return (
     <div className="page">
       <header className="header">
@@ -96,7 +104,12 @@ function Offer(): JSX.Element {
               </div>
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">
-                  Beautiful &amp; luxurious studio at great location
+                  {offersList.map((offerEl) => {
+                    const elementWith = `:${offerEl.id.toString()}`;
+                    if (params.id === elementWith) {
+                      return offerEl.name;
+                    }
+                  })}
                 </h1>
                 <button className="offer__bookmark-button button" type="button">
                   <svg className="offer__bookmark-icon" width="31" height="33">

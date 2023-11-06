@@ -26,9 +26,11 @@ function App({ offersList }: AppProps): JSX.Element {
                 childrenProps={<Favorites offersList={offersList} />}
               />
             }
-          >
-          </Route>
-          <Route path="/offer/:id" element={<Offer/>}></Route>
+          ></Route>
+          <Route
+            path="/offer/:id"
+            element={<Offer offersList={offersList} />}
+          ></Route>
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
       </BrowserRouter>

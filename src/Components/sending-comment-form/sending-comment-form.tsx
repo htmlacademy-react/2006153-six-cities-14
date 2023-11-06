@@ -3,6 +3,7 @@ import { useState } from 'react';
 interface FormData {
   comment: string;
   rating: string;
+  name?: string;
 }
 
 function SendingCommentsForm() {
@@ -10,17 +11,18 @@ function SendingCommentsForm() {
     comment: '',
     rating: '',
   });
-  function fieldsControl(evt) {
-    const { name, value }: { name: string; value: string } = evt.target;
+  function fieldsControl(evt: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = evt.target;
+
     setFormData({ ...formData, [name]: value });
   }
-
   return (
     <form
       /* onSubmit={(evt) => {
         fieldsControl(evt);
         preventDefault();
       }} */
+      name="form"
       className="reviews__htmlForm htmlForm"
       action="#"
       method="post"
@@ -30,9 +32,7 @@ function SendingCommentsForm() {
       </label>
       <div className="reviews__rating-htmlForm htmlForm__rating">
         <input
-          onChange={(evt) => {
-            fieldsControl(evt);
-          }}
+          onChange={fieldsControl}
           className="htmlForm__rating-input visually-hidden"
           name="rating"
           value="5"
@@ -50,7 +50,7 @@ function SendingCommentsForm() {
         </label>
 
         <input
-          onChange={(evt) => fieldsControl(evt)}
+          onChange={fieldsControl}
           className="htmlForm__rating-input visually-hidden"
           name="rating"
           value="4"
@@ -68,7 +68,7 @@ function SendingCommentsForm() {
         </label>
 
         <input
-          onChange={(evt) => fieldsControl(evt)}
+          onChange={fieldsControl}
           className="htmlForm__rating-input visually-hidden"
           name="rating"
           value="3"
@@ -86,7 +86,7 @@ function SendingCommentsForm() {
         </label>
 
         <input
-          onChange={(evt) => fieldsControl(evt)}
+          onChange={fieldsControl}
           className="htmlForm__rating-input visually-hidden"
           name="rating"
           value="2"
@@ -104,7 +104,7 @@ function SendingCommentsForm() {
         </label>
 
         <input
-          onChange={(evt) => fieldsControl(evt)}
+          onChange={fieldsControl}
           className="htmlForm__rating-input visually-hidden"
           name="rating"
           value="1"
@@ -122,14 +122,15 @@ function SendingCommentsForm() {
         </label>
       </div>
       <textarea
-        onChange={(evt) => fieldsControl(evt)}
+        onChange={
+          /* (evt, prevValue) => fieldsControl(evt, prevValue) */ fieldsControl
+        }
         className="reviews__textarea htmlForm__textarea"
         id="review"
         name="comment"
         value={formData.name}
         placeholder="Tell how was your stay, what you like and what can be improved"
-      >
-      </textarea>
+      ></textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set{' '}
