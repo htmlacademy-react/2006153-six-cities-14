@@ -13,7 +13,12 @@ export interface Offers {
   location?: string;
   id: number;
 }
-
+export interface Hotels {
+  co: {
+    latitude: number;
+    longitude: number;
+  };
+}
 export const locations: Location[] = [
   {
     city: 'Paris',
