@@ -48,6 +48,6 @@ export const offers: Offers[] = [
     rating: 50,
     type: 'Room',
     isPremium: false,
-    id: 211332323423487,
+    id: 2183217323423485,
   },
 ];

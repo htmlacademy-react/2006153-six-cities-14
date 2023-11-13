@@ -4,10 +4,14 @@ import { useState } from 'react';
 
 type cardProps = {
   card: Offers;
+  onListItemHover: (onListItemHover: number) => void;
 };
 
-function Card({ card }: cardProps) {
+function Card({ card, onListItemHover }: cardProps) {
   const [whichCardIsActive, setWhichCardIsActive] = useState(card);
+  const handleListItemHover = () => {
+    onListItemHover(whichCardIsActive.id);
+  };
   function handleCardHover() {
     setWhichCardIsActive(card);
   }
@@ -21,6 +25,7 @@ function Card({ card }: cardProps) {
       }
       onMouseEnter={() => {
         handleCardHover();
+        handleListItemHover();
       }}
     >
       {card.isPremium ? (

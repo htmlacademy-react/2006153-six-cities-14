@@ -14,10 +14,9 @@ export interface Offers {
   id: number;
 }
 export interface Hotels {
-  co: {
-    latitude: number;
-    longitude: number;
-  };
+  latitude: number;
+  longitude: number;
+  id: number;
 }
 export const locations: Location[] = [
   {
@@ -53,3 +52,5 @@ const Quantity = {
 export default Quantity;
 
 export const isAuthorized = true;
+
+export const urlForPins: string[] = ['../img/pin.svg', '../img/pin-active.svg'];
