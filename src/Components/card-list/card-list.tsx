@@ -3,13 +3,14 @@ import Card from '../card/card';
 
 type offersListProps = {
   offersList: Offers[];
+  onListItemHover: (onListItemHover: number) => void;
 };
 
-function CardList({ offersList }: offersListProps) {
+function CardList({ offersList, onListItemHover }: offersListProps) {
   return (
     <div className="cities__places-list places__list tabs__content">
       {offersList.map((card) => (
-        <Card cardProp={card} key={card.id} />
+        <Card card={card} key={card.id} onListItemHover={onListItemHover} />
       ))}
     </div>
   );

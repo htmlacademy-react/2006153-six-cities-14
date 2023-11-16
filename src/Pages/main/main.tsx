@@ -1,6 +1,9 @@
 import CardList from '../../Components/card-list/card-list';
 import Header from '../../Components/header/header';
 import LocationLink from '../../Components/location-link/location-link';
+import { useState } from 'react';
+import Map from '../../Components/map/map';
+import { hotels } from '../../Mocks/hotels';
 import { Offers } from '../../const/const';
 import { Helmet } from 'react-helmet-async';
 type MainProps = {
@@ -8,6 +11,12 @@ type MainProps = {
 };
 
 function Main({ offersList }: MainProps): JSX.Element {
+  const [selectedPoint, setSelectedPoint] = useState({});
+
+  const handleListItemHover = (cardItemId: number | null) => {
+    const currentPoint = hotels.find((hotel) => hotel.id === cardItemId);
+    setSelectedPoint(currentPoint);
+  };
   return (
     <div>
       <Helmet>
@@ -85,10 +94,18 @@ function Main({ offersList }: MainProps): JSX.Element {
                     </li>
                   </ul>
                 </form>
-                <CardList offersList={offersList} />
+                <CardList
+                  offersList={offersList}
+                  onListItemHover={handleListItemHover}
+                />
               </section>
               <div className="cities__right-section">
-                <section className="cities__map map"></section>
+                <section
+                  className="cities__map map"
+                  style={{ background: 'none' }}
+                >
+                  <Map hotels={hotels} selectedPoint={selectedPoint} />
+                </section>
               </div>
             </div>
           </div>

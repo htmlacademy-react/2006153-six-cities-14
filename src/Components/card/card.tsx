@@ -3,48 +3,58 @@ import { Offers } from '../../const/const';
 import { useState } from 'react';
 
 type cardProps = {
-  cardProp: Offers;
+  card: Offers;
+  onListItemHover: (onListItemHover: number) => void;
 };
 
-function Card({ cardProp }: cardProps) {
-  const [isActive, setIsAcive] = useState<boolean>(false);
-
+function Card({ card, onListItemHover }: cardProps) {
+  const [whichCardIsActive, setWhichCardIsActive] = useState(card);
+  const handleListItemHover = () => {
+    if (whichCardIsActive !== null) {
+      onListItemHover(whichCardIsActive.id);
+    }
+  };
   function handleCardHover() {
-    setIsAcive(true);
-  }
-  function handleCardLeave() {
-    setIsAcive(false);
+    setWhichCardIsActive(card);
   }
 
   return (
     <Link
-      to={`/offer/:${cardProp.id}`}
+      to={`/offer/:${card.id}`}
       className={
-        isActive ? 'cities__card place-card active' : 'cities__card place-card'
+        whichCardIsActive
+          ? 'cities__card place-card active'
+          : 'cities__card place-card'
       }
-      onMouseEnter={handleCardHover}
-      onMouseLeave={handleCardLeave}
+      onMouseEnter={() => {
+        handleCardHover();
+        handleListItemHover();
+      }}
+      onMouseLeave={() => {
+        handleCardHover();
+        onListItemHover(null);
+      }}
     >
-      {cardProp.isPremium ? (
+      {card.isPremium ? (
         <div className="place-card__mark">
           <span>Premium</span>
         </div>
       ) : null}
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="#">
+        <p>
           <img
             className="place-card__image"
-            src={cardProp.imageSrc}
+            src={card.imageSrc}
             width="260"
             height="200"
             alt="Place image"
           />
-        </a>
+        </p>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">&euro;{cardProp.price}</b>
+            <b className="place-card__price-value">&euro;{card.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button className="place-card__bookmark-button button" type="button">
@@ -56,14 +66,14 @@ function Card({ cardProp }: cardProps) {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: cardProp.rating }}></span>
+            <span style={{ width: card.rating }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{cardProp.name}</a>
+          <p>{card.name}</p>
         </h2>
-        <p className="place-card__type">{cardProp.type}</p>
+        <p className="place-card__type">{card.type}</p>
       </div>
     </Link>
   );

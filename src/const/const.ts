@@ -13,7 +13,17 @@ export interface Offers {
   location?: string;
   id: number;
 }
+export interface Hotels {
+  latitude: number;
+  longitude: number;
+  id: number;
+}
+export const pinsSize = { iconSize: [40, 40], iconAnchor: [20, 40] };
 
+export interface PinsSizes {
+  iconSize: number[];
+  iconAnchor: number[];
+}
 export const locations: Location[] = [
   {
     city: 'Paris',
@@ -48,3 +58,5 @@ const Quantity = {
 export default Quantity;
 
 export const isAuthorized = true;
+
+export const urlForPins: string[] = ['/img/pin.svg', '/img/pin-active.svg'];
