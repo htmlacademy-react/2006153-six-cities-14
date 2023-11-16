@@ -10,11 +10,14 @@ type cardProps = {
 function Card({ card, onListItemHover }: cardProps) {
   const [whichCardIsActive, setWhichCardIsActive] = useState(card);
   const handleListItemHover = () => {
-    onListItemHover(whichCardIsActive.id);
+    if (whichCardIsActive !== null) {
+      onListItemHover(whichCardIsActive.id);
+    }
   };
   function handleCardHover() {
     setWhichCardIsActive(card);
   }
+
   return (
     <Link
       to={`/offer/:${card.id}`}
@@ -26,6 +29,10 @@ function Card({ card, onListItemHover }: cardProps) {
       onMouseEnter={() => {
         handleCardHover();
         handleListItemHover();
+      }}
+      onMouseLeave={() => {
+        handleCardHover();
+        onListItemHover(null);
       }}
     >
       {card.isPremium ? (

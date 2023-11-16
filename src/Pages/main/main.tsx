@@ -12,7 +12,8 @@ type MainProps = {
 
 function Main({ offersList }: MainProps): JSX.Element {
   const [selectedPoint, setSelectedPoint] = useState({});
-  const handleListItemHover = (cardItemId: number) => {
+
+  const handleListItemHover = (cardItemId: number | null) => {
     const currentPoint = hotels.find((hotel) => hotel.id === cardItemId);
     setSelectedPoint(currentPoint);
   };
