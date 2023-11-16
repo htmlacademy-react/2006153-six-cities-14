@@ -14,7 +14,6 @@ function Map({ hotels, selectedPoint }: MapProps) {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const map = useMap(mapRef, hotels);
   const isSelectedPointDefined = selectedPoint !== undefined;
-  /* const [isMapInitialized, setIsMapInitialized] = useState(false); */
   const defaultCustomIcon = leaflet.icon({
     iconUrl: urlForPins[0],
     iconSize: pinsSize.iconSize,
@@ -28,17 +27,19 @@ function Map({ hotels, selectedPoint }: MapProps) {
   });
   useEffect(() => {
     if (map) {
-      hotels.forEach((hotel) => {
+      console.log(hotels.city);
+
+      hotels.points.forEach((point) => {
         leaflet
           .marker(
             {
-              lat: hotel.latitude,
-              lng: hotel.longitude,
+              lat: point.latitude,
+              lng: point.longitude,
             },
             {
               icon:
                 isSelectedPointDefined &&
-                Number(hotel.id) === Number(selectedPoint.id)
+                Number(point.id) === Number(selectedPoint.id)
                   ? currentCustomIcon
                   : defaultCustomIcon,
             }

@@ -12,9 +12,11 @@ type MainProps = {
 
 function Main({ offersList }: MainProps): JSX.Element {
   const [selectedPoint, setSelectedPoint] = useState({});
-
+  const whichCity = hotels[0];
   const handleListItemHover = (cardItemId: number | null) => {
-    const currentPoint = hotels.find((hotel) => hotel.id === cardItemId);
+    const currentPoint = hotels[0].points.find(
+      (hotel) => hotel.id === cardItemId
+    );
     setSelectedPoint(currentPoint);
   };
   return (
@@ -104,7 +106,7 @@ function Main({ offersList }: MainProps): JSX.Element {
                   className="cities__map map"
                   style={{ background: 'none' }}
                 >
-                  <Map hotels={hotels} selectedPoint={selectedPoint} />
+                  <Map hotels={whichCity} selectedPoint={selectedPoint} />
                 </section>
               </div>
             </div>

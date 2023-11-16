@@ -14,6 +14,10 @@ export interface Offers {
   id: number;
 }
 export interface Hotels {
+  city: string;
+  points: HotelsPoints[];
+}
+interface HotelsPoints {
   latitude: number;
   longitude: number;
   id: number;
@@ -60,3 +64,10 @@ export default Quantity;
 export const isAuthorized = true;
 
 export const urlForPins: string[] = ['/img/pin.svg', '/img/pin-active.svg'];
+
+export interface Comments {
+  userName: string;
+  rating: number;
+  message: string;
+  id: number;
+}
