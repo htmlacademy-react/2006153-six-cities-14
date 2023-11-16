@@ -59,4 +59,4 @@ export default Quantity;
 
 export const isAuthorized = true;
 
-export const urlForPins: string[] = ['../img/pin.svg', '../img/pin-active.svg'];
+export const urlForPins: string[] = ['/img/pin.svg', '/img/pin-active.svg'];
