@@ -46,7 +46,14 @@ function Map({ hotels, selectedPoint }: MapProps) {
           .addTo(map);
       });
     }
-  }, [map, hotels, selectedPoint, defaultCustomIcon, currentCustomIcon]);
+  }, [
+    map,
+    hotels,
+    selectedPoint,
+    defaultCustomIcon,
+    currentCustomIcon,
+    isSelectedPointDefined,
+  ]);
   return <div ref={mapRef} style={{ height: '100%' }}></div>;
 }
 export default Map;
