@@ -17,7 +17,7 @@ export interface Hotels {
   city: string;
   points: HotelsPoints[];
 }
-interface HotelsPoints {
+export interface HotelsPoints {
   latitude: number;
   longitude: number;
   id: number;
@@ -25,8 +25,8 @@ interface HotelsPoints {
 export const pinsSize = { iconSize: [40, 40], iconAnchor: [20, 40] };
 
 export interface PinsSizes {
-  iconSize: number[];
-  iconAnchor: number[];
+  iconSize: [number, number];
+  iconAnchor: [number, number];
 }
 export const locations: Location[] = [
   {
@@ -69,5 +69,5 @@ export interface Comments {
   userName: string;
   rating: number;
   message: string;
-  id: number;
+  id: string;
 }

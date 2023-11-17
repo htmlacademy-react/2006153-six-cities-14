@@ -17,8 +17,8 @@ function App({ offersList }: AppProps): JSX.Element {
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Main offersList={offersList} />}></Route>
-          <Route path="/login" element={<Login />}></Route>
+          <Route path="/" element={<Main offersList={offersList} />} />
+          <Route path="/login" element={<Login />} />
           <Route
             path="/favorites"
             element={
@@ -26,11 +26,11 @@ function App({ offersList }: AppProps): JSX.Element {
                 childrenProps={<Favorites offersList={offersList} />}
               />
             }
-          ></Route>
+          />
           <Route
             path="/offer/:id"
             element={<Offer offersList={offersList} />}
-          ></Route>
+          />
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
       </BrowserRouter>

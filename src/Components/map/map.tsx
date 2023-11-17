@@ -3,11 +3,12 @@ import { useRef, useEffect } from 'react';
 import useMap from '../../Hooks/useMap/use-map';
 import { urlForPins } from '../../const/const';
 import { pinsSize } from '../../const/const';
+import { HotelsPoints } from '../../const/const';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 interface MapProps {
-  hotels: Hotels[];
-  selectedPoint: Hotels;
+  hotels: Hotels;
+  selectedPoint: HotelsPoints | undefined;
 }
 
 function Map({ hotels, selectedPoint }: MapProps) {
@@ -27,8 +28,6 @@ function Map({ hotels, selectedPoint }: MapProps) {
   });
   useEffect(() => {
     if (map) {
-      console.log(hotels.city);
-
       hotels.points.forEach((point) => {
         leaflet
           .marker(

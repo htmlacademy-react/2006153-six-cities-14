@@ -1,4 +1,4 @@
-export const Comments = [
+export const comments = [
   {
     userName: 'Alex',
     rating: 4,

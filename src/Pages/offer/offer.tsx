@@ -4,15 +4,18 @@ import SendingCommentsForm from '../../Components/sending-comment-form/sending-c
 import CardList from '../../Components/card-list/card-list';
 import { useState } from 'react';
 import { hotels } from '../../Mocks/hotels';
-import { Comments } from '../../Mocks/comments';
+import { comments } from '../../Mocks/comments';
 import { Offers } from '../../const/const';
 import { useParams } from 'react-router-dom';
 import { offers } from '../../Mocks/offers';
+import { HotelsPoints } from '../../const/const';
 type OffersProps = {
   offersList: Offers[];
 };
 function Offer({ offersList }: OffersProps): JSX.Element {
-  const [selectedPoint, setSelectedPoint] = useState({});
+  const [selectedPoint, setSelectedPoint] = useState<HotelsPoints | undefined>(
+    undefined
+  );
   function getOffers() {
     const offersForCountrySide: Offers[] = [];
     offers.map((offer) => {
@@ -210,7 +213,7 @@ function Offer({ offersList }: OffersProps): JSX.Element {
               <section className="offer__reviews reviews">
                 <h2 className="reviews__title">
                   Reviews &middot;{' '}
-                  <span className="reviews__amount">{Comments.length}</span>
+                  <span className="reviews__amount">{comments.length}</span>
                 </h2>
                 {/* <ul className="reviews__list">
                   <li className="reviews__item">
@@ -244,7 +247,7 @@ function Offer({ offersList }: OffersProps): JSX.Element {
                     </div>
                   </li>
                 </ul> */}
-                <CommentsList commentsList={Comments} />
+                <CommentsList commentsList={comments} />
                 <SendingCommentsForm />
               </section>
             </div>

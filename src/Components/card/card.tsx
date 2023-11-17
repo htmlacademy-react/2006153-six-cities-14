@@ -4,25 +4,25 @@ import { useState } from 'react';
 
 type cardProps = {
   card: Offers;
-  onListItemHover: (onListItemHover: number) => void;
+  onListItemHover: (onListItemHover: number | null) => void;
 };
 
 function Card({ card, onListItemHover }: cardProps) {
-  const [whichCardIsActive, setWhichCardIsActive] = useState(card);
+  const [activeCard, setActiveCard] = useState(card);
   const handleListItemHover = () => {
-    if (whichCardIsActive !== null) {
-      onListItemHover(whichCardIsActive.id);
+    if (activeCard !== null) {
+      onListItemHover(activeCard.id);
     }
   };
   function handleCardHover() {
-    setWhichCardIsActive(card);
+    setActiveCard(card);
   }
 
   return (
     <Link
       to={`/offer/:${card.id}`}
       className={
-        whichCardIsActive
+        activeCard
           ? 'cities__card place-card active'
           : 'cities__card place-card'
       }

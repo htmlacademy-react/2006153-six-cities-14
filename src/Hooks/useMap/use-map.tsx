@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Hotels } from '../../const/const';
 import leaflet from 'leaflet';
 
-function useMap(mapRef: React.RefObject<HTMLElement>, hotels: Hotels[]) {
+function useMap(mapRef: React.RefObject<HTMLElement>, hotels: Hotels) {
   const [map, setMap] = useState(null);
   const isMapInitialized = useRef(false);
 
