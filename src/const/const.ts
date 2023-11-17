@@ -22,7 +22,7 @@ export interface HotelsPoints {
   longitude: number;
   id: number;
 }
-export const pinsSize = { iconSize: [40, 40], iconAnchor: [20, 40] };
+export const pinsSize: PinsSizes = { iconSize: [40, 40], iconAnchor: [20, 40] };
 
 export interface PinsSizes {
   iconSize: [number, number];
