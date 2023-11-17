@@ -31,7 +31,7 @@ function App({ offersList }: AppProps): JSX.Element {
             path="/offer/:id"
             element={<Offer offersList={offersList} />}
           />
-          <Route path="*" element={<NotFound />}></Route>
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </HelmetProvider>
