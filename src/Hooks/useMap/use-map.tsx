@@ -1,17 +1,18 @@
 import { useState, useRef, useEffect } from 'react';
 import { Hotels } from '../../const/const';
-import leaflet from 'leaflet';
+import leaflet, { Map } from 'leaflet';
 
-function useMap(mapRef: React.RefObject<HTMLElement>, hotels: Hotels[]) {
-  const [map, setMap] = useState(null);
+function useMap(mapRef: React.RefObject<HTMLElement>, hotels: Hotels) {
+  const [map, setMap] = useState<Map | null>(null);
   const isMapInitialized = useRef(false);
+
   useEffect(() => {
     if (mapRef.current !== null && !isMapInitialized.current) {
       isMapInitialized.current = true;
       const instance = leaflet.map(mapRef.current, {
         center: {
-          lat: hotels[0].latitude,
-          lng: hotels[0].longitude,
+          lat: hotels.points[0].latitude,
+          lng: hotels.points[0].longitude,
         },
         zoom: 11,
       });

@@ -6,15 +6,21 @@ import Map from '../../Components/map/map';
 import { hotels } from '../../Mocks/hotels';
 import { Offers } from '../../const/const';
 import { Helmet } from 'react-helmet-async';
+import { HotelsPoints } from '../../const/const';
 type MainProps = {
   offersList: Offers[];
 };
 
 function Main({ offersList }: MainProps): JSX.Element {
-  const [selectedPoint, setSelectedPoint] = useState({});
-
+  const [selectedPoint, setSelectedPoint] = useState<HotelsPoints | undefined>(
+    undefined
+  );
+  const whichCity = hotels[0];
   const handleListItemHover = (cardItemId: number | null) => {
-    const currentPoint = hotels.find((hotel) => hotel.id === cardItemId);
+    const currentPoint = hotels[0].points.find(
+      (hotel) => hotel.id === cardItemId
+    );
+
     setSelectedPoint(currentPoint);
   };
   return (
@@ -104,7 +110,7 @@ function Main({ offersList }: MainProps): JSX.Element {
                   className="cities__map map"
                   style={{ background: 'none' }}
                 >
-                  <Map hotels={hotels} selectedPoint={selectedPoint} />
+                  <Map hotels={whichCity} selectedPoint={selectedPoint} />
                 </section>
               </div>
             </div>

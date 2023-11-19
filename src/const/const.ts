@@ -14,15 +14,19 @@ export interface Offers {
   id: number;
 }
 export interface Hotels {
+  city: string;
+  points: HotelsPoints[];
+}
+export interface HotelsPoints {
   latitude: number;
   longitude: number;
   id: number;
 }
-export const pinsSize = { iconSize: [40, 40], iconAnchor: [20, 40] };
+export const pinsSize: PinsSizes = { iconSize: [40, 40], iconAnchor: [20, 40] };
 
 export interface PinsSizes {
-  iconSize: number[];
-  iconAnchor: number[];
+  iconSize: [number, number];
+  iconAnchor: [number, number];
 }
 export const locations: Location[] = [
   {
@@ -60,3 +64,10 @@ export default Quantity;
 export const isAuthorized = true;
 
 export const urlForPins: string[] = ['/img/pin.svg', '/img/pin-active.svg'];
+
+export interface Comments {
+  userName: string;
+  rating: number;
+  message: string;
+  id: string;
+}

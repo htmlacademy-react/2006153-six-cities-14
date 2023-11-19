@@ -3,7 +3,7 @@ import Card from '../card/card';
 
 type offersListProps = {
   offersList: Offers[];
-  onListItemHover: (onListItemHover: number) => void;
+  onListItemHover: (onListItemHover: number | null) => void;
 };
 
 function CardList({ offersList, onListItemHover }: offersListProps) {
