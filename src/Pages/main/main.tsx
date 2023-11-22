@@ -1,28 +1,49 @@
 import CardList from '../../Components/card-list/card-list';
 import Header from '../../Components/header/header';
 import LocationLink from '../../Components/location-link/location-link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Map from '../../Components/map/map';
-import { hotels } from '../../Mocks/hotels';
-import { Offers } from '../../const/const';
+import { OffersList } from '../../const/const';
 import { Helmet } from 'react-helmet-async';
 import { HotelsPoints } from '../../const/const';
+import { useAppSelector, useAppDispatch } from '../../const/const';
+import { changeOffers } from '../../store/actions';
+import { offers } from '../../Mocks/offers';
+import TypesOfSort from '../../Components/types-of-sort/types-of-sort';
+
 type MainProps = {
-  offersList: Offers[];
+  offersList: OffersList[];
 };
 
 function Main({ offersList }: MainProps): JSX.Element {
+  const CITY_NAME = useAppSelector((state) => state.city);
+  const CITY_OFFERS = useAppSelector((state) => state.offersList);
+  const filteredOffers = offersList.filter((city) => city.city === CITY_NAME);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(changeOffers(offers));
+  }, [CITY_NAME, CITY_OFFERS, dispatch, filteredOffers]);
+
   const [selectedPoint, setSelectedPoint] = useState<HotelsPoints | undefined>(
     undefined
   );
-  const whichCity = hotels[0];
+
+  function getEndOfWord() {
+    if (CITY_OFFERS.offers.length > 1) {
+      return ' places';
+    } else {
+      return ' place';
+    }
+  }
+
   const handleListItemHover = (cardItemId: number | null) => {
-    const currentPoint = hotels[0].points.find(
-      (hotel) => hotel.id === cardItemId
+    const currentPoint = CITY_OFFERS.points.find(
+      (point) => point.id === cardItemId
     );
 
     setSelectedPoint(currentPoint);
   };
+
   return (
     <div>
       <Helmet>
@@ -73,7 +94,12 @@ function Main({ offersList }: MainProps): JSX.Element {
             <div className="cities__places-container container">
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">312 places to stay in Amsterdam</b>
+                <b className="places__found">
+                  {CITY_OFFERS.offers !== undefined
+                    ? CITY_OFFERS.offers.length + getEndOfWord()
+                    : null}{' '}
+                  to stay in {CITY_OFFERS.city}
+                </b>
                 <form className="places__sorting" action="#" method="get">
                   <span className="places__sorting-caption">Sort by</span>
                   <span className="places__sorting-type" tabIndex={0}>
@@ -82,24 +108,8 @@ function Main({ offersList }: MainProps): JSX.Element {
                       <use xlinkHref="#icon-arrow-select"></use>
                     </svg>
                   </span>
-                  <ul className="places__options places__options--custom places__options--opened">
-                    <li
-                      className="places__option places__option--active"
-                      tabIndex={0}
-                    >
-                      Popular
-                    </li>
-                    <li className="places__option" tabIndex={0}>
-                      Price: low to high
-                    </li>
-                    <li className="places__option" tabIndex={0}>
-                      Price: high to low
-                    </li>
-                    <li className="places__option" tabIndex={0}>
-                      Top rated first
-                    </li>
-                  </ul>
                 </form>
+                <TypesOfSort />
                 <CardList
                   offersList={offersList}
                   onListItemHover={handleListItemHover}
@@ -110,7 +120,7 @@ function Main({ offersList }: MainProps): JSX.Element {
                   className="cities__map map"
                   style={{ background: 'none' }}
                 >
-                  <Map hotels={whichCity} selectedPoint={selectedPoint} />
+                  <Map selectedPoint={selectedPoint} />
                 </section>
               </div>
             </div>

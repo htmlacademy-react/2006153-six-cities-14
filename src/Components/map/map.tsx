@@ -1,4 +1,4 @@
-import { Hotels } from '../../const/const';
+import { Hotels, useAppSelector } from '../../const/const';
 import { useRef, useEffect } from 'react';
 import useMap from '../../Hooks/useMap/use-map';
 import { urlForPins } from '../../const/const';
@@ -7,28 +7,34 @@ import { HotelsPoints } from '../../const/const';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 interface MapProps {
-  hotels: Hotels;
   selectedPoint: HotelsPoints | undefined;
 }
 
-function Map({ hotels, selectedPoint }: MapProps) {
+function Map({ selectedPoint }: MapProps) {
+  const CITY_OFFERS = useAppSelector((state) => state.offersList);
   const mapRef = useRef<HTMLDivElement | null>(null);
-  const map = useMap(mapRef, hotels);
+  const map = useMap(mapRef, CITY_OFFERS);
   const isSelectedPointDefined = selectedPoint !== undefined;
   const defaultCustomIcon = leaflet.icon({
     iconUrl: urlForPins[0],
     iconSize: pinsSize.iconSize,
     iconAnchor: pinsSize.iconAnchor,
   });
-
   const currentCustomIcon = leaflet.icon({
     iconUrl: urlForPins[1],
     iconSize: pinsSize.iconSize,
     iconAnchor: pinsSize.iconAnchor,
   });
+
   useEffect(() => {
-    if (map) {
-      hotels.points.forEach((point) => {
+    if (map && CITY_OFFERS.points !== undefined) {
+      map.eachLayer((layer) => {
+        if (layer instanceof leaflet.Marker) {
+          map.removeLayer(layer);
+        }
+      });
+
+      CITY_OFFERS.points.forEach((point) => {
         leaflet
           .marker(
             {
@@ -48,7 +54,7 @@ function Map({ hotels, selectedPoint }: MapProps) {
     }
   }, [
     map,
-    hotels,
+    CITY_OFFERS.points,
     selectedPoint,
     defaultCustomIcon,
     currentCustomIcon,

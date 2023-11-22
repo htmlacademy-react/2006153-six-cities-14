@@ -1,8 +1,14 @@
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import { store } from '../store';
 interface Location {
   city: string;
   id: number;
 }
-
+export interface OffersList {
+  city: string;
+  offers: Offers[];
+  points: HotelsPoints[];
+}
 export interface Offers {
   imageSrc: string;
   price: number;
@@ -71,3 +77,10 @@ export interface Comments {
   message: string;
   id: string;
 }
+export const startCity = 'Paris';
+
+type State = ReturnType<typeof store.getState>;
+type AppDispatch = typeof store.dispatch;
+
+export const useAppDispatch = () => useDispatch<AppDispatch>();
+export const useAppSelector: TypedUseSelectorHook<State> = useSelector;

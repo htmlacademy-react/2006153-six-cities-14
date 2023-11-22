@@ -10,14 +10,8 @@ type cardProps = {
 function Card({ card, onListItemHover }: cardProps) {
   const [activeCard, setActiveCard] = useState(card);
   const handleListItemHover = () => {
-    if (activeCard !== null) {
-      onListItemHover(activeCard.id);
-    }
+    onListItemHover(card.id);
   };
-  function handleCardHover() {
-    setActiveCard(card);
-  }
-
   return (
     <Link
       to={`/offer/:${card.id}`}
@@ -27,11 +21,9 @@ function Card({ card, onListItemHover }: cardProps) {
           : 'cities__card place-card'
       }
       onMouseEnter={() => {
-        handleCardHover();
         handleListItemHover();
       }}
       onMouseLeave={() => {
-        handleCardHover();
         onListItemHover(null);
       }}
     >
