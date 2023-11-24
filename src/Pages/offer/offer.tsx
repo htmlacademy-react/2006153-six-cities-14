@@ -3,38 +3,30 @@ import Map from '../../Components/map/map';
 import SendingCommentsForm from '../../Components/sending-comment-form/sending-comment-form';
 import CardList from '../../Components/card-list/card-list';
 import { useState } from 'react';
-import { hotels } from '../../Mocks/hotels';
 import { comments } from '../../Mocks/comments';
-import { Offers } from '../../const/const';
+import { useAppSelector } from '../../const/const';
 import { useParams } from 'react-router-dom';
-import { offers } from '../../Mocks/offers';
 import { HotelsPoints } from '../../const/const';
-type OffersProps = {
-  offersList: Offers[];
-};
-function Offer({ offersList }: OffersProps): JSX.Element {
+
+function Offer(): JSX.Element {
   const [selectedPoint, setSelectedPoint] = useState<HotelsPoints | undefined>(
     undefined
   );
-  function getOffers() {
-    const offersForCountrySide: Offers[] = [];
-    offers.map((offer) => {
-      if (offersForCountrySide.length < 3) {
-        offersForCountrySide.push(offer);
-      }
-    });
-    return offersForCountrySide;
-  }
+  const CITY_OFFERS = useAppSelector((state) => state.offersList);
 
   const handleListItemHover = (cardItemId: number | null) => {
-    const currentPoint = hotels[0].points.find(
-      (hotel) => hotel.id === cardItemId
+    const currentPoint = CITY_OFFERS.points.find(
+      (point) => point.id === cardItemId
     );
+
     setSelectedPoint(currentPoint);
   };
+  if (CITY_OFFERS !== undefined) {
+    console.log(CITY_OFFERS);
+  }
 
   const params = useParams();
-  const pinsForOffers = hotels[1];
+  const pinsForOffers = selectedPoint;
   return (
     <div className="page">
       <header className="header">
@@ -131,12 +123,14 @@ function Offer({ offersList }: OffersProps): JSX.Element {
               </div>
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">
-                  {offersList.map((offerEl) => {
-                    const elementWith = `:${offerEl.id.toString()}`;
-                    if (params.id === elementWith) {
-                      return offerEl.name;
-                    }
-                  })}
+                  {CITY_OFFERS !== undefined
+                    ? CITY_OFFERS.map((offerEl) => {
+                        const elementWith = `:${offerEl.id.toString()}`;
+                        if (params.id === elementWith) {
+                          return offerEl.name;
+                        }
+                      })
+                    : null}
                 </h1>
                 <button className="offer__bookmark-button button" type="button">
                   <svg className="offer__bookmark-icon" width="31" height="33">
@@ -263,7 +257,7 @@ function Offer({ offersList }: OffersProps): JSX.Element {
             </h2>
             <div className="near-places__list places__list">
               <CardList
-                offersList={getOffers()}
+                offersList={CITY_OFFERS}
                 onListItemHover={handleListItemHover}
               />
             </div>

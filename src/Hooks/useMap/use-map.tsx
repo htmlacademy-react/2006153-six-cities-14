@@ -2,19 +2,23 @@ import { useState, useRef, useEffect } from 'react';
 import { Hotels } from '../../const/const';
 import leaflet, { Map } from 'leaflet';
 
-function useMap(mapRef: React.RefObject<HTMLElement>, hotels: Hotels) {
+function useMap(mapRef: React.RefObject<HTMLElement>, CITY_OFFERS: Hotels) {
   const [map, setMap] = useState<Map | null>(null);
   const isMapInitialized = useRef(false);
 
   useEffect(() => {
-    if (mapRef.current !== null && !isMapInitialized.current) {
+    if (
+      mapRef.current !== null &&
+      !isMapInitialized.current &&
+      CITY_OFFERS.points !== undefined
+    ) {
       isMapInitialized.current = true;
       const instance = leaflet.map(mapRef.current, {
         center: {
-          lat: hotels.points[0].latitude,
-          lng: hotels.points[0].longitude,
+          lat: CITY_OFFERS.points[0].latitude,
+          lng: CITY_OFFERS.points[0].longitude,
         },
-        zoom: 11,
+        zoom: 12,
       });
       leaflet
         .tileLayer(
@@ -26,8 +30,14 @@ function useMap(mapRef: React.RefObject<HTMLElement>, hotels: Hotels) {
         )
         .addTo(instance);
       setMap(instance);
+    } else if (map !== null && CITY_OFFERS.points !== undefined) {
+      const newCenter = {
+        lat: CITY_OFFERS.points[0].latitude,
+        lng: CITY_OFFERS.points[0].longitude,
+      };
+      map.setView(newCenter, map.getZoom());
     }
-  }, [mapRef, hotels]);
+  }, [mapRef, CITY_OFFERS.points, map, setMap]);
   return map;
 }
 
