@@ -79,8 +79,8 @@ export interface Comments {
 }
 export const startCity = 'Paris';
 
-type State = ReturnType<typeof store.getState>;
-type AppDispatch = typeof store.dispatch;
+export type State = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<State> = useSelector;
@@ -107,4 +107,9 @@ export const sortListsItems: SortListsItems[] = [
 interface SortListsItems {
   text: string;
   value: string;
+}
+
+export enum APIRoutes {
+  Offers = '/offers',
+  Title = '/title',
 }

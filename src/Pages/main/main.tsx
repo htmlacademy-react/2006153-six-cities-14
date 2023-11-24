@@ -11,7 +11,8 @@ import { changeOffers } from '../../store/actions';
 import { offers } from '../../Mocks/offers';
 import TypesOfSort from '../../Components/types-of-sort/types-of-sort';
 import { createSelector } from '@reduxjs/toolkit';
-
+import { fetchOffersAction } from '../../../api-actions/api-actions';
+import { store } from '../../store';
 type MainProps = {
   offersList: OffersList[];
 };
@@ -21,7 +22,15 @@ function Main({ offersList }: MainProps): JSX.Element {
   const CITY_OFFERS = useAppSelector((state) => {
     state.offersList;
   });
+  /*   */
 
+  /* async function Test() {
+    const CITY_OFFERS_API = useAppSelector((state) => {
+      state.apiOffersList;
+    });
+    console.log(CITY_OFFERS_API);
+  }
+  Test(); */
   /* const currentCity = state.offersList.find(
     (city) => state.city === city.city
   );
@@ -32,37 +41,46 @@ function Main({ offersList }: MainProps): JSX.Element {
   console.log(currentCity);
 
   return copiedCity; */
+
   const filteredOffers = offersList.filter((city) => city.city === CITY_NAME);
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(changeOffers(offers));
-  }, [CITY_NAME, CITY_OFFERS, dispatch, filteredOffers]);
 
   const [selectedPoint, setSelectedPoint] = useState<HotelsPoints | undefined>(
     undefined
   );
-  const getOffersList = (state: OffersList[]) => state.offersList;
-  const getSelectedCity = (state: string) => state.city;
-  const getSortType = (state: string) => state.sortType;
+
+  const getOffersList = (state) => state.apiOffersList;
+  const getSelectedCity = (state) => state.city;
+  const getSortType = (state) => state.sortType;
 
   const getSortedOffers = createSelector(
     [getOffersList, getSelectedCity, getSortType],
     (offersList, selectedCity, sortType) => {
-      const currentCity = offersList.find((city) => city.city === selectedCity);
+      const currentCity = offersList.filter(
+        (city) => city.city.name === selectedCity
+      );
 
       if (!currentCity) {
-        return [] as Offers[];
+        return [];
       }
 
-      const copiedOffers: OffersList = { ...currentCity };
+      const copiedOffers = [...currentCity];
 
       return copiedOffers;
     }
   );
   const sortedOffers = useAppSelector(getSortedOffers);
 
+  function getCityName() {
+    let cityName = '';
+    if (sortedOffers[0] !== undefined) {
+      cityName = sortedOffers[0].city.name;
+    }
+    return cityName;
+  }
+
   function getEndOfWord() {
-    if (sortedOffers.offers.length > 1) {
+    if (sortedOffers.length > 1) {
       return ' places';
     } else {
       return ' place';
@@ -70,9 +88,10 @@ function Main({ offersList }: MainProps): JSX.Element {
   }
 
   const handleListItemHover = (cardItemId: number | null) => {
-    const currentPoint = sortedOffers.points.find(
-      (point) => point.id === cardItemId
-    );
+    let currentPoint = 0;
+    sortedOffers.map((offer) => {
+      offer.location;
+    });
 
     setSelectedPoint(currentPoint);
   };
@@ -128,10 +147,10 @@ function Main({ offersList }: MainProps): JSX.Element {
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
                 <b className="places__found">
-                  {sortedOffers.offers !== undefined
-                    ? sortedOffers.offers.length + getEndOfWord()
+                  {sortedOffers !== undefined
+                    ? sortedOffers.length + getEndOfWord()
                     : null}{' '}
-                  to stay in {sortedOffers.city}
+                  to stay in {getCityName()}
                 </b>
                 <form className="places__sorting" action="#" method="get">
                   <span className="places__sorting-caption">Sort by</span>
@@ -143,9 +162,7 @@ function Main({ offersList }: MainProps): JSX.Element {
                   </span>
                 </form>
                 <TypesOfSort />
-                <CardList
-                  onListItemHover={handleListItemHover}
-                />
+                <CardList onListItemHover={handleListItemHover} />
               </section>
               <div className="cities__right-section">
                 <section

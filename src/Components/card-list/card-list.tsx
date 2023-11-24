@@ -10,20 +10,21 @@ interface dataInt {
 }
 
 function CardList({ onListItemHover }: offersListProps) {
-  const getOffersList: dataInt = (state) => state.offersList;
+  const getOffersList = (state) => state.apiOffersList;
   const getSelectedCity = (state) => state.city;
   const getSortType = (state) => state.sortType;
 
   const getSortedOffers = createSelector(
     [getOffersList, getSelectedCity, getSortType],
     (offersList, selectedCity, sortType) => {
-      const currentCity = offersList.find((city) => city.city === selectedCity);
-
+      const currentCity = offersList.filter(
+        (city) => city.city.name === selectedCity
+      );
       if (!currentCity) {
         return [];
       }
 
-      const copiedOffers = [...currentCity.offers];
+      const copiedOffers = [...currentCity];
       copiedOffers.sort((a, b) => {
         if (sortType === 'lth') {
           return a.price - b.price;
@@ -40,33 +41,8 @@ function CardList({ onListItemHover }: offersListProps) {
       return copiedOffers;
     }
   );
-  const sortedOffers = useAppSelector(getSortedOffers);
-  console.log(sortedOffers);
 
-  /* const CITY_OFF = useAppSelector((state) => {
-    const currentCity = state.offersList.find((city) => {
-      return state.city === city.city;
-    });
-    if (currentCity === undefined) {
-      return [];
-    }
-    const copiedOffers = [...currentCity.offers];
-    copiedOffers.sort((a, b) => {
-      if (state.sortType === 'lth') {
-        return a.price - b.price;
-      }
-      if (state.sortType === 'htl') {
-        return b.price - a.price;
-      }
-      if (state.sortType === 'top') {
-        return b.rating - a.rating;
-      }
-      if (state.sortType === 'popular') {
-        return 0;
-      }
-    });
-    return copiedOffers;
-  }); */
+  const sortedOffers = useAppSelector(getSortedOffers);
 
   return (
     <div className="cities__places-list places__list tabs__content">

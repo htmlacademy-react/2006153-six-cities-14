@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, changeOffers, setSortType } from './actions';
+import { changeCity, changeOffers, setSortType, loadOffers } from './actions';
 import { startCity } from '../const/const';
 import { OffersList } from '../const/const';
 
@@ -7,12 +7,14 @@ const initialState: initialStateInt = {
   city: startCity,
   offersList: [],
   sortType: 'popular',
+  apiOffersList: [],
 };
 
 interface initialStateInt {
   city: string | ((evt: React.MouseEvent<HTMLLIElement>) => string);
   offersList: OffersList[];
   sortType: string;
+  apiOffersList: OffersList[];
 }
 export const reducer = createReducer(initialState, (builder) => {
   builder
@@ -24,5 +26,9 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setSortType, (state, action) => {
       state.sortType = action.payload;
+    })
+    .addCase(loadOffers, (state, action) => {
+      state.apiOffersList = action.payload;
+      console.log(state.apiOffersList);
     });
 });

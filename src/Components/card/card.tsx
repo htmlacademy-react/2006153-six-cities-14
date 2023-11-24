@@ -9,6 +9,13 @@ type cardProps = {
 
 function Card({ card, onListItemHover }: cardProps) {
   const [activeCard, setActiveCard] = useState(card);
+
+  function getRating() {
+    const maxRating = 5;
+    const rating = Math.floor((card.rating / maxRating) * 100);
+    return rating;
+  }
+
   const handleListItemHover = () => {
     onListItemHover(card.id);
   };
@@ -36,7 +43,7 @@ function Card({ card, onListItemHover }: cardProps) {
         <p>
           <img
             className="place-card__image"
-            src={card.imageSrc}
+            src={card.previewImage}
             width="260"
             height="200"
             alt="Place image"
@@ -58,12 +65,12 @@ function Card({ card, onListItemHover }: cardProps) {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: card.rating }}></span>
+            <span style={{ width: getRating() }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
-          <p>{card.name}</p>
+          <p>{card.title}</p>
         </h2>
         <p className="place-card__type">{card.type}</p>
       </div>
