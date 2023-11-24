@@ -84,3 +84,27 @@ type AppDispatch = typeof store.dispatch;
 
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<State> = useSelector;
+
+export const sortListsItems: SortListsItems[] = [
+  {
+    text: 'Popular',
+    value: 'popular',
+  },
+  {
+    text: 'Price: low to high',
+    value: 'lth',
+  },
+  {
+    text: 'Price: high to low',
+    value: 'htl',
+  },
+  {
+    text: 'Top Rated First',
+    value: 'top',
+  },
+];
+
+interface SortListsItems {
+  text: string;
+  value: string;
+}

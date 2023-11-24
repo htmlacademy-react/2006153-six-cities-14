@@ -1,55 +1,32 @@
 import { useAppDispatch, useAppSelector } from '../../const/const';
 import './types-of-sort.css';
-import { changeOffers } from '../../store/actions';
+import { setSortType } from '../../store/actions';
+import { sortListsItems } from '../../const/const';
+import classNames from 'classnames';
 
 function TypesOfSort() {
-  const CITY_OFFERS = useAppSelector((state) => state.offersList);
+  const sortType = useAppSelector((state) => state.sortType);
   const dispatch = useAppDispatch();
-  console.log(CITY_OFFERS);
 
-  function handleClick(evt) {
-    let sortedArr = [];
-    if (evt.target.textContent === 'Popular') {
-      sortedArr = CITY_OFFERS;
-    }
-    if (evt.target.textContent === 'Price: low to high') {
-      sortedArr = CITY_OFFERS.offers.toSorted((a, b) => {
-        return a.price - b.price;
-      });
-    }
-    if (evt.target.textContent === 'Price: high to low') {
-      sortedArr = CITY_OFFERS.offers.toSorted((a, b) => {
-        return b.price - a.price;
-      });
-    }
-    if (evt.target.textContent === 'Top rated first') {
-      sortedArr = CITY_OFFERS.offers.toSorted((a, b) => {
-        return b.rating - a.rating;
-      });
-    }
-    console.log(sortedArr);
-
-    dispatch(changeOffers(sortedArr));
+  function handleClick(value: string) {
+    dispatch(setSortType(value));
   }
-
   return (
     <ul className="places__options places__options--custom places__options--opened">
-      <li
-        onClick={handleClick}
-        className="places__option places__option--active"
-        tabIndex={0}
-      >
-        Popular
-      </li>
-      <li onClick={handleClick} className="places__option" tabIndex={0}>
-        Price: low to high
-      </li>
-      <li onClick={handleClick} className="places__option" tabIndex={0}>
-        Price: high to low
-      </li>
-      <li onClick={handleClick} className="places__option" tabIndex={0}>
-        Top rated first
-      </li>
+      {sortListsItems.map((listItem) => (
+        <li
+          key={listItem.value}
+          onClick={() => {
+            handleClick(listItem.value);
+          }}
+          className={classNames('places__option', {
+            'places__option--active': sortType === listItem.value,
+          })}
+          tabIndex={0}
+        >
+          {listItem.text}
+        </li>
+      ))}
     </ul>
   );
 }

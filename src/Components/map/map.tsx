@@ -6,14 +6,34 @@ import { pinsSize } from '../../const/const';
 import { HotelsPoints } from '../../const/const';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { createSelector } from '@reduxjs/toolkit';
 interface MapProps {
   selectedPoint: HotelsPoints | undefined;
 }
 
 function Map({ selectedPoint }: MapProps) {
-  const CITY_OFFERS = useAppSelector((state) => state.offersList);
+  /* const CITY_OFFERS = useAppSelector((state) => state.offersList); */
+  const getOffersList = (state) => state.offersList;
+  const getSelectedCity = (state) => state.city;
+  const getSortType = (state) => state.sortType;
+  const getSortedOffers = createSelector(
+    [getOffersList, getSelectedCity, getSortType],
+    (offersList, selectedCity, sortType) => {
+      const currentCity = offersList.find((city) => city.city === selectedCity);
+
+      if (!currentCity) {
+        return [];
+      }
+
+      const copiedOffers = currentCity;
+
+      return copiedOffers;
+    }
+  );
+  const sortedOffers = useAppSelector(getSortedOffers);
+
   const mapRef = useRef<HTMLDivElement | null>(null);
-  const map = useMap(mapRef, CITY_OFFERS);
+  const map = useMap(mapRef, sortedOffers);
   const isSelectedPointDefined = selectedPoint !== undefined;
   const defaultCustomIcon = leaflet.icon({
     iconUrl: urlForPins[0],
@@ -27,14 +47,14 @@ function Map({ selectedPoint }: MapProps) {
   });
 
   useEffect(() => {
-    if (map && CITY_OFFERS.points !== undefined) {
+    if (map && sortedOffers.points !== undefined) {
       map.eachLayer((layer) => {
         if (layer instanceof leaflet.Marker) {
           map.removeLayer(layer);
         }
       });
 
-      CITY_OFFERS.points.forEach((point) => {
+      sortedOffers.points.forEach((point) => {
         leaflet
           .marker(
             {
@@ -54,7 +74,7 @@ function Map({ selectedPoint }: MapProps) {
     }
   }, [
     map,
-    CITY_OFFERS.points,
+    sortedOffers.points,
     selectedPoint,
     defaultCustomIcon,
     currentCustomIcon,
