@@ -21,9 +21,6 @@ function Offer(): JSX.Element {
 
     setSelectedPoint(currentPoint);
   };
-  if (CITY_OFFERS !== undefined) {
-    console.log(CITY_OFFERS);
-  }
 
   const params = useParams();
   const pinsForOffers = selectedPoint;

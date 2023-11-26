@@ -1,38 +1,32 @@
 import { Link } from 'react-router-dom';
-import { Offers } from '../../const/const';
-import { useState } from 'react';
+import { Offers, useAppDispatch } from '../../const/const';
+import { setCurrentCard } from '../../store/actions';
 
 type cardProps = {
   card: Offers;
-  onListItemHover: (onListItemHover: number | null) => void;
 };
 
-function Card({ card, onListItemHover }: cardProps) {
-  const [activeCard, setActiveCard] = useState(card);
-
+function Card({ card }: cardProps) {
+  const dispatch = useAppDispatch();
   function getRating() {
     const maxRating = 5;
-    const rating = Math.floor((card.rating / maxRating) * 100);
+    const rating = Math.round((card.rating / maxRating) * 100);
     return rating;
   }
-
-  const handleListItemHover = () => {
-    onListItemHover(card.id);
+  const handleHover = () => {
+    dispatch(setCurrentCard(card));
+  };
+  const handleLeave = () => {
+    dispatch(setCurrentCard(0));
   };
   return (
     <Link
       to={`/offer/:${card.id}`}
       className={
-        activeCard
-          ? 'cities__card place-card active'
-          : 'cities__card place-card'
+        card ? 'cities__card place-card active' : 'cities__card place-card'
       }
-      onMouseEnter={() => {
-        handleListItemHover();
-      }}
-      onMouseLeave={() => {
-        onListItemHover(null);
-      }}
+      onMouseEnter={handleHover}
+      onMouseLeave={handleLeave}
     >
       {card.isPremium ? (
         <div className="place-card__mark">

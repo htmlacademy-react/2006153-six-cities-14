@@ -1,34 +1,44 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, changeOffers, setSortType, loadOffers } from './actions';
+import {
+  changeCity,
+  setSortType,
+  loadOffers,
+  setCurrentCard,
+  setIsQuesLoaded,
+} from './actions';
 import { startCity } from '../const/const';
-import { OffersList } from '../const/const';
+import { Offers } from '../const/const';
 
 const initialState: initialStateInt = {
   city: startCity,
-  offersList: [],
   sortType: 'popular',
   apiOffersList: [],
+  currentCard: 0,
+  isQuesLoaded: false,
 };
 
 interface initialStateInt {
   city: string | ((evt: React.MouseEvent<HTMLLIElement>) => string);
-  offersList: OffersList[];
   sortType: string;
-  apiOffersList: OffersList[];
+  apiOffersList: Offers | Offers[];
+  currentCard: Offers | number;
+  isQuesLoaded: boolean;
 }
 export const reducer = createReducer(initialState, (builder) => {
   builder
     .addCase(changeCity, (state, action) => {
       state.city = action.payload;
     })
-    .addCase(changeOffers, (state, action) => {
-      state.offersList = action.payload;
-    })
     .addCase(setSortType, (state, action) => {
       state.sortType = action.payload;
     })
     .addCase(loadOffers, (state, action) => {
       state.apiOffersList = action.payload;
-      console.log(state.apiOffersList);
+    })
+    .addCase(setCurrentCard, (state, action) => {
+      state.currentCard = action.payload;
+    })
+    .addCase(setIsQuesLoaded, (state, action) => {
+      state.isQuesLoaded = action.payload;
     });
 });

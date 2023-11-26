@@ -10,23 +10,32 @@ export interface OffersList {
   points: HotelsPoints[];
 }
 export interface Offers {
-  imageSrc: string;
-  price: number;
-  name: string;
-  rating: number;
+  id: string;
+  title: string;
   type: string;
+  price: number;
+  previewImage: string;
+  city: CityLocation;
+  location: HotelsPoints;
+  isFavorite: boolean;
   isPremium: boolean;
-  location?: string;
-  id: number;
+  rating: number;
+}
+export interface OffersLocation {
+  location: HotelsPoints;
+}
+export interface CityLocation {
+  name: string;
+  location: HotelsPoints;
 }
 export interface Hotels {
   city: string;
-  points: HotelsPoints[];
+  points: HotelsPoints;
 }
 export interface HotelsPoints {
   latitude: number;
   longitude: number;
-  id: number;
+  zoom: number;
 }
 export const pinsSize: PinsSizes = { iconSize: [40, 40], iconAnchor: [20, 40] };
 

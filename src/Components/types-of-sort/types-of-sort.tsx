@@ -4,15 +4,24 @@ import { setSortType } from '../../store/actions';
 import { sortListsItems } from '../../const/const';
 import classNames from 'classnames';
 
-function TypesOfSort() {
+interface TypesOfSortProps {
+  classForSort: boolean;
+}
+function TypesOfSort({ classForSort }: TypesOfSortProps) {
   const sortType = useAppSelector((state) => state.sortType);
   const dispatch = useAppDispatch();
 
   function handleClick(value: string) {
     dispatch(setSortType(value));
   }
+  /* "places__options places__options--custom places__options--opened" */
+  /* classForSort */
   return (
-    <ul className="places__options places__options--custom places__options--opened">
+    <ul
+      className={classNames('places__options', {
+        'places__options--opened': classForSort === true,
+      })}
+    >
       {sortListsItems.map((listItem) => (
         <li
           key={listItem.value}

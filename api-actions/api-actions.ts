@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { APIRoutes, OffersList } from '../src/const/const';
-import { loadOffers } from '../src/store/actions';
+import { APIRoutes, Offers } from '../src/const/const';
+import { loadOffers, setIsQuesLoaded } from '../src/store/actions';
 import { State, AppDispatch } from '../src/const/const';
 import { AxiosInstance } from 'axios';
 
@@ -13,6 +13,8 @@ export const fetchOffersAction = createAsyncThunk<
     extra: AxiosInstance;
   }
 >('data/fetchOffers', async (_arg, { dispatch, extra: api }) => {
-  const { data } = await api.get<OffersList[]>(APIRoutes.Offers);
+  dispatch(setIsQuesLoaded(false));
+  const { data } = await api.get<Offers>(APIRoutes.Offers);
+  dispatch(setIsQuesLoaded(true));
   dispatch(loadOffers(data));
 });

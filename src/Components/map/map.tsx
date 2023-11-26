@@ -1,40 +1,20 @@
-import { Hotels, useAppSelector } from '../../const/const';
+import { Offers, useAppSelector } from '../../const/const';
 import { useRef, useEffect } from 'react';
 import useMap from '../../Hooks/useMap/use-map';
 import { urlForPins } from '../../const/const';
 import { pinsSize } from '../../const/const';
-import { HotelsPoints } from '../../const/const';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { createSelector } from '@reduxjs/toolkit';
-interface MapProps {
-  selectedPoint: HotelsPoints | undefined;
-}
+import { getSortedOffers } from '../selectors/offers-list-selector';
 
-function Map({ selectedPoint }: MapProps) {
-  /* const CITY_OFFERS = useAppSelector((state) => state.offersList); */
-  const getOffersList = (state) => state.offersList;
-  const getSelectedCity = (state) => state.city;
-  const getSortType = (state) => state.sortType;
-  const getSortedOffers = createSelector(
-    [getOffersList, getSelectedCity, getSortType],
-    (offersList, selectedCity, sortType) => {
-      const currentCity = offersList.find((city) => city.city === selectedCity);
-
-      if (!currentCity) {
-        return [];
-      }
-
-      const copiedOffers = currentCity;
-
-      return copiedOffers;
-    }
-  );
+function Map() {
+  const currentCard = useAppSelector((state) => state.currentCard);
   const sortedOffers = useAppSelector(getSortedOffers);
 
   const mapRef = useRef<HTMLDivElement | null>(null);
   const map = useMap(mapRef, sortedOffers);
-  const isSelectedPointDefined = selectedPoint !== undefined;
+
+  const isSelectedPointDefined = currentCard !== undefined;
   const defaultCustomIcon = leaflet.icon({
     iconUrl: urlForPins[0],
     iconSize: pinsSize.iconSize,
@@ -47,24 +27,23 @@ function Map({ selectedPoint }: MapProps) {
   });
 
   useEffect(() => {
-    if (map && sortedOffers.points !== undefined) {
+    if (map && sortedOffers !== undefined) {
       map.eachLayer((layer) => {
         if (layer instanceof leaflet.Marker) {
           map.removeLayer(layer);
         }
       });
 
-      sortedOffers.points.forEach((point) => {
+      sortedOffers.forEach((point: Offers) => {
         leaflet
           .marker(
             {
-              lat: point.latitude,
-              lng: point.longitude,
+              lat: point.location.latitude,
+              lng: point.location.longitude,
             },
             {
               icon:
-                isSelectedPointDefined &&
-                Number(point.id) === Number(selectedPoint.id)
+                isSelectedPointDefined && point.id === currentCard.id
                   ? currentCustomIcon
                   : defaultCustomIcon,
             }
@@ -73,9 +52,9 @@ function Map({ selectedPoint }: MapProps) {
       });
     }
   }, [
+    currentCard,
     map,
-    sortedOffers.points,
-    selectedPoint,
+    sortedOffers,
     defaultCustomIcon,
     currentCustomIcon,
     isSelectedPointDefined,
