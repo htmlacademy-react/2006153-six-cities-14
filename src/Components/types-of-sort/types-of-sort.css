@@ -1,4 +1,17 @@
-.places__options--custom {
-  top: 20%;
-  left: 17%;
+.places__options {
+  position: absolute;
+  height: 0;
+  width: 0;
+  opacity: 0;
+  z-index: 1;
+
+  transition: all ease-in-out 0.4s;
+}
+.places__options--opened {
+  width: 200px;
+  height: 180px;
+  opacity: 1;
+}
+.places__option {
+  width: 100%;
 }

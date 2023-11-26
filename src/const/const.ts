@@ -10,23 +10,32 @@ export interface OffersList {
   points: HotelsPoints[];
 }
 export interface Offers {
-  imageSrc: string;
-  price: number;
-  name: string;
-  rating: number;
+  id: string;
+  title: string;
   type: string;
+  price: number;
+  previewImage: string;
+  city: CityLocation;
+  location: HotelsPoints;
+  isFavorite: boolean;
   isPremium: boolean;
-  location?: string;
-  id: number;
+  rating: number;
+}
+export interface OffersLocation {
+  location: HotelsPoints;
+}
+export interface CityLocation {
+  name: string;
+  location: HotelsPoints;
 }
 export interface Hotels {
   city: string;
-  points: HotelsPoints[];
+  points: HotelsPoints;
 }
 export interface HotelsPoints {
   latitude: number;
   longitude: number;
-  id: number;
+  zoom: number;
 }
 export const pinsSize: PinsSizes = { iconSize: [40, 40], iconAnchor: [20, 40] };
 
@@ -79,8 +88,8 @@ export interface Comments {
 }
 export const startCity = 'Paris';
 
-type State = ReturnType<typeof store.getState>;
-type AppDispatch = typeof store.dispatch;
+export type State = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<State> = useSelector;
@@ -107,4 +116,9 @@ export const sortListsItems: SortListsItems[] = [
 interface SortListsItems {
   text: string;
   value: string;
+}
+
+export enum APIRoutes {
+  Offers = '/offers',
+  Title = '/title',
 }

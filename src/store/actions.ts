@@ -1,6 +1,10 @@
 import { createAction } from '@reduxjs/toolkit';
-import { OffersList } from '../const/const';
+import { Offers } from '../const/const';
 
-export const changeCity = createAction<string>('main/changeCity');
-export const changeOffers = createAction<OffersList[]>('main/changeOffers');
+export const changeCity = createAction<string | null>('main/changeCity');
 export const setSortType = createAction<string>('typeOfSort/setSortType');
+export const loadOffers = createAction<Offers | Offers[]>('data/loadOffers');
+export const setCurrentCard = createAction<Offers | number>(
+  'card/setCurrentCard'
+);
+export const setIsQuesLoaded = createAction<boolean>('app/setIsQuesLoaded');

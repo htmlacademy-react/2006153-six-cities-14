@@ -1,31 +1,32 @@
 import { Link } from 'react-router-dom';
-import { Offers } from '../../const/const';
-import { useState } from 'react';
+import { Offers, useAppDispatch } from '../../const/const';
+import { setCurrentCard } from '../../store/actions';
 
 type cardProps = {
   card: Offers;
-  onListItemHover: (onListItemHover: number | null) => void;
 };
 
-function Card({ card, onListItemHover }: cardProps) {
-  const [activeCard, setActiveCard] = useState(card);
-  const handleListItemHover = () => {
-    onListItemHover(card.id);
+function Card({ card }: cardProps) {
+  const dispatch = useAppDispatch();
+  function getRating() {
+    const maxRating = 5;
+    const rating = Math.round((card.rating / maxRating) * 100);
+    return rating;
+  }
+  const handleHover = () => {
+    dispatch(setCurrentCard(card));
+  };
+  const handleLeave = () => {
+    dispatch(setCurrentCard(0));
   };
   return (
     <Link
       to={`/offer/:${card.id}`}
       className={
-        activeCard
-          ? 'cities__card place-card active'
-          : 'cities__card place-card'
+        card ? 'cities__card place-card active' : 'cities__card place-card'
       }
-      onMouseEnter={() => {
-        handleListItemHover();
-      }}
-      onMouseLeave={() => {
-        onListItemHover(null);
-      }}
+      onMouseEnter={handleHover}
+      onMouseLeave={handleLeave}
     >
       {card.isPremium ? (
         <div className="place-card__mark">
@@ -36,7 +37,7 @@ function Card({ card, onListItemHover }: cardProps) {
         <p>
           <img
             className="place-card__image"
-            src={card.imageSrc}
+            src={card.previewImage}
             width="260"
             height="200"
             alt="Place image"
@@ -58,12 +59,12 @@ function Card({ card, onListItemHover }: cardProps) {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: card.rating }}></span>
+            <span style={{ width: getRating() }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
-          <p>{card.name}</p>
+          <p>{card.title}</p>
         </h2>
         <p className="place-card__type">{card.type}</p>
       </div>

@@ -1,4 +1,4 @@
-import { locations, useAppDispatch, useAppSelector } from '../../const/const';
+import { locations, useAppDispatch } from '../../const/const';
 import { changeCity } from '../../store/actions';
 
 function LocationLink() {

@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
-import { Hotels } from '../../const/const';
 import leaflet, { Map } from 'leaflet';
+import { Offers } from '../../const/const';
 
-function useMap(mapRef: React.RefObject<HTMLElement>, sortedOffers: Hotels) {
+function useMap(mapRef: React.RefObject<HTMLElement>, sortedOffers: Offers[]) {
   const [map, setMap] = useState<Map | null>(null);
   const isMapInitialized = useRef(false);
 
@@ -10,15 +10,15 @@ function useMap(mapRef: React.RefObject<HTMLElement>, sortedOffers: Hotels) {
     if (
       mapRef.current !== null &&
       !isMapInitialized.current &&
-      sortedOffers.points !== undefined
+      sortedOffers[0] !== undefined
     ) {
       isMapInitialized.current = true;
       const instance = leaflet.map(mapRef.current, {
         center: {
-          lat: sortedOffers.points[0].latitude,
-          lng: sortedOffers.points[0].longitude,
+          lat: sortedOffers[0].city.location.latitude,
+          lng: sortedOffers[0].city.location.longitude,
         },
-        zoom: 12,
+        zoom: sortedOffers[0].city.location.zoom,
       });
       leaflet
         .tileLayer(
@@ -30,14 +30,14 @@ function useMap(mapRef: React.RefObject<HTMLElement>, sortedOffers: Hotels) {
         )
         .addTo(instance);
       setMap(instance);
-    } else if (map !== null && sortedOffers.points !== undefined) {
+    } else if (map !== null && sortedOffers !== undefined) {
       const newCenter = {
-        lat: sortedOffers.points[0].latitude,
-        lng: sortedOffers.points[0].longitude,
+        lat: sortedOffers[0].city.location.latitude,
+        lng: sortedOffers[0].city.location.longitude,
       };
       map.setView(newCenter, map.getZoom());
     }
-  }, [mapRef, sortedOffers.points, map, setMap]);
+  }, [mapRef, sortedOffers, map, setMap]);
   return map;
 }
 
