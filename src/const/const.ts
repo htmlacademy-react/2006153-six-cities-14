@@ -142,3 +142,7 @@ export type DetailMessageType = {
   type: string;
   message: string;
 };
+export type userDataType = {
+  login: string;
+  password: string;
+};

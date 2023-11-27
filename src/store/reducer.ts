@@ -6,8 +6,9 @@ import {
   setCurrentCard,
   setIsQuesLoaded,
   requireAuth,
+  getUserData,
 } from './actions';
-import { AuthorizationStatus, startCity } from '../const/const';
+import { AuthorizationStatus, startCity, userDataType } from '../const/const';
 import { Offers } from '../const/const';
 
 const initialState: initialStateInt = {
@@ -17,6 +18,7 @@ const initialState: initialStateInt = {
   currentCard: 0,
   isQuesLoaded: false,
   AuthorizationStatus: AuthorizationStatus.Unknown,
+  userData: {},
 };
 
 interface initialStateInt {
@@ -26,6 +28,7 @@ interface initialStateInt {
   currentCard: Offers | number;
   isQuesLoaded: boolean;
   AuthorizationStatus: AuthorizationStatus;
+  userData: userDataType | object;
 }
 export const reducer = createReducer(initialState, (builder) => {
   builder
@@ -46,6 +49,8 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(requireAuth, (state, action) => {
       state.AuthorizationStatus = action.payload;
-      console.log(action.payload);
+    })
+    .addCase(getUserData, (state, action) => {
+      state.userData = action.payload;
     });
 });

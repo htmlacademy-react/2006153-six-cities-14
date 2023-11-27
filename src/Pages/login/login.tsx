@@ -1,6 +1,35 @@
 import Header from '../../Components/header/header';
-
+import { useRef } from 'react';
+import { useAppDispatch } from '../../const/const';
+import { LoginAction } from '../../../api-actions/api-actions';
+import { getUserData } from '../../store/actions';
+import { Link } from 'react-router-dom';
 function Login(): JSX.Element {
+  const loginRef = useRef<HTMLInputElement | null>(null);
+  const passwordRef = useRef<HTMLInputElement | null>(null);
+  const dispatch = useAppDispatch();
+
+  function sendUserData() {
+    if (loginRef.current !== null && passwordRef.current !== null) {
+      dispatch(
+        LoginAction({
+          login: loginRef.current.value,
+          password: passwordRef.current.value,
+        })
+      );
+    }
+  }
+  function sendUserMail() {
+    if (loginRef.current !== null && passwordRef.current !== null) {
+      dispatch(
+        getUserData({
+          login: loginRef.current.value,
+          password: passwordRef.current.value,
+        })
+      );
+    }
+  }
+
   return (
     <div className="page page--gray page--login">
       {/* <header className="header">
@@ -29,6 +58,7 @@ function Login(): JSX.Element {
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
                 <input
+                  ref={loginRef}
                   className="login__input form__input"
                   type="email"
                   name="email"
@@ -38,18 +68,24 @@ function Login(): JSX.Element {
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
                 <input
+                  ref={passwordRef}
                   className="login__input form__input"
                   type="password"
                   name="password"
                   placeholder="Password"
                 />
               </div>
-              <button
+              <Link
+                onClick={() => {
+                  sendUserData();
+                  sendUserMail();
+                }}
+                to={'/'}
                 className="login__submit form__submit button"
                 type="submit"
               >
                 Sign in
-              </button>
+              </Link>
             </form>
           </section>
           <section className="locations locations--login locations--current">

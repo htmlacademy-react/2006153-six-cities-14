@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './Components/app/app';
-import { offers } from './Mocks/offers';
 import { store } from './store';
 import { checkAuth, fetchOffersAction } from '../api-actions/api-actions';
 import { Provider } from 'react-redux';
@@ -10,10 +9,11 @@ const root = ReactDOM.createRoot(
 );
 store.dispatch(fetchOffersAction());
 store.dispatch(checkAuth());
+
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App offersList={offers} />
+      <App />
     </Provider>
   </React.StrictMode>
 );

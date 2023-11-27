@@ -1,6 +1,17 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosError } from 'axios';
-import { getToken, saveToken } from '../token/token';
+import { toast } from 'react-toastify';
+import { StatusCodes } from 'http-status-codes';
+import { getToken } from '../token/token';
 import { DetailMessageType } from '../const/const';
+
+const StatusCodeMapping: Record<number, boolean> = {
+  [StatusCodes.BAD_REQUEST]: true,
+  [StatusCodes.UNAUTHORIZED]: true,
+  [StatusCodes.NOT_FOUND]: true,
+};
+
+const shouldDisplayError = (response: AxiosResponse) =>
+  !!StatusCodeMapping[response.status];
 
 const BACKEND_URL = 'https://14.design.pages.academy/six-cities';
 const REQUEST_TIMEOUT = 5000;
@@ -15,12 +26,12 @@ export const createAPI = (): AxiosInstance => {
     const token = getToken();
 
     if (token && config.headers) {
-      config.headers['x-token'] = 'YS5lZ29yb3ZhQHByZXF1ZWwuYXBw';
+      config.headers['x-token'] = token;
     }
-    return token;
+    return config;
   });
 
-  /* api.interceptors.response.use(
+  api.interceptors.response.use(
     (response) => response,
     (error: AxiosError<DetailMessageType>) => {
       if (error.response && shouldDisplayError(error.response)) {
@@ -31,6 +42,6 @@ export const createAPI = (): AxiosInstance => {
 
       throw error;
     }
-  ); */
+  );
   return api;
 };

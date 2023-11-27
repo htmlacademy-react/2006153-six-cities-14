@@ -12,7 +12,7 @@ export type AppProps = {
   offersList: OffersList[];
 };
 
-function App({ offersList }: AppProps): JSX.Element {
+function App(): JSX.Element {
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -21,11 +21,7 @@ function App({ offersList }: AppProps): JSX.Element {
           <Route path="/login" element={<Login />} />
           <Route
             path="/favorites"
-            element={
-              <PrivateRoute
-                childrenProps={<Favorites offersList={offersList} />}
-              />
-            }
+            element={<PrivateRoute childrenProps={<Favorites />} />}
           />
           <Route path="/offer/:id" element={<Offer />} />
           <Route path="*" element={<NotFound />} />

@@ -1,5 +1,10 @@
 import { Link } from 'react-router-dom';
-import { Offers, useAppDispatch } from '../../const/const';
+import {
+  AuthorizationStatus,
+  Offers,
+  useAppDispatch,
+  useAppSelector,
+} from '../../const/const';
 import { setCurrentCard } from '../../store/actions';
 
 type cardProps = {
@@ -8,6 +13,7 @@ type cardProps = {
 
 function Card({ card }: cardProps) {
   const dispatch = useAppDispatch();
+  const isAuth = useAppSelector((state) => state.AuthorizationStatus);
   function getRating() {
     const maxRating = 5;
     const rating = Math.round((card.rating / maxRating) * 100);
@@ -19,9 +25,10 @@ function Card({ card }: cardProps) {
   const handleLeave = () => {
     dispatch(setCurrentCard(0));
   };
+
   return (
     <Link
-      to={`/offer/:${card.id}`}
+      to={isAuth === AuthorizationStatus.Auth ? `/offer/:${card.id}` : '/login'}
       className={
         card ? 'cities__card place-card active' : 'cities__card place-card'
       }
