@@ -5,8 +5,9 @@ import {
   loadOffers,
   setCurrentCard,
   setIsQuesLoaded,
+  requireAuth,
 } from './actions';
-import { startCity } from '../const/const';
+import { AuthorizationStatus, startCity } from '../const/const';
 import { Offers } from '../const/const';
 
 const initialState: initialStateInt = {
@@ -15,14 +16,16 @@ const initialState: initialStateInt = {
   apiOffersList: [],
   currentCard: 0,
   isQuesLoaded: false,
+  AuthorizationStatus: AuthorizationStatus.Unknown,
 };
 
 interface initialStateInt {
-  city: string | ((evt: React.MouseEvent<HTMLLIElement>) => string);
+  city: string | null;
   sortType: string;
   apiOffersList: Offers | Offers[];
   currentCard: Offers | number;
   isQuesLoaded: boolean;
+  AuthorizationStatus: AuthorizationStatus;
 }
 export const reducer = createReducer(initialState, (builder) => {
   builder
@@ -40,5 +43,9 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setIsQuesLoaded, (state, action) => {
       state.isQuesLoaded = action.payload;
+    })
+    .addCase(requireAuth, (state, action) => {
+      state.AuthorizationStatus = action.payload;
+      console.log(action.payload);
     });
 });

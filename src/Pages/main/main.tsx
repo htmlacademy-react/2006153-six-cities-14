@@ -7,7 +7,7 @@ import TypesOfSort from '../../Components/types-of-sort/types-of-sort';
 import './main.css';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useAppSelector } from '../../const/const';
+import { State, useAppSelector } from '../../const/const';
 import { getSortedOffers } from '../../Components/selectors/offers-list-selector';
 import { sortListsItems } from '../../const/const';
 
@@ -15,7 +15,7 @@ function Main(): JSX.Element {
   const sortedOffers = useAppSelector(getSortedOffers);
   const sortType = useAppSelector((state) => state.sortType);
   const [isSortOpened, setIsSortOpened] = useState(false);
-  const loading = useAppSelector((state) => state.isQuesLoaded);
+  const loading = useAppSelector((state: State) => state.isQuesLoaded);
 
   function takeClass() {
     if (isSortOpened) {

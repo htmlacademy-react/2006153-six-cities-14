@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-import { Offers } from '../const/const';
+import { Offers, AuthorizationStatus } from '../const/const';
 
 export const changeCity = createAction<string | null>('main/changeCity');
 export const setSortType = createAction<string>('typeOfSort/setSortType');
@@ -8,3 +8,4 @@ export const setCurrentCard = createAction<Offers | number>(
   'card/setCurrentCard'
 );
 export const setIsQuesLoaded = createAction<boolean>('app/setIsQuesLoaded');
+export const requireAuth = createAction<AuthorizationStatus>('app/requireAuth');

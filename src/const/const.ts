@@ -121,4 +121,24 @@ interface SortListsItems {
 export enum APIRoutes {
   Offers = '/offers',
   Title = '/title',
+  Login = '/login',
 }
+
+export enum AuthorizationStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
+}
+export type AuthData = {
+  login: string;
+  password: string;
+};
+export type UserData = {
+  id: number;
+  email: string;
+  token: string;
+};
+export type DetailMessageType = {
+  type: string;
+  message: string;
+};
