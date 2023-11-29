@@ -1,6 +1,7 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { store } from '../store';
-interface Location {
+
+export interface Location {
   city: string;
   id: number;
 }
@@ -122,6 +123,7 @@ export enum APIRoutes {
   Offers = '/offers',
   Title = '/title',
   Login = '/login',
+  Comments = '/comments',
 }
 
 export enum AuthorizationStatus {
@@ -133,6 +135,9 @@ export type AuthData = {
   login: string;
   password: string;
 };
+export type UserID = {
+  id: string;
+};
 export type UserData = {
   id: number;
   email: string;
@@ -143,6 +148,6 @@ export type DetailMessageType = {
   message: string;
 };
 export type userDataType = {
-  login: string;
-  password: string;
+  email: string;
+  avatarUrl: string;
 };

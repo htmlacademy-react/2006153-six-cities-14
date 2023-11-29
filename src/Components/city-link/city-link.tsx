@@ -1,14 +1,17 @@
-import { locations, useAppDispatch } from '../../const/const';
+import { useAppDispatch } from '../../const/const';
 import { changeCity } from '../../store/actions';
-
-function LocationLink() {
+import { Location } from '../../const/const';
+interface CityLinkProps {
+  location: Location;
+}
+function CityLink({ location }: CityLinkProps) {
   const dispatch = useAppDispatch();
 
   const getCityName = (evt: React.ChangeEvent<HTMLLIElement>) => {
     const cityName = evt.target.textContent;
     return cityName;
   };
-  const locList = locations.map((location) => (
+  return (
     <li
       onClick={(evt: React.MouseEvent<HTMLLIElement>) =>
         dispatch(changeCity(getCityName(evt)))
@@ -20,8 +23,6 @@ function LocationLink() {
         <span>{location.city}</span>
       </a>
     </li>
-  ));
-  return locList;
+  );
 }
-
-export default LocationLink;
+export default CityLink;

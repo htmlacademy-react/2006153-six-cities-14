@@ -10,7 +10,7 @@ import { LogoutAction } from '../../../api-actions/api-actions';
 function Header(): JSX.Element {
   const isAuth = useAppSelector((state: State) => state.AuthorizationStatus);
   const dispatch = useAppDispatch();
-  const userData = useAppSelector((state: State) => state.userData);
+  const userData = JSON.parse(localStorage.getItem('userData'));
 
   function signOut() {
     dispatch(LogoutAction());
@@ -44,9 +44,11 @@ function Header(): JSX.Element {
                     className="header__nav-link header__nav-link--profile"
                     href="#"
                   >
-                    <div className="header__avatar-wrapper user__avatar-wrapper"></div>
+                    <div className="header__avatar-wrapper user__avatar-wrapper">
+                      <img src={userData.avatarUrl}></img>
+                    </div>
                     <span className="header__user-name user__name">
-                      {userData.login}
+                      {userData.email}
                     </span>
                     <span className="header__favorite-count">3</span>
                   </a>

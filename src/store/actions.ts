@@ -9,6 +9,12 @@ export const setCurrentCard = createAction<Offers | number>(
 );
 export const setIsQuesLoaded = createAction<boolean>('app/setIsQuesLoaded');
 export const requireAuth = createAction<AuthorizationStatus>('app/requireAuth');
-export const getUserData = createAction<userDataType | object>(
-  'login/getUserData'
+export const loadCurrentOffer = createAction<Offers | number>(
+  'offer/loadCurrentOffer'
+);
+export const loadNearByCurrentOffer = createAction<Offers[]>(
+  'offer/loadNearByCurrentOffer'
+);
+export const loadOfferComments = createAction<Offers>(
+  'offer/loadOfferComments'
 );

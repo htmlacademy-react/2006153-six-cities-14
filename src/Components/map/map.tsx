@@ -5,14 +5,14 @@ import { urlForPins } from '../../const/const';
 import { pinsSize } from '../../const/const';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { getSortedOffers } from '../selectors/offers-list-selector';
 
-function Map() {
+function Map({ hotelsPins, isNeedHover }) {
   const currentCard = useAppSelector((state) => state.currentCard);
-  const sortedOffers = useAppSelector(getSortedOffers);
+
+  /* const sortedOffers = useAppSelector(getSortedOffers); */
 
   const mapRef = useRef<HTMLDivElement | null>(null);
-  const map = useMap(mapRef, sortedOffers);
+  const map = useMap(mapRef, hotelsPins);
 
   const isSelectedPointDefined = currentCard !== undefined;
   const defaultCustomIcon = leaflet.icon({
@@ -27,14 +27,14 @@ function Map() {
   });
 
   useEffect(() => {
-    if (map && sortedOffers !== undefined) {
+    if (map && hotelsPins !== undefined) {
       map.eachLayer((layer) => {
         if (layer instanceof leaflet.Marker) {
           map.removeLayer(layer);
         }
       });
 
-      sortedOffers.forEach((point: Offers) => {
+      hotelsPins.forEach((point: Offers) => {
         leaflet
           .marker(
             {
@@ -54,7 +54,7 @@ function Map() {
   }, [
     currentCard,
     map,
-    sortedOffers,
+    hotelsPins,
     defaultCustomIcon,
     currentCustomIcon,
     isSelectedPointDefined,

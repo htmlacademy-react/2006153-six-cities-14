@@ -1,32 +1,31 @@
 import Header from '../../Components/header/header';
 import { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../const/const';
 import { LoginAction } from '../../../api-actions/api-actions';
-import { getUserData } from '../../store/actions';
-import { Link } from 'react-router-dom';
+
 function Login(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const dispatch = useAppDispatch();
-
-  function sendUserData() {
-    if (loginRef.current !== null && passwordRef.current !== null) {
-      dispatch(
-        LoginAction({
-          login: loginRef.current.value,
-          password: passwordRef.current.value,
-        })
-      );
+  const navigate = useNavigate();
+  function getValidate(passInput: string) {
+    if (passwordRef.current !== null) {
+      return /^(?=.*[a-zA-Z])(?=.*\d).+$/.test(passInput);
     }
   }
-  function sendUserMail() {
+  function sendUserData() {
     if (loginRef.current !== null && passwordRef.current !== null) {
-      dispatch(
-        getUserData({
-          login: loginRef.current.value,
-          password: passwordRef.current.value,
-        })
-      );
+      if (getValidate(passwordRef.current.value)) {
+        dispatch(
+          LoginAction({
+            login: loginRef.current.value,
+            password: passwordRef.current.value,
+          })
+        ).then(() => {
+          navigate('/');
+        });
+      }
     }
   }
 
@@ -54,7 +53,10 @@ function Login(): JSX.Element {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            <form className="login__form form" action="#" method="post">
+            <form
+              onSubmit={(e) => e.preventDefault()}
+              className="login__form form" /* action="#" method="post" */
+            >
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
                 <input
@@ -75,17 +77,15 @@ function Login(): JSX.Element {
                   placeholder="Password"
                 />
               </div>
-              <Link
+              <button
                 onClick={() => {
                   sendUserData();
-                  sendUserMail();
                 }}
-                to={'/'}
                 className="login__submit form__submit button"
-                type="submit"
+                /* type="submit" */
               >
                 Sign in
-              </Link>
+              </button>
             </form>
           </section>
           <section className="locations locations--login locations--current">

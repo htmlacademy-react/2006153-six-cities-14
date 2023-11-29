@@ -1,6 +1,6 @@
 import CardList from '../../Components/card-list/card-list';
 import Header from '../../Components/header/header';
-import LocationLink from '../../Components/location-link/location-link';
+import LocationLink from '../../Components/cities-list/cities-list';
 import Spinner from '../../Components/spinner/spinner';
 import Map from '../../Components/map/map';
 import TypesOfSort from '../../Components/types-of-sort/types-of-sort';
@@ -10,13 +10,14 @@ import { Helmet } from 'react-helmet-async';
 import { State, useAppSelector } from '../../const/const';
 import { getSortedOffers } from '../../Components/selectors/offers-list-selector';
 import { sortListsItems } from '../../const/const';
+import CitiesList from '../../Components/cities-list/cities-list';
 
 function Main(): JSX.Element {
   const sortedOffers = useAppSelector(getSortedOffers);
   const sortType = useAppSelector((state) => state.sortType);
   const [isSortOpened, setIsSortOpened] = useState(false);
   const loading = useAppSelector((state: State) => state.isQuesLoaded);
-
+  const isNeedHover = true;
   function takeClass() {
     if (isSortOpened) {
       setIsSortOpened(false);
@@ -53,7 +54,7 @@ function Main(): JSX.Element {
           <div className="tabs">
             <section className="locations container">
               <ul className="locations__list tabs__list">
-                <LocationLink />
+                <CitiesList />
               </ul>
             </section>
           </div>
@@ -93,7 +94,10 @@ function Main(): JSX.Element {
                     </span>
                     <TypesOfSort classForSort={isSortOpened} />
                   </form>
-                  <CardList />
+                  <CardList
+                    offersList={sortedOffers}
+                    isNeedHover={isNeedHover}
+                  />
                 </section>
               )}
               <div className="cities__right-section">
@@ -101,7 +105,7 @@ function Main(): JSX.Element {
                   className="cities__map map"
                   style={{ background: 'none' }}
                 >
-                  <Map />
+                  <Map hotelsPins={sortedOffers} isNeedHover={isNeedHover} />
                 </section>
               </div>
             </div>

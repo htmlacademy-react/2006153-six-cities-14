@@ -6,12 +6,16 @@ import {
   useAppSelector,
 } from '../../const/const';
 import { setCurrentCard } from '../../store/actions';
+import { store } from '../../store';
+import { fetchCurrentOfferAction } from '../../../api-actions/api-actions';
+import { useState } from 'react';
 
 type cardProps = {
   card: Offers;
+  isNeedHover: boolean;
 };
 
-function Card({ card }: cardProps) {
+function Card({ card, isNeedHover }: cardProps) {
   const dispatch = useAppDispatch();
   const isAuth = useAppSelector((state) => state.AuthorizationStatus);
   function getRating() {
@@ -20,12 +24,18 @@ function Card({ card }: cardProps) {
     return rating;
   }
   const handleHover = () => {
-    dispatch(setCurrentCard(card));
+    if (isNeedHover) {
+      dispatch(setCurrentCard(card));
+    }
   };
   const handleLeave = () => {
-    dispatch(setCurrentCard(0));
+    if (isNeedHover) {
+      dispatch(setCurrentCard(0));
+    }
   };
-
+  /* const CITY_Off = useAppSelector((state) => state.currentCard.id);
+  
+  store.dispatch(fetchCurrentOfferAction(CITY_Off)); */
   return (
     <Link
       to={isAuth === AuthorizationStatus.Auth ? `/offer/:${card.id}` : '/login'}
@@ -34,6 +44,7 @@ function Card({ card }: cardProps) {
       }
       onMouseEnter={handleHover}
       onMouseLeave={handleLeave}
+      onClick={handleHover}
     >
       {card.isPremium ? (
         <div className="place-card__mark">

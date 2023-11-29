@@ -6,7 +6,9 @@ import {
   setCurrentCard,
   setIsQuesLoaded,
   requireAuth,
-  getUserData,
+  loadCurrentOffer,
+  loadNearByCurrentOffer,
+  loadOfferComments,
 } from './actions';
 import { AuthorizationStatus, startCity, userDataType } from '../const/const';
 import { Offers } from '../const/const';
@@ -18,7 +20,9 @@ const initialState: initialStateInt = {
   currentCard: 0,
   isQuesLoaded: false,
   AuthorizationStatus: AuthorizationStatus.Unknown,
-  userData: {},
+  currentOffer: {},
+  NearByOffers: [],
+  OfferComments: [],
 };
 
 interface initialStateInt {
@@ -28,7 +32,7 @@ interface initialStateInt {
   currentCard: Offers | number;
   isQuesLoaded: boolean;
   AuthorizationStatus: AuthorizationStatus;
-  userData: userDataType | object;
+  currentOffer: Offers | object;
 }
 export const reducer = createReducer(initialState, (builder) => {
   builder
@@ -50,7 +54,13 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(requireAuth, (state, action) => {
       state.AuthorizationStatus = action.payload;
     })
-    .addCase(getUserData, (state, action) => {
-      state.userData = action.payload;
+    .addCase(loadCurrentOffer, (state, action) => {
+      state.currentOffer = action.payload;
+    })
+    .addCase(loadNearByCurrentOffer, (state, action) => {
+      state.NearByOffers = action.payload;
+    })
+    .addCase(loadOfferComments, (state, action) => {
+      state.OfferComments = action.payload;
     });
 });
