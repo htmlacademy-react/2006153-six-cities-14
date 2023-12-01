@@ -2,12 +2,16 @@ import { useState, useRef, useEffect } from 'react';
 import leaflet, { Map } from 'leaflet';
 import { Offers } from '../../const/const';
 
-function useMap(mapRef: React.RefObject<HTMLElement>, hotelsPins: Offers[]) {
+function useMap(
+  mapRef: React.RefObject<HTMLElement>,
+  hotelsPins: Offers[] | number
+) {
   const [map, setMap] = useState<Map | null>(null);
   const isMapInitialized = useRef(false);
 
   useEffect(() => {
     if (
+      typeof hotelsPins !== 'number' &&
       mapRef.current !== null &&
       !isMapInitialized.current &&
       hotelsPins[0] !== undefined
@@ -32,8 +36,14 @@ function useMap(mapRef: React.RefObject<HTMLElement>, hotelsPins: Offers[]) {
       setMap(instance);
     } else if (map !== null && hotelsPins !== undefined) {
       const newCenter = {
-        lat: hotelsPins[0].city.location.latitude,
-        lng: hotelsPins[0].city.location.longitude,
+        lat:
+          typeof hotelsPins !== 'number'
+            ? hotelsPins[0].city.location.latitude
+            : 0,
+        lng:
+          typeof hotelsPins !== 'number'
+            ? hotelsPins[0].city.location.longitude
+            : 0,
       };
       map.setView(newCenter, map.getZoom());
     }

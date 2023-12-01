@@ -9,8 +9,16 @@ import {
   loadCurrentOffer,
   loadNearByCurrentOffer,
   loadOfferComments,
+  sendCommentActionDispatcher,
+  getUserData,
+  getFavoritesOffers,
 } from './actions';
-import { AuthorizationStatus, startCity, userDataType } from '../const/const';
+import {
+  AuthorizationStatus,
+  Comments,
+  startCity,
+  OfferDetails,
+} from '../const/const';
 import { Offers } from '../const/const';
 
 const initialState: initialStateInt = {
@@ -20,9 +28,12 @@ const initialState: initialStateInt = {
   currentCard: 0,
   isQuesLoaded: false,
   AuthorizationStatus: AuthorizationStatus.Unknown,
-  currentOffer: {},
   NearByOffers: [],
   OfferComments: [],
+  currentOffer: '',
+  sendedComment: 0,
+  userData: 0,
+  favoritesOffers: [],
 };
 
 interface initialStateInt {
@@ -32,7 +43,12 @@ interface initialStateInt {
   currentCard: Offers | number;
   isQuesLoaded: boolean;
   AuthorizationStatus: AuthorizationStatus;
-  currentOffer: Offers | object;
+  OfferComments: Comments[] | string;
+  NearByOffers: Offers[] | string;
+  currentOffer: OfferDetails | string;
+  sendedComment: object | 0;
+  userData: object | 0;
+  favoritesOffers: Offers[] | object;
 }
 export const reducer = createReducer(initialState, (builder) => {
   builder
@@ -62,5 +78,15 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadOfferComments, (state, action) => {
       state.OfferComments = action.payload;
+    })
+    .addCase(sendCommentActionDispatcher, (state, action) => {
+      state.sendedComment = action.payload;
+    })
+    .addCase(getUserData, (state, action) => {
+      state.userData = action.payload;
+    })
+    .addCase(getFavoritesOffers, (state, action) => {
+      state.favoritesOffers = action.payload;
     });
 });
+getFavoritesOffers;

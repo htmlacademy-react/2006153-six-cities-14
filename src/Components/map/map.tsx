@@ -1,4 +1,4 @@
-import { Offers, useAppSelector } from '../../const/const';
+import { OfferDetails, Offers, useAppSelector } from '../../const/const';
 import { useRef, useEffect } from 'react';
 import useMap from '../../Hooks/useMap/use-map';
 import { urlForPins } from '../../const/const';
@@ -6,10 +6,12 @@ import { pinsSize } from '../../const/const';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-function Map({ hotelsPins, isNeedHover }) {
+interface MapProps {
+  hotelsPins: Offers[] | number;
+  activePin: string;
+}
+function Map({ hotelsPins, activePin }: MapProps) {
   const currentCard = useAppSelector((state) => state.currentCard);
-
-  /* const sortedOffers = useAppSelector(getSortedOffers); */
 
   const mapRef = useRef<HTMLDivElement | null>(null);
   const map = useMap(mapRef, hotelsPins);
@@ -34,22 +36,27 @@ function Map({ hotelsPins, isNeedHover }) {
         }
       });
 
-      hotelsPins.forEach((point: Offers) => {
-        leaflet
-          .marker(
-            {
-              lat: point.location.latitude,
-              lng: point.location.longitude,
-            },
-            {
-              icon:
-                isSelectedPointDefined && point.id === currentCard.id
-                  ? currentCustomIcon
-                  : defaultCustomIcon,
-            }
-          )
-          .addTo(map);
-      });
+      if (typeof hotelsPins !== 'number') {
+        hotelsPins.forEach((point: Offers) => {
+          leaflet
+            .marker(
+              {
+                lat: point.location.latitude,
+                lng: point.location.longitude,
+              },
+              {
+                icon:
+                  (isSelectedPointDefined &&
+                    typeof currentCard !== 'number' &&
+                    point.id === currentCard.id) ||
+                  point.id === activePin
+                    ? currentCustomIcon
+                    : defaultCustomIcon,
+              }
+            )
+            .addTo(map);
+        });
+      }
     }
   }, [
     currentCard,

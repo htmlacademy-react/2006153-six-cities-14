@@ -1,6 +1,10 @@
 import Header from '../../Components/header/header';
+import { State, useAppSelector } from '../../const/const';
 
 function Favorites(): JSX.Element {
+  const getFavorites = useAppSelector((state: State) => state.favoritesOffers);
+  console.log(getFavorites);
+
   {
     /* <header className="header">
     <div className="container">

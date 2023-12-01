@@ -6,9 +6,6 @@ import {
   useAppSelector,
 } from '../../const/const';
 import { setCurrentCard } from '../../store/actions';
-import { store } from '../../store';
-import { fetchCurrentOfferAction } from '../../../api-actions/api-actions';
-import { useState } from 'react';
 
 type cardProps = {
   card: Offers;
@@ -33,12 +30,9 @@ function Card({ card, isNeedHover }: cardProps) {
       dispatch(setCurrentCard(0));
     }
   };
-  /* const CITY_Off = useAppSelector((state) => state.currentCard.id);
-  
-  store.dispatch(fetchCurrentOfferAction(CITY_Off)); */
   return (
     <Link
-      to={isAuth === AuthorizationStatus.Auth ? `/offer/:${card.id}` : '/login'}
+      to={`/offer/:${card.id}`}
       className={
         card ? 'cities__card place-card active' : 'cities__card place-card'
       }

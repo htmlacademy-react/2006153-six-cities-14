@@ -1,6 +1,6 @@
 interface ImageComponentProps {
   classProp: string;
-  image: string;
+  image: string | undefined;
   widthProp?: string;
   heightProp?: string;
 }

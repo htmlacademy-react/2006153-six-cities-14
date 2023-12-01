@@ -8,7 +8,7 @@ import './main.css';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { State, useAppSelector } from '../../const/const';
-import { getSortedOffers } from '../../Components/selectors/offers-list-selector';
+import { getSortedOffers } from '../../selectors/offers-list-selector';
 import { sortListsItems } from '../../const/const';
 import CitiesList from '../../Components/cities-list/cities-list';
 

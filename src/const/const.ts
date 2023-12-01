@@ -22,6 +22,23 @@ export interface Offers {
   isPremium: boolean;
   rating: number;
 }
+export interface OfferDetails {
+  bedrooms: number;
+  city: Hotels;
+  description: string;
+  goods: string[];
+  host: CommentsUser;
+  id: string;
+  images: string[];
+  isFavorite: boolean;
+  isPremium: boolean;
+  location: HotelsPoints;
+  maxAdults: number;
+  price: number;
+  rating: number;
+  title: string;
+  type: string;
+}
 export interface OffersLocation {
   location: HotelsPoints;
 }
@@ -82,9 +99,19 @@ export const isAuthorized = true;
 export const urlForPins: string[] = ['/img/pin.svg', '/img/pin-active.svg'];
 
 export interface Comments {
-  userName: string;
+  comment: string;
+  date: string;
+  id: string;
   rating: number;
-  message: string;
+  user: CommentsUser;
+  userName?: string;
+}
+export interface CommentsUser {
+  name: string;
+  avatarUrl: string;
+  isPro: boolean;
+}
+export interface offerID {
   id: string;
 }
 export const startCity = 'Paris';
@@ -124,6 +151,7 @@ export enum APIRoutes {
   Title = '/title',
   Login = '/login',
   Comments = '/comments',
+  Favorite = '/favorite',
 }
 
 export enum AuthorizationStatus {
@@ -134,6 +162,8 @@ export enum AuthorizationStatus {
 export type AuthData = {
   login: string;
   password: string;
+  email?: string;
+  avatarUrl?: string;
 };
 export type UserID = {
   id: string;
@@ -142,6 +172,7 @@ export type UserData = {
   id: number;
   email: string;
   token: string;
+  avatarUrl?: string;
 };
 export type DetailMessageType = {
   type: string;
@@ -151,3 +182,4 @@ export type userDataType = {
   email: string;
   avatarUrl: string;
 };
+export interface NearByOffersInterface {}

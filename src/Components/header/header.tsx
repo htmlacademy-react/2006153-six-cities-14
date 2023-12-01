@@ -5,12 +5,19 @@ import {
   useAppSelector,
 } from '../../const/const';
 import { State } from '../../const/const';
-import { LogoutAction } from '../../../api-actions/api-actions';
+import {
+  LogoutAction,
+  fetchFavoritesOffers,
+} from '../../../api-actions/api-actions';
 
 function Header(): JSX.Element {
   const isAuth = useAppSelector((state: State) => state.AuthorizationStatus);
+  /* const userData = useAppSelector((state: State) => state.userData); */
   const dispatch = useAppDispatch();
-  const userData = JSON.parse(localStorage.getItem('userData'));
+  let userData = '';
+  if (AuthorizationStatus.Auth === isAuth) {
+    userData = JSON.parse(localStorage.getItem('userData'));
+  }
 
   function signOut() {
     dispatch(LogoutAction());
@@ -39,20 +46,30 @@ function Header(): JSX.Element {
               <Link to={'/login'}>SignIn</Link>
             ) : (
               <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <a
-                    className="header__nav-link header__nav-link--profile"
-                    href="#"
-                  >
+                <Link
+                  to={
+                    AuthorizationStatus.Auth === isAuth
+                      ? '/favorites'
+                      : '/login'
+                  }
+                  onClick={() => {
+                    if (AuthorizationStatus.Auth === isAuth) {
+                      dispatch(fetchFavoritesOffers());
+                    }
+                  }}
+                  className="header__nav-item user"
+                >
+                  <div className="header__nav-link header__nav-link--profile">
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                       <img src={userData.avatarUrl}></img>
                     </div>
+
                     <span className="header__user-name user__name">
-                      {userData.email}
+                      {userData.emailUser}
                     </span>
                     <span className="header__favorite-count">3</span>
-                  </a>
-                </li>
+                  </div>
+                </Link>
                 <li className="header__nav-item">
                   <button
                     onClick={signOut}

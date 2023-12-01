@@ -1,14 +1,19 @@
 import { FormEvent, useState } from 'react';
-
+import { useParams } from 'react-router-dom';
+import { sendCommentAction } from '../../../api-actions/api-actions';
+import { sendCommentActionDispatcher } from '../../store/actions';
+import { store } from '../../store';
+import { useAppDispatch } from '../../const/const';
 interface FormData {
   name: string | undefined;
   value: string | undefined;
 }
 
 function SendingCommentsForm() {
+  const dispatch = useAppDispatch();
   const [formData, setFormData] = useState<FormData>({
-    name: '',
-    value: '',
+    comment: '',
+    rating: '',
   });
   function onFieldChange(
     evt:
@@ -17,19 +22,34 @@ function SendingCommentsForm() {
       | React.ChangeEvent<HTMLTextAreaElement>
       | FormEvent
   ) {
-    const { name, value }: FormData = evt;
+    const { name, value }: FormData = evt.target;
 
     setFormData({ ...formData, [name]: value });
   }
+  const params = useParams();
+
+  const cardID = params.id.slice(1, params.id.length);
+
+  function sendComment() {
+    store.dispatch(
+      sendCommentAction({
+        offerID: cardID,
+        userComment: formData.comment,
+        rating: Number(formData.rating),
+      })
+    );
+  }
+
   return (
     <form
-      /* onSubmit={(evt) => {
+      onSubmit={(evt) => {
         evt.preventDefault();
         onFieldChange(evt);
-      }} */
+        sendComment();
+      }}
       name="form"
       className="reviews__htmlForm htmlForm"
-      action="#"
+      /* action="#" */
       method="post"
     >
       <label className="reviews__label htmlForm__label" htmlFor="review">
@@ -38,7 +58,7 @@ function SendingCommentsForm() {
       <div className="reviews__rating-htmlForm htmlForm__rating">
         <input
           onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
-            onFieldChange(evt.target);
+            onFieldChange(evt);
           }}
           className="htmlForm__rating-input visually-hidden"
           name="rating"
@@ -58,7 +78,7 @@ function SendingCommentsForm() {
 
         <input
           onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
-            onFieldChange(evt.target);
+            onFieldChange(evt);
           }}
           className="htmlForm__rating-input visually-hidden"
           name="rating"
@@ -78,7 +98,7 @@ function SendingCommentsForm() {
 
         <input
           onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
-            onFieldChange(evt.target);
+            onFieldChange(evt);
           }}
           className="htmlForm__rating-input visually-hidden"
           name="rating"
@@ -98,7 +118,7 @@ function SendingCommentsForm() {
 
         <input
           onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
-            onFieldChange(evt.target);
+            onFieldChange(evt);
           }}
           className="htmlForm__rating-input visually-hidden"
           name="rating"
@@ -118,7 +138,7 @@ function SendingCommentsForm() {
 
         <input
           onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
-            onFieldChange(evt.target);
+            onFieldChange(evt);
           }}
           className="htmlForm__rating-input visually-hidden"
           name="rating"
@@ -137,11 +157,13 @@ function SendingCommentsForm() {
         </label>
       </div>
       <textarea
-        /* onChange={onFieldChange} */
+        onInput={(evt) => {
+          onFieldChange(evt);
+        }}
         className="reviews__textarea htmlForm__textarea"
         id="review"
         name="comment"
-        value={formData.name}
+        value={formData.comment}
         placeholder="Tell how was your stay, what you like and what can be improved"
       />
       <div className="reviews__button-wrapper">
