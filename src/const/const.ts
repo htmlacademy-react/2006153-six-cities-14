@@ -105,6 +105,8 @@ export interface Comments {
   rating: number;
   user: CommentsUser;
   userName?: string;
+  userRating?: string;
+  userMessage?: string;
 }
 export interface CommentsUser {
   name: string;
@@ -173,6 +175,7 @@ export type UserData = {
   email: string;
   token: string;
   avatarUrl?: string;
+  emailUser?: string;
 };
 export type DetailMessageType = {
   type: string;
@@ -183,3 +186,15 @@ export type userDataType = {
   avatarUrl: string;
 };
 export interface NearByOffersInterface {}
+
+export interface cardStatus {
+  offerID: string;
+  favoritesStatus: number;
+}
+export interface sendCommentData {
+  comment: string;
+  rating: string;
+  date: string;
+  id: string;
+  user: UserData;
+}

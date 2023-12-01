@@ -5,8 +5,10 @@ import { sendCommentActionDispatcher } from '../../store/actions';
 import { store } from '../../store';
 import { useAppDispatch } from '../../const/const';
 interface FormData {
-  name: string | undefined;
-  value: string | undefined;
+  name?: string | undefined;
+  value?: string | undefined;
+  comment?: string;
+  rating?: string;
 }
 
 function SendingCommentsForm() {
@@ -22,19 +24,20 @@ function SendingCommentsForm() {
       | React.ChangeEvent<HTMLTextAreaElement>
       | FormEvent
   ) {
-    const { name, value }: FormData = evt.target;
+    const { name, value }: FormData = evt.target; // TODO Не понимаю как типизировать
 
-    setFormData({ ...formData, [name]: value });
+    setFormData({ ...formData, [name]: value }); // TODO Не понимаю как типизировать
   }
   const params = useParams();
 
-  const cardID = params.id.slice(1, params.id.length);
+  const cardID =
+    params.id !== undefined ? params.id.slice(1, params.id.length) : '';
 
   function sendComment() {
     store.dispatch(
       sendCommentAction({
         offerID: cardID,
-        userComment: formData.comment,
+        userComment: formData.comment !== undefined ? formData.comment : '',
         rating: Number(formData.rating),
       })
     );
@@ -175,7 +178,6 @@ function SendingCommentsForm() {
         <button
           className="reviews__submit htmlForm__submit button"
           type="submit"
-          /* disabled="" */
         >
           Submit
         </button>

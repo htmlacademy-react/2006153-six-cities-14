@@ -12,6 +12,7 @@ import {
   sendCommentActionDispatcher,
   getUserData,
   getFavoritesOffers,
+  changeStatus,
 } from './actions';
 import {
   AuthorizationStatus,
@@ -34,6 +35,7 @@ const initialState: initialStateInt = {
   sendedComment: 0,
   userData: 0,
   favoritesOffers: [],
+  isFavorite: 0,
 };
 
 interface initialStateInt {
@@ -49,6 +51,7 @@ interface initialStateInt {
   sendedComment: object | 0;
   userData: object | 0;
   favoritesOffers: Offers[] | object;
+  isFavorite: number;
 }
 export const reducer = createReducer(initialState, (builder) => {
   builder
@@ -87,6 +90,9 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(getFavoritesOffers, (state, action) => {
       state.favoritesOffers = action.payload;
+      console.log(action.payload);
+    })
+    .addCase(changeStatus, (state, action) => {
+      state.favoritesOffers = action.payload;
     });
 });
-getFavoritesOffers;

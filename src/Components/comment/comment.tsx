@@ -23,8 +23,8 @@ function Comment({ comment }: commentProps) {
             <span
               style={{
                 width: `${
-                  comment.rating === undefined
-                    ? comment.userRating * 20
+                  comment === undefined
+                    ? comment.userRating * 20 // TODO что это значит ?
                     : comment.rating * 20
                 }%`,
               }}

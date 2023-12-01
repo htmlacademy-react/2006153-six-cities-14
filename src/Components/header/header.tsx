@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import {
   AuthorizationStatus,
+  UserData,
   useAppDispatch,
   useAppSelector,
 } from '../../const/const';
@@ -12,15 +13,14 @@ import {
 
 function Header(): JSX.Element {
   const isAuth = useAppSelector((state: State) => state.AuthorizationStatus);
-  /* const userData = useAppSelector((state: State) => state.userData); */
   const dispatch = useAppDispatch();
-  let userData = '';
+  let userData: string | UserData = '';
   if (AuthorizationStatus.Auth === isAuth) {
     userData = JSON.parse(localStorage.getItem('userData'));
   }
 
   function signOut() {
-    dispatch(LogoutAction());
+    dispatch(LogoutAction({}));
   }
   return (
     <header className="header">
@@ -54,18 +54,22 @@ function Header(): JSX.Element {
                   }
                   onClick={() => {
                     if (AuthorizationStatus.Auth === isAuth) {
-                      dispatch(fetchFavoritesOffers());
+                      dispatch(fetchFavoritesOffers()); // TODO хочет чтобы передал параметр , какой ?
                     }
                   }}
                   className="header__nav-item user"
                 >
                   <div className="header__nav-link header__nav-link--profile">
                     <div className="header__avatar-wrapper user__avatar-wrapper">
-                      <img src={userData.avatarUrl}></img>
+                      <img
+                        src={
+                          typeof userData !== 'string' ? userData.avatarUrl : ''
+                        }
+                      ></img>
                     </div>
 
                     <span className="header__user-name user__name">
-                      {userData.emailUser}
+                      {typeof userData !== 'string' ? userData.emailUser : ''}
                     </span>
                     <span className="header__favorite-count">3</span>
                   </div>

@@ -5,6 +5,9 @@ import {
   Comments,
   Offers,
   OfferDetails,
+  cardStatus,
+  CommentsUser,
+  sendCommentData,
 } from '../src/const/const';
 import {
   loadOffers,
@@ -16,6 +19,7 @@ import {
   sendCommentActionDispatcher,
   getUserData,
   getFavoritesOffers,
+  changeStatus,
 } from '../src/store/actions';
 import { State, AppDispatch, AuthData, UserData } from '../src/const/const';
 import { AxiosInstance } from 'axios';
@@ -140,7 +144,7 @@ export const sendCommentAction = createAsyncThunk<
   ) => {
     const {
       data: { comment: userMessage, rating: userRating, date, id, user },
-    } = await api.post<UserData>(`${APIRoutes.Comments}/${offerID}`, {
+    } = await api.post<sendCommentData>(`${APIRoutes.Comments}/${offerID}`, {
       comment,
       rating,
     });
@@ -153,7 +157,7 @@ export const sendCommentAction = createAsyncThunk<
 
 export const LogoutAction = createAsyncThunk<
   void,
-  AuthData,
+  AuthData | object,
   {
     dispatch: AppDispatch;
     state: State;
@@ -166,15 +170,33 @@ export const LogoutAction = createAsyncThunk<
 });
 export const fetchFavoritesOffers = createAsyncThunk<
   void,
-  AuthData,
+  Offers,
   {
     dispatch: AppDispatch;
     state: State;
     extra: AxiosInstance;
   }
 >('user/fetchFavorites', async (_arg, { dispatch, extra: api }) => {
-  const {
-    data: {},
-  } = await api.get<UserData>(APIRoutes.Favorite);
+  const { data } = await api.get<Offers>(APIRoutes.Favorite);
   dispatch(getFavoritesOffers(data));
 });
+
+export const changeOfferStatus = createAsyncThunk<
+  void,
+  { offerID: string; favoritesStatus: number },
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>(
+  'user/changeStatus',
+  async ({ offerID, favoritesStatus }, { dispatch, extra: api }) => {
+    const {
+      data: { offerID: id, favoritesStatus: status },
+    } = await api.post<cardStatus>(
+      `${APIRoutes.Favorite}/${offerID}/${favoritesStatus}`
+    );
+    dispatch(changeStatus({ id, status }));
+  }
+);

@@ -16,6 +16,7 @@ import {
   fetchCurrentOfferAction,
   fetchNearByCurrentOfferAction,
   fetchOfferCommentsAction,
+  changeOfferStatus,
 } from '../../../api-actions/api-actions';
 import Header from '../../Components/header/header';
 import ImageComponent from '../../Components/image-component/image-component';
@@ -25,6 +26,7 @@ import SendingCommentsForm from '../../Components/sending-comment-form/sending-c
 
 function Offer(): JSX.Element {
   const isAuth = useAppSelector((state: State) => state.AuthorizationStatus);
+  const isFavorite = useAppSelector((state: State) => state.isFavorite);
   const cityOffer = useAppSelector((state: State) => state.currentOffer);
   const nearByList = useAppSelector((state: State) => state.NearByOffers);
   const loading = useAppSelector((state: State) => state.isQuesLoaded);
@@ -37,7 +39,7 @@ function Offer(): JSX.Element {
   interface OfferParams {
     readonly id: string;
   }
-  const params: OfferParams = useParams<string>();
+  const params: OfferParams = useParams<string>(); // TODO Не понимаю как типизировать
 
   const cardID = params.id.slice(1, params.id.length);
 
@@ -106,9 +108,15 @@ function Offer(): JSX.Element {
                   <h1 className="offer__name">{cityOffer.title}</h1>
                   <button
                     onClick={() => {
-                      if (AuthorizationStatus.Auth !== isAuth) {
+                      /* if (AuthorizationStatus.Auth !== isAuth) {
                         navigate('/login');
-                      }
+                      } */
+                      store.dispatch(
+                        changeOfferStatus({
+                          offerID: cardID,
+                          favoritesStatus: Number(cityOffer.isFavorite),
+                        })
+                      );
                     }}
                     className="offer__bookmark-button button"
                     type="button"

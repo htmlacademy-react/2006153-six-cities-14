@@ -33,3 +33,4 @@ export const getUserData = createAction<object>('login/getUserData');
 export const getFavoritesOffers = createAction<object>(
   'favorites/getFavoritesOffers'
 );
+export const changeStatus = createAction<object>('favorites/changeStatus');

@@ -1,9 +1,14 @@
 import Header from '../../Components/header/header';
 import { State, useAppSelector } from '../../const/const';
-
+import { store } from '../../store';
+import { useEffect } from 'react';
+import { fetchFavoritesOffers } from '../../../api-actions/api-actions';
 function Favorites(): JSX.Element {
-  const getFavorites = useAppSelector((state: State) => state.favoritesOffers);
-  console.log(getFavorites);
+  /* useEffect(() => {
+    store.dispatch(fetchFavoritesOffers());
+  }); */
+  const favoritesList = useAppSelector((state: State) => state.favoritesOffers);
+  console.log(favoritesList);
 
   {
     /* <header className="header">
