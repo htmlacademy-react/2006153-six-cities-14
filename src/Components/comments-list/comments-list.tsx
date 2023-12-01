@@ -30,7 +30,7 @@ function CommentsList({ commentsList }: CommentsListProps) {
             .slice(0, 10)
             .sort(
               (a: Comments, b: Comments) =>
-                new Date(b.date as string) - new Date(a.date as string)
+                new Date(b.date as string) - new Date(a.date as string) //TODO это вообще жесть какая-то
             )
             .map((comment) => <Comment key={comment.id} comment={comment} />)
         : null}
