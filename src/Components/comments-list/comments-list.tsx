@@ -1,39 +1,47 @@
 import Comment from '../comment/comment';
-import { Comments } from '../../const/const';
+import { Comments, useAppDispatch } from '../../const/const';
 import { useAppSelector } from '../../const/const';
 import { State } from '../../const/const';
+import { useEffect } from 'react';
+import { getCommentsLength } from '../../store/actions';
+
 interface CommentsListProps {
   commentsList: Comments[] | string;
 }
 function CommentsList({ commentsList }: CommentsListProps) {
   const newComment = useAppSelector((state: State) => state.sendedComment);
+  const dispatch = useAppDispatch();
+
+  let newCommentList: Comments[] = [];
 
   function getNewCommentList() {
-    let newCommentList = [];
-    let copiedCommentList = [];
-    if (commentsList.length !== 0) {
-      copiedCommentList = [...commentsList];
-      copiedCommentList.forEach((comment) => {
+    if (commentsList.length !== 0 && typeof commentsList !== 'string') {
+      commentsList.forEach((comment) => {
         newCommentList.push(comment);
       });
-      if (newComment !== 0) {
-        newCommentList.unshift(newComment);
-      }
     }
+    if (newComment !== undefined && typeof newComment !== 'number') {
+      newCommentList.unshift(newComment[0]);
+    }
+
     return newCommentList;
   }
+  useEffect(() => {
+    dispatch(getCommentsLength(newCommentList.length));
+  }, [newCommentList.length]);
 
   return (
     <ul className="reviews__list">
-      {getNewCommentList().length !== 0
-        ? getNewCommentList()
-            .slice(0, 10)
-            .sort(
-              (a: Comments, b: Comments) =>
-                new Date(b.date as string) - new Date(a.date as string) //TODO это вообще жесть какая-то
-            )
-            .map((comment) => <Comment key={comment.id} comment={comment} />)
-        : null}
+      {getNewCommentList()
+        .slice(0, 10)
+        .sort(
+          (a: Comments, b: Comments) =>
+            new Date(b.date as string).getTime() -
+            new Date(a.date as string).getTime()
+        )
+        .map((comment) => (
+          <Comment key={comment.id} comment={comment} />
+        ))}
     </ul>
   );
 }

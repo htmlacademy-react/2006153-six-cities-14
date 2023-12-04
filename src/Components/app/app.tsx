@@ -5,14 +5,20 @@ import Favorites from '../../Pages/favorites/favorites';
 import Offer from '../../Pages/offer/offer';
 import NotFound from '../../Pages/not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
-import { OffersList } from '../../const/const';
+import {
+  AuthorizationStatus,
+  OffersList,
+  useAppSelector,
+} from '../../const/const';
 import { HelmetProvider } from 'react-helmet-async';
+import OffersNotLogged from '../../Pages/offers-not-logged/offers-not-logged';
 
 export type AppProps = {
   offersList: OffersList[];
 };
 
 function App(): JSX.Element {
+  const isAuth = useAppSelector((state) => state.AuthorizationStatus);
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -23,7 +29,16 @@ function App(): JSX.Element {
             path="/favorites"
             element={<PrivateRoute childrenProps={<Favorites />} />}
           />
-          <Route path="/offer/:id" element={<Offer />} />
+          <Route
+            path="/offer/:id"
+            element={
+              isAuth === AuthorizationStatus.Auth ? (
+                <Offer />
+              ) : (
+                <OffersNotLogged />
+              )
+            }
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

@@ -13,6 +13,8 @@ import { sortListsItems } from '../../const/const';
 import CitiesList from '../../Components/cities-list/cities-list';
 
 function Main(): JSX.Element {
+  const imageHeight = '200';
+  const imageWidth = '260';
   const sortedOffers = useAppSelector(getSortedOffers);
   const sortType = useAppSelector((state) => state.sortType);
   const [isSortOpened, setIsSortOpened] = useState(false);
@@ -95,6 +97,8 @@ function Main(): JSX.Element {
                     <TypesOfSort classForSort={isSortOpened} />
                   </form>
                   <CardList
+                    imageWidth={imageWidth}
+                    imageHeight={imageHeight}
                     offersList={sortedOffers}
                     isNeedHover={isNeedHover}
                   />

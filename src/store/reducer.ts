@@ -13,12 +13,14 @@ import {
   getUserData,
   getFavoritesOffers,
   changeStatus,
+  getCommentsLength,
 } from './actions';
 import {
   AuthorizationStatus,
   Comments,
   startCity,
   OfferDetails,
+  addToFavorite,
 } from '../const/const';
 import { Offers } from '../const/const';
 
@@ -32,10 +34,11 @@ const initialState: initialStateInt = {
   NearByOffers: [],
   OfferComments: [],
   currentOffer: '',
-  sendedComment: 0,
+  sendedComment: 0 | [],
   userData: 0,
   favoritesOffers: [],
   isFavorite: 0,
+  commentsLength: 0,
 };
 
 interface initialStateInt {
@@ -45,14 +48,16 @@ interface initialStateInt {
   currentCard: Offers | number;
   isQuesLoaded: boolean;
   AuthorizationStatus: AuthorizationStatus;
-  OfferComments: Comments[] | string;
+  OfferComments: Comments[];
   NearByOffers: Offers[] | string;
   currentOffer: OfferDetails | string;
-  sendedComment: object | 0;
+  sendedComment: Comments[] | number;
   userData: object | 0;
   favoritesOffers: Offers[] | object;
-  isFavorite: number;
+  isFavorite: number | addToFavorite;
+  commentsLength: number;
 }
+
 export const reducer = createReducer(initialState, (builder) => {
   builder
     .addCase(changeCity, (state, action) => {
@@ -83,16 +88,20 @@ export const reducer = createReducer(initialState, (builder) => {
       state.OfferComments = action.payload;
     })
     .addCase(sendCommentActionDispatcher, (state, action) => {
-      state.sendedComment = action.payload;
+      let commentList = [];
+      commentList.push(action.payload);
+      state.sendedComment = commentList;
     })
     .addCase(getUserData, (state, action) => {
       state.userData = action.payload;
     })
     .addCase(getFavoritesOffers, (state, action) => {
       state.favoritesOffers = action.payload;
-      console.log(action.payload);
     })
     .addCase(changeStatus, (state, action) => {
-      state.favoritesOffers = action.payload;
+      state.isFavorite = action.payload;
+    })
+    .addCase(getCommentsLength, (state, action) => {
+      state.commentsLength = action.payload;
     });
 });

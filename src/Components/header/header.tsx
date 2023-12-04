@@ -10,10 +10,16 @@ import {
   LogoutAction,
   fetchFavoritesOffers,
 } from '../../../api-actions/api-actions';
+import { useEffect } from 'react';
+import { store } from '../../store';
 
 function Header(): JSX.Element {
   const isAuth = useAppSelector((state: State) => state.AuthorizationStatus);
+  const favoritesList = useAppSelector((state: State) => state.favoritesOffers);
   const dispatch = useAppDispatch();
+  useEffect(() => {
+    store.dispatch(fetchFavoritesOffers());
+  }, []);
   let userData: string | UserData = '';
   if (AuthorizationStatus.Auth === isAuth) {
     userData = JSON.parse(localStorage.getItem('userData'));
@@ -71,7 +77,9 @@ function Header(): JSX.Element {
                     <span className="header__user-name user__name">
                       {typeof userData !== 'string' ? userData.emailUser : ''}
                     </span>
-                    <span className="header__favorite-count">3</span>
+                    <span className="header__favorite-count">
+                      {favoritesList.length}
+                    </span>
                   </div>
                 </Link>
                 <li className="header__nav-item">

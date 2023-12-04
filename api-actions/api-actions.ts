@@ -130,7 +130,13 @@ export const LoginAction = createAsyncThunk<
 );
 export const sendCommentAction = createAsyncThunk<
   void,
-  { offerID: string; userComment: string; rating: number },
+  {
+    offerID: string;
+    userComment: string;
+    rating: number;
+    userRating?: number;
+    setIsSubmitting: boolean;
+  },
   {
     dispatch: AppDispatch;
     state: State;
@@ -139,19 +145,31 @@ export const sendCommentAction = createAsyncThunk<
 >(
   'user/sendComment',
   async (
-    { offerID, userComment: comment, rating },
+    { offerID, userComment: comment, rating, setIsSubmitting },
     { dispatch, extra: api }
   ) => {
-    const {
-      data: { comment: userMessage, rating: userRating, date, id, user },
-    } = await api.post<sendCommentData>(`${APIRoutes.Comments}/${offerID}`, {
-      comment,
-      rating,
-    });
+    try {
+      const {
+        data: { comment: userMessage, rating: userRating, date, id, user },
+      } = await api.post<sendCommentData>(`${APIRoutes.Comments}/${offerID}`, {
+        comment,
+        rating,
+      });
 
-    dispatch(
-      sendCommentActionDispatcher({ userMessage, userRating, date, id, user })
-    );
+      dispatch(
+        sendCommentActionDispatcher({
+          userMessage,
+          userRating,
+          date,
+          id,
+          user,
+        })
+      );
+    } catch (error) {
+      console.log('Wrong Validation');
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 );
 
@@ -170,7 +188,7 @@ export const LogoutAction = createAsyncThunk<
 });
 export const fetchFavoritesOffers = createAsyncThunk<
   void,
-  Offers,
+  void,
   {
     dispatch: AppDispatch;
     state: State;
@@ -193,10 +211,10 @@ export const changeOfferStatus = createAsyncThunk<
   'user/changeStatus',
   async ({ offerID, favoritesStatus }, { dispatch, extra: api }) => {
     const {
-      data: { offerID: id, favoritesStatus: status },
+      data: {},
     } = await api.post<cardStatus>(
-      `${APIRoutes.Favorite}/${offerID}/${favoritesStatus}`
+      `${APIRoutes.Favorite}/${offerID}/${Number(!favoritesStatus)}`
     );
-    dispatch(changeStatus({ id, status }));
+    dispatch(changeStatus({ offerID, favoritesStatus }));
   }
 );

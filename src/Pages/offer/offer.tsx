@@ -23,30 +23,32 @@ import ImageComponent from '../../Components/image-component/image-component';
 import './offer.css';
 import Spinner from '../../Components/spinner/spinner';
 import SendingCommentsForm from '../../Components/sending-comment-form/sending-comment-form';
+import CommentsAmount from '../../Components/comments-amount/comments-amount';
 
 function Offer(): JSX.Element {
   const isAuth = useAppSelector((state: State) => state.AuthorizationStatus);
-  const isFavorite = useAppSelector((state: State) => state.isFavorite);
   const cityOffer = useAppSelector((state: State) => state.currentOffer);
   const nearByList = useAppSelector((state: State) => state.NearByOffers);
   const loading = useAppSelector((state: State) => state.isQuesLoaded);
-  const navigate = useNavigate();
+  const newCommentsLength = useAppSelector(
+    (state: State) => state.commentsLength
+  );
 
   const cityOfferComments = useAppSelector(
     (state: State) => state.OfferComments
   );
 
   interface OfferParams {
-    readonly id: string;
+    id?: string;
   }
-  const params: OfferParams = useParams<string>(); // TODO Не понимаю как типизировать
-
-  const cardID = params.id.slice(1, params.id.length);
+  const params: OfferParams = useParams<string>();
 
   useEffect(() => {
-    store.dispatch(fetchCurrentOfferAction(cardID));
-    store.dispatch(fetchNearByCurrentOfferAction(cardID));
-    store.dispatch(fetchOfferCommentsAction(cardID));
+    if (params.id !== undefined) {
+      store.dispatch(fetchCurrentOfferAction(params.id));
+      store.dispatch(fetchNearByCurrentOfferAction(params.id));
+      store.dispatch(fetchOfferCommentsAction(params.id));
+    }
   }, [params]);
 
   function getRating() {
@@ -107,17 +109,19 @@ function Offer(): JSX.Element {
                 <div className="offer__name-wrapper">
                   <h1 className="offer__name">{cityOffer.title}</h1>
                   <button
-                    onClick={() => {
-                      /* if (AuthorizationStatus.Auth !== isAuth) {
-                        navigate('/login');
-                      } */
+                    /* onClick={() => {
+                      console.log(Number(cityOffer.isFavorite), changedStatus);
+
                       store.dispatch(
                         changeOfferStatus({
-                          offerID: cardID,
-                          favoritesStatus: Number(cityOffer.isFavorite),
+                          offerID: cityOffer.id,
+                          favoritesStatus:
+                            changedStatus === 0
+                              ? Number(!cityOffer.isFavorite)
+                              : Number(!changedStatus.favoritesStatus),
                         })
                       );
-                    }}
+                    }} */
                     className="offer__bookmark-button button"
                     type="button"
                   >
@@ -192,14 +196,10 @@ function Offer(): JSX.Element {
                   </div>
                 </div>
                 <section className="offer__reviews reviews">
-                  <h2 className="reviews__title">
-                    Reviews &middot;{' '}
-                    <span className="reviews__amount">
-                      {cityOfferComments.length < 10
-                        ? cityOfferComments.length
-                        : 10}
-                    </span>
-                  </h2>
+                  <CommentsAmount
+                    cityOfferComments={cityOfferComments}
+                    newCommentsLength={newCommentsLength}
+                  />
                   <CommentsList commentsList={cityOfferComments} />
                   {AuthorizationStatus.Auth === isAuth ? (
                     <SendingCommentsForm />

@@ -4,6 +4,7 @@ import {
   AuthorizationStatus,
   Comments,
   OfferDetails,
+  addToFavorite,
 } from '../const/const';
 
 export const changeCity = createAction<string | null>('main/changeCity');
@@ -23,14 +24,19 @@ export const loadCurrentOffer = createAction<OfferDetails | string>(
 export const loadNearByCurrentOffer = createAction<Offers[] | string>(
   'offer/loadNearByCurrentOffer'
 );
-export const loadOfferComments = createAction<Comments[] | string>(
+export const loadOfferComments = createAction<Comments[]>(
   'offer/loadOfferComments'
 );
-export const sendCommentActionDispatcher = createAction<object>(
+export const sendCommentActionDispatcher = createAction<Comments>(
   'form/sendCommentActionDispatcher'
 );
 export const getUserData = createAction<object>('login/getUserData');
 export const getFavoritesOffers = createAction<object>(
   'favorites/getFavoritesOffers'
 );
-export const changeStatus = createAction<object>('favorites/changeStatus');
+export const changeStatus = createAction<number | addToFavorite>(
+  'favorites/changeStatus'
+);
+export const getCommentsLength = createAction<number>(
+  'favorites/commentsLength'
+);
