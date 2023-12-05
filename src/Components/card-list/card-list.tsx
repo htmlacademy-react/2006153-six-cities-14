@@ -1,5 +1,4 @@
-import { Offers, useAppSelector } from '../../const/const';
-import { getSortedOffers } from '../../selectors/offers-list-selector';
+import { Offers } from '../../const/const';
 import Card from '../card/card';
 interface CardListProps {
   offersList: Offers[] | number;

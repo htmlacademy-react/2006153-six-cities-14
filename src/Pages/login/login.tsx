@@ -1,7 +1,7 @@
 import Header from '../../Components/header/header';
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../const/const';
+import { useAppDispatch } from '../../const/const';
 import { LoginAction } from '../../../api-actions/api-actions';
 
 function Login(): JSX.Element {
@@ -23,7 +23,7 @@ function Login(): JSX.Element {
             password: passwordRef.current.value,
           })
         ).then(() => {
-          navigate('/');
+          navigate(-1);
         });
       }
     }
@@ -31,23 +31,6 @@ function Login(): JSX.Element {
 
   return (
     <div className="page page--gray page--login">
-      {/* <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <a className="header__logo-link" href="main.html">
-                <img
-                  className="header__logo"
-                  src="img/logo.svg"
-                  alt="6 cities logo"
-                  width="81"
-                  height="41"
-                />
-              </a>
-            </div>
-          </div>
-        </div>
-      </header> */}
       <Header />
       <main className="page__main page__main--login">
         <div className="page__login-container container">
@@ -82,7 +65,6 @@ function Login(): JSX.Element {
                   sendUserData();
                 }}
                 className="login__submit form__submit button"
-                /* type="submit" */
               >
                 Sign in
               </button>

@@ -1,4 +1,4 @@
-export const AUTH_KEY: string = 'test-token';
+export const AUTH_KEY: string = 'six-cities';
 
 type token = string;
 

@@ -5,6 +5,12 @@ interface commentProps {
   comment: Comments;
 }
 function Comment({ comment }: commentProps) {
+  function getRating() {
+    const maxRating = 5;
+
+    const rating = Math.round((comment.rating / maxRating) * 100);
+    return rating;
+  }
   return (
     <li className="reviews__item">
       <div className="reviews__user user">
@@ -22,7 +28,7 @@ function Comment({ comment }: commentProps) {
           <div className="reviews__stars rating__stars">
             <span
               style={{
-                width: `${comment?.rating * 20}%`,
+                width: `${getRating()}%`,
               }}
             ></span>
             <span className="visually-hidden">Rating</span>
@@ -33,8 +39,14 @@ function Comment({ comment }: commentProps) {
             ? comment.userMessage
             : comment.comment}
         </p>
-        <time className="reviews__time" dateTime="2019-04-24">
-          April 2019
+        <time
+          className="reviews__time"
+          dateTime={`${new Date(comment.date).getFullYear()}-${new Date(
+            comment.date
+          ).getMonth()}-${new Date(comment.date).getDate()}`}
+        >
+          {new Date(comment.date).getFullYear()}{' '}
+          {new Date(comment.date).toLocaleString('default', { month: 'long' })}
         </time>
       </div>
     </li>

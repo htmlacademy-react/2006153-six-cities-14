@@ -4,12 +4,12 @@ import {
   AuthorizationStatus,
   Comments,
   OfferDetails,
-  addToFavorite,
+  UserData,
 } from '../const/const';
 
 export const changeCity = createAction<string | null>('main/changeCity');
 export const setSortType = createAction<string>('typeOfSort/setSortType');
-export const loadOffers = createAction<Offers | Offers[]>('data/loadOffers');
+export const loadOffers = createAction<Offers[]>('data/loadOffers');
 export const setCurrentCard = createAction<Offers | number>(
   'card/setCurrentCard'
 );
@@ -18,25 +18,18 @@ export const requireAuth = createAction<AuthorizationStatus>('app/requireAuth');
 export const loadCurrentOfferID = createAction<Offers | number>(
   'offer/loadCurrentOfferID'
 );
-export const loadCurrentOffer = createAction<OfferDetails | string>(
+export const loadCurrentOffer = createAction<OfferDetails | number>(
   'offer/loadCurrentOffer'
 );
-export const loadNearByCurrentOffer = createAction<Offers[] | string>(
+export const loadNearByCurrentOffer = createAction<Offers[]>(
   'offer/loadNearByCurrentOffer'
 );
-export const loadOfferComments = createAction<Comments[]>(
-  'offer/loadOfferComments'
-);
-export const sendCommentActionDispatcher = createAction<Comments>(
+export const loadComments = createAction<Comments[]>('offer/loadOfferComments');
+export const sendCommentActionDispatcher = createAction<Comments[]>(
   'form/sendCommentActionDispatcher'
 );
-export const getUserData = createAction<object>('login/getUserData');
-export const getFavoritesOffers = createAction<object>(
+export const getUserData = createAction<UserData>('login/getUserData');
+export const getFavoritesOffers = createAction<Offers[]>(
   'favorites/getFavoritesOffers'
 );
-export const changeStatus = createAction<number | addToFavorite>(
-  'favorites/changeStatus'
-);
-export const getCommentsLength = createAction<number>(
-  'favorites/commentsLength'
-);
+export const changeStatus = createAction<Offers>('favorites/changeStatus');

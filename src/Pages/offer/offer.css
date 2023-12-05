@@ -7,7 +7,7 @@
   color: darkblue;
   text-decoration: underline;
 }
-.active-button {
-  stroke: '#4481c3';
-  fill: '#4481c3';
+.active-button .offer__bookmark-icon {
+  stroke: #4481c3;
+  fill: #4481c3;
 }

@@ -176,6 +176,7 @@ export type UserData = {
   token: string;
   avatarUrl?: string;
   emailUser?: string;
+  isPro: boolean;
 };
 export type DetailMessageType = {
   type: string;

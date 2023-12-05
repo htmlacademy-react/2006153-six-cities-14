@@ -1,23 +1,16 @@
 import Header from '../../Components/header/header';
 import { State, useAppSelector } from '../../const/const';
-import { store } from '../../store';
-import { useEffect } from 'react';
-import { fetchFavoritesOffers } from '../../../api-actions/api-actions';
 import FavoritesPageEmpty from '../favorites-page-empty/favorites-page-empty';
 import { locations } from '../../const/const';
 import CardList from '../../Components/card-list/card-list';
+import { useLocation } from 'react-router-dom';
+
 function Favorites(): JSX.Element {
-  const currentUrl = window.location.pathname;
+  const currentUrl = useLocation().pathname;
 
   const favoritesList = useAppSelector((state: State) => state.favoritesOffers);
-  const changedStatus = useAppSelector((state: State) => state.isFavorite);
-  console.log(favoritesList);
 
-  const updatedFavoritesList = favoritesList.filter((cityStatus) => {
-    return cityStatus.isFavorite === true;
-  });
-  console.log(updatedFavoritesList);
-  if (favoritesList.length === 0 && favoritesList === undefined) {
+  if (favoritesList.length === 0 || favoritesList === undefined) {
     return <FavoritesPageEmpty />;
   } else {
     return (

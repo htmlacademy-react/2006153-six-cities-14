@@ -8,19 +8,18 @@ import {
   requireAuth,
   loadCurrentOffer,
   loadNearByCurrentOffer,
-  loadOfferComments,
+  loadComments,
   sendCommentActionDispatcher,
   getUserData,
   getFavoritesOffers,
   changeStatus,
-  getCommentsLength,
 } from './actions';
 import {
   AuthorizationStatus,
   Comments,
   startCity,
   OfferDetails,
-  addToFavorite,
+  UserData,
 } from '../const/const';
 import { Offers } from '../const/const';
 
@@ -32,30 +31,28 @@ const initialState: initialStateInt = {
   isQuesLoaded: false,
   AuthorizationStatus: AuthorizationStatus.Unknown,
   NearByOffers: [],
-  OfferComments: [],
-  currentOffer: '',
-  sendedComment: 0 | [],
-  userData: 0,
+  comments: [],
+  currentOffer: {} | 0,
+  sendedComment: [],
+  userData: {},
   favoritesOffers: [],
-  isFavorite: 0,
-  commentsLength: 0,
+  isFavorite: [],
 };
 
 interface initialStateInt {
   city: string | null;
   sortType: string;
-  apiOffersList: Offers | Offers[];
+  apiOffersList: Offers[];
   currentCard: Offers | number;
   isQuesLoaded: boolean;
   AuthorizationStatus: AuthorizationStatus;
-  OfferComments: Comments[];
-  NearByOffers: Offers[] | string;
-  currentOffer: OfferDetails | string;
-  sendedComment: Comments[] | number;
-  userData: object | 0;
-  favoritesOffers: Offers[] | object;
-  isFavorite: number | addToFavorite;
-  commentsLength: number;
+  comments: Comments[];
+  NearByOffers: Offers[];
+  currentOffer: OfferDetails | number;
+  sendedComment: Comments[];
+  userData: UserData;
+  favoritesOffers: Offers[];
+  isFavorite: Offers | object;
 }
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -82,26 +79,24 @@ export const reducer = createReducer(initialState, (builder) => {
       state.currentOffer = action.payload;
     })
     .addCase(loadNearByCurrentOffer, (state, action) => {
-      state.NearByOffers = action.payload;
+      state.NearByOffers = [...action.payload.slice(0, 3), state.currentOffer];
     })
-    .addCase(loadOfferComments, (state, action) => {
-      state.OfferComments = action.payload;
+    .addCase(loadComments, (state, action) => {
+      state.comments = action.payload;
     })
     .addCase(sendCommentActionDispatcher, (state, action) => {
-      let commentList = [];
-      commentList.push(action.payload);
-      state.sendedComment = commentList;
+      state.comments = [...state.comments, action.payload];
     })
     .addCase(getUserData, (state, action) => {
       state.userData = action.payload;
+      console.log(action.payload);
     })
     .addCase(getFavoritesOffers, (state, action) => {
       state.favoritesOffers = action.payload;
     })
     .addCase(changeStatus, (state, action) => {
-      state.isFavorite = action.payload;
-    })
-    .addCase(getCommentsLength, (state, action) => {
-      state.commentsLength = action.payload;
+      state.apiOffersList = state.apiOffersList.map((offer) => {
+        return offer.id === action.payload.id ? action.payload : offer;
+      });
     });
 });

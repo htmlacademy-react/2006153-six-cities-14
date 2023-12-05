@@ -7,7 +7,6 @@ import { useParams } from 'react-router-dom';
 import {
   Offers,
   State,
-  OfferDetails,
   useAppSelector,
   AuthorizationStatus,
 } from '../../const/const';
@@ -23,26 +22,21 @@ import ImageComponent from '../../Components/image-component/image-component';
 import './offer.css';
 import Spinner from '../../Components/spinner/spinner';
 import SendingCommentsForm from '../../Components/sending-comment-form/sending-comment-form';
-import CommentsAmount from '../../Components/comments-amount/comments-amount';
 
 function Offer(): JSX.Element {
   const isAuth = useAppSelector((state: State) => state.AuthorizationStatus);
-  const cityOffer = useAppSelector((state: State) => state.currentOffer);
+  const currentOffer = useAppSelector((state: State) => state.currentOffer);
+  const offersList = useAppSelector((state: State) => state.apiOffersList);
   const nearByList = useAppSelector((state: State) => state.NearByOffers);
   const loading = useAppSelector((state: State) => state.isQuesLoaded);
-  const newCommentsLength = useAppSelector(
-    (state: State) => state.commentsLength
-  );
 
-  const cityOfferComments = useAppSelector(
-    (state: State) => state.OfferComments
-  );
+  const comments = useAppSelector((state: State) => state.comments);
 
   interface OfferParams {
     id?: string;
   }
   const params: OfferParams = useParams<string>();
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (params.id !== undefined) {
       store.dispatch(fetchCurrentOfferAction(params.id));
@@ -51,42 +45,36 @@ function Offer(): JSX.Element {
     }
   }, [params]);
 
-  function getRating() {
-    const maxRating = 5;
-    if (typeof cityOffer !== 'object') {
-      return 0;
-    }
-    const rating = Math.round((cityOffer.rating / maxRating) * 100);
-    return rating;
+  let currentCard: Offers | number = 0;
+  if (offersList !== undefined) {
+    currentCard = offersList.find((offer) => {
+      if (offer.id === currentOffer.id) {
+        return offer;
+      }
+    });
   }
 
-  const stopper = 3;
-  const offersNearByArr: Offers[] = [];
-  const offersNearByArrPins: Offers[] & OfferDetails[] = [];
-  if (nearByList.length !== 0) {
-    for (let index = 0; index < nearByList.length; index++) {
-      if (offersNearByArr.length < stopper && typeof nearByList === 'object') {
-        offersNearByArr.push(nearByList[index]);
-        offersNearByArrPins.push(nearByList[index]);
-      }
+  function getRating() {
+    const maxRating = 5;
+    if (typeof currentOffer !== 'object') {
+      return 0;
     }
-    if (typeof cityOffer === 'object') {
-      offersNearByArrPins.push(cityOffer);
-    }
+    const rating = Math.round((currentOffer.rating / maxRating) * 100);
+    return rating;
   }
 
   return (
     <div className="page">
       <Header />
-      {(loading === false && cityOffer !== undefined) ||
-      typeof cityOffer !== 'object' ? (
+      {(loading === false && currentOffer !== undefined) ||
+      typeof currentOffer !== 'object' ? (
         <Spinner />
       ) : (
         <main className="page__main page__main--offer">
           <section className="offer">
             <div className="offer__gallery-container container">
               <div className="offer__gallery">
-                {cityOffer.images.map((image) => {
+                {currentOffer.images.map((image) => {
                   return (
                     <div key={image} className="offer__image-wrapper">
                       <ImageComponent
@@ -101,28 +89,29 @@ function Offer(): JSX.Element {
             </div>
             <div className="offer__container container">
               <div className="offer__wrapper">
-                {cityOffer.isPremium ? (
+                {currentOffer.isPremium ? (
                   <div className="offer__mark">
                     <span>Premium</span>
                   </div>
                 ) : null}
                 <div className="offer__name-wrapper">
-                  <h1 className="offer__name">{cityOffer.title}</h1>
+                  <h1 className="offer__name">{currentOffer.title}</h1>
                   <button
-                    /* onClick={() => {
-                      console.log(Number(cityOffer.isFavorite), changedStatus);
-
-                      store.dispatch(
-                        changeOfferStatus({
-                          offerID: cityOffer.id,
-                          favoritesStatus:
-                            changedStatus === 0
-                              ? Number(!cityOffer.isFavorite)
-                              : Number(!changedStatus.favoritesStatus),
-                        })
-                      );
-                    }} */
-                    className="offer__bookmark-button button"
+                    onClick={(evt) => {
+                      isAuth === AuthorizationStatus.Auth
+                        ? store.dispatch(
+                            changeOfferStatus({
+                              offerID: currentCard.id,
+                              favoritesStatus: currentCard.isFavorite,
+                            })
+                          )
+                        : navigate('/login');
+                    }}
+                    className={
+                      currentCard.isFavorite === true
+                        ? 'offer__bookmark-button active-button button'
+                        : 'offer__bookmark-button  button'
+                    }
                     type="button"
                   >
                     <svg
@@ -141,30 +130,32 @@ function Offer(): JSX.Element {
                     <span className="visually-hidden">Rating</span>
                   </div>
                   <span className="offer__rating-value rating__value">
-                    {cityOffer.rating}
+                    {currentOffer.rating}
                   </span>
                 </div>
                 <ul className="offer__features">
                   <li className="offer__feature offer__feature--entire">
-                    {cityOffer.type}
+                    {currentOffer.type}
                   </li>
                   <li className="offer__feature offer__feature--bedrooms">
-                    {cityOffer.bedrooms}{' '}
-                    {cityOffer.bedrooms > 1 ? 'Bedrooms' : 'Bedroom'}
+                    {currentOffer.bedrooms}{' '}
+                    {currentOffer.bedrooms > 1 ? 'Bedrooms' : 'Bedroom'}
                   </li>
                   <li className="offer__feature offer__feature--adults">
-                    Max {cityOffer.maxAdults}{' '}
-                    {cityOffer.maxAdults > 1 ? 'adults' : 'adult'}
+                    Max {currentOffer.maxAdults}{' '}
+                    {currentOffer.maxAdults > 1 ? 'adults' : 'adult'}
                   </li>
                 </ul>
                 <div className="offer__price">
-                  <b className="offer__price-value">&euro;{cityOffer.price}</b>
+                  <b className="offer__price-value">
+                    &euro;{currentOffer.price}
+                  </b>
                   <span className="offer__price-text">&nbsp;night</span>
                 </div>
                 <div className="offer__inside">
                   <h2 className="offer__inside-title">What&apos;s inside</h2>
                   <ul className="offer__inside-list">
-                    {cityOffer.goods.map((good) => (
+                    {currentOffer.goods.map((good) => (
                       <li key={good} className="offer__inside-item">
                         {good}
                       </li>
@@ -176,31 +167,31 @@ function Offer(): JSX.Element {
                   <div className="offer__host-user user">
                     <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
                       <ImageComponent
-                        key={cityOffer.host.avatarUrl}
-                        image={cityOffer.host.avatarUrl}
+                        key={currentOffer.host.avatarUrl}
+                        image={currentOffer.host.avatarUrl}
                         classProp={'offer__avatar user__avatar'}
                         widthProp={'74'}
                         heightProp={'74'}
                       />
                     </div>
                     <span className="offer__user-name">
-                      {cityOffer.host.name}
+                      {currentOffer.host.name}
                     </span>
-                    {cityOffer.host !== undefined &&
-                    cityOffer.host.isPro !== undefined ? (
+                    {currentOffer.host !== undefined &&
+                    currentOffer.host.isPro !== undefined ? (
                       <span className="offer__user-status">Pro</span>
                     ) : null}
                   </div>
                   <div className="offer__description">
-                    <p className="offer__text">{cityOffer.description}</p>
+                    <p className="offer__text">{currentOffer.description}</p>
                   </div>
                 </div>
                 <section className="offer__reviews reviews">
-                  <CommentsAmount
-                    cityOfferComments={cityOfferComments}
-                    newCommentsLength={newCommentsLength}
-                  />
-                  <CommentsList commentsList={cityOfferComments} />
+                  <h2 className="reviews__title">
+                    Reviews &middot;{' '}
+                    <span className="reviews__amount">{comments.length}</span>
+                  </h2>
+                  <CommentsList commentsList={comments} />
                   {AuthorizationStatus.Auth === isAuth ? (
                     <SendingCommentsForm />
                   ) : (
@@ -219,7 +210,7 @@ function Offer(): JSX.Element {
               </div>
             </div>
             <section className="offer__map map">
-              <Map hotelsPins={offersNearByArrPins} activePin={cityOffer.id} />
+              <Map hotelsPins={nearByList} activePin={currentOffer.id} />
             </section>
           </section>
           <div className="container">
@@ -233,7 +224,10 @@ function Offer(): JSX.Element {
                   window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
                 }}
               >
-                <CardList offersList={offersNearByArr} isNeedHover={false} />
+                <CardList
+                  offersList={nearByList.slice(0, 3)}
+                  isNeedHover={false}
+                />
               </div>
             </section>
           </div>

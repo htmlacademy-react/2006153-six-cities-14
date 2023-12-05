@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
   AuthorizationStatus,
   UserData,
@@ -12,18 +12,18 @@ import {
 } from '../../../api-actions/api-actions';
 import { useEffect } from 'react';
 import { store } from '../../store';
+import './header.css';
 
 function Header(): JSX.Element {
   const isAuth = useAppSelector((state: State) => state.AuthorizationStatus);
   const favoritesList = useAppSelector((state: State) => state.favoritesOffers);
+  const offersList = useAppSelector((state: State) => state.apiOffersList);
+  const userData = useAppSelector((state: State) => state.userData);
+  const pathName = useLocation().pathname;
   const dispatch = useAppDispatch();
   useEffect(() => {
     store.dispatch(fetchFavoritesOffers());
-  }, []);
-  let userData: string | UserData = '';
-  if (AuthorizationStatus.Auth === isAuth) {
-    userData = JSON.parse(localStorage.getItem('userData'));
-  }
+  }, [offersList]);
 
   function signOut() {
     dispatch(LogoutAction({}));
@@ -49,7 +49,9 @@ function Header(): JSX.Element {
           </div>
           <nav className="header__nav">
             {isAuth === AuthorizationStatus.NoAuth ? (
-              <Link to={'/login'}>SignIn</Link>
+              pathName !== '/login' ? (
+                <Link to={'/login'}>SignIn</Link>
+              ) : null
             ) : (
               <ul className="header__nav-list">
                 <Link
@@ -60,22 +62,18 @@ function Header(): JSX.Element {
                   }
                   onClick={() => {
                     if (AuthorizationStatus.Auth === isAuth) {
-                      dispatch(fetchFavoritesOffers()); // TODO хочет чтобы передал параметр , какой ?
+                      dispatch(fetchFavoritesOffers());
                     }
                   }}
                   className="header__nav-item user"
                 >
                   <div className="header__nav-link header__nav-link--profile">
                     <div className="header__avatar-wrapper user__avatar-wrapper">
-                      <img
-                        src={
-                          typeof userData !== 'string' ? userData.avatarUrl : ''
-                        }
-                      ></img>
+                      <img src={userData?.avatarUrl}></img>
                     </div>
 
                     <span className="header__user-name user__name">
-                      {typeof userData !== 'string' ? userData.emailUser : ''}
+                      {userData?.email}
                     </span>
                     <span className="header__favorite-count">
                       {favoritesList.length}

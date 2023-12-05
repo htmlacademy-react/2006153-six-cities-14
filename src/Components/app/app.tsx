@@ -18,7 +18,6 @@ export type AppProps = {
 };
 
 function App(): JSX.Element {
-  const isAuth = useAppSelector((state) => state.AuthorizationStatus);
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -29,16 +28,7 @@ function App(): JSX.Element {
             path="/favorites"
             element={<PrivateRoute childrenProps={<Favorites />} />}
           />
-          <Route
-            path="/offer/:id"
-            element={
-              isAuth === AuthorizationStatus.Auth ? (
-                <Offer />
-              ) : (
-                <OffersNotLogged />
-              )
-            }
-          />
+          <Route path="/offer/:id" element={<Offer />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

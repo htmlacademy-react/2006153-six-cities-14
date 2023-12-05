@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { StatusCodes } from 'http-status-codes';
 import { getToken } from '../token/token';
 import { DetailMessageType } from '../const/const';
+import { AxiosResponse } from 'axios';
 
 const StatusCodeMapping: Record<number, boolean> = {
   [StatusCodes.BAD_REQUEST]: true,

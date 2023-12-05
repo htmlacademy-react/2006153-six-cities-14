@@ -5,9 +5,6 @@ import {
   Comments,
   Offers,
   OfferDetails,
-  cardStatus,
-  CommentsUser,
-  sendCommentData,
 } from '../src/const/const';
 import {
   loadOffers,
@@ -15,7 +12,7 @@ import {
   setIsQuesLoaded,
   loadCurrentOffer,
   loadNearByCurrentOffer,
-  loadOfferComments,
+  loadComments,
   sendCommentActionDispatcher,
   getUserData,
   getFavoritesOffers,
@@ -36,7 +33,7 @@ export const fetchOffersAction = createAsyncThunk<
 >('data/fetchOffers', async (_arg, { dispatch, extra: api }) => {
   dispatch(setIsQuesLoaded(false));
 
-  const { data } = await api.get<Offers>(APIRoutes.Offers);
+  const { data } = await api.get<Offers[]>(APIRoutes.Offers);
 
   dispatch(setIsQuesLoaded(true));
 
@@ -84,10 +81,10 @@ export const fetchOfferCommentsAction = createAsyncThunk<
 >(
   'data/fetchOfferCommentsAction',
   async (offerID, { dispatch, extra: api }) => {
-    const { data } = await api.get<Comments[] | string>(
+    const { data } = await api.get<Comments[]>(
       `${APIRoutes.Comments}/${offerID}`
     );
-    dispatch(loadOfferComments(data));
+    dispatch(loadComments(data));
   }
 );
 
@@ -101,8 +98,9 @@ export const checkAuth = createAsyncThunk<
   }
 >('data/checkAuth', async (_arg, { dispatch, extra: api }) => {
   try {
-    await api.get(APIRoutes.Login);
+    const { data } = await api.get(APIRoutes.Login);
     dispatch(requireAuth(AuthorizationStatus.Auth));
+    dispatch(getUserData(data));
   } catch {
     dispatch(requireAuth(AuthorizationStatus.NoAuth));
   }
@@ -119,13 +117,13 @@ export const LoginAction = createAsyncThunk<
 >(
   'user/login',
   async ({ login: email, password }, { dispatch, extra: api }) => {
-    const {
-      data: { token, email: emailUser, avatarUrl },
-    } = await api.post<UserData>(APIRoutes.Login, { email, password });
-    saveToken(token);
+    const { data } = await api.post<UserData>(APIRoutes.Login, {
+      email,
+      password,
+    });
+    saveToken(data.token);
     dispatch(requireAuth(AuthorizationStatus.Auth));
-    dispatch(getUserData({ emailUser, avatarUrl }));
-    localStorage.setItem('userData', JSON.stringify({ emailUser, avatarUrl }));
+    dispatch(getUserData(data));
   }
 );
 export const sendCommentAction = createAsyncThunk<
@@ -134,8 +132,8 @@ export const sendCommentAction = createAsyncThunk<
     offerID: string;
     userComment: string;
     rating: number;
-    userRating?: number;
-    setIsSubmitting: boolean;
+
+    setIsSubmitting: (isSumbitting: boolean) => void;
   },
   {
     dispatch: AppDispatch;
@@ -149,22 +147,15 @@ export const sendCommentAction = createAsyncThunk<
     { dispatch, extra: api }
   ) => {
     try {
-      const {
-        data: { comment: userMessage, rating: userRating, date, id, user },
-      } = await api.post<sendCommentData>(`${APIRoutes.Comments}/${offerID}`, {
-        comment,
-        rating,
-      });
-
-      dispatch(
-        sendCommentActionDispatcher({
-          userMessage,
-          userRating,
-          date,
-          id,
-          user,
-        })
+      const { data } = await api.post<Comments[]>(
+        `${APIRoutes.Comments}/${offerID}`,
+        {
+          comment,
+          rating,
+        }
       );
+
+      dispatch(sendCommentActionDispatcher(data));
     } catch (error) {
       console.log('Wrong Validation');
     } finally {
@@ -195,7 +186,7 @@ export const fetchFavoritesOffers = createAsyncThunk<
     extra: AxiosInstance;
   }
 >('user/fetchFavorites', async (_arg, { dispatch, extra: api }) => {
-  const { data } = await api.get<Offers>(APIRoutes.Favorite);
+  const { data } = await api.get<Offers[]>(APIRoutes.Favorite);
   dispatch(getFavoritesOffers(data));
 });
 
@@ -210,11 +201,9 @@ export const changeOfferStatus = createAsyncThunk<
 >(
   'user/changeStatus',
   async ({ offerID, favoritesStatus }, { dispatch, extra: api }) => {
-    const {
-      data: {},
-    } = await api.post<cardStatus>(
+    const { data } = await api.post<Offers>(
       `${APIRoutes.Favorite}/${offerID}/${Number(!favoritesStatus)}`
     );
-    dispatch(changeStatus({ offerID, favoritesStatus }));
+    dispatch(changeStatus(data));
   }
 );
