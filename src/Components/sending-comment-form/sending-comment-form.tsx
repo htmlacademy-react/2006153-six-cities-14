@@ -41,7 +41,7 @@ function SendingCommentsForm() {
 
   useEffect(() => {
     getValidate();
-  }, [formData.comment, formData.rating]);
+  }, [formData.comment, formData.rating, getValidate]);
 
   function onFieldChange(
     evt: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

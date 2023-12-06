@@ -147,9 +147,12 @@ function Card({ card, isNeedHover, url, imageWidth, imageHeight }: cardProps) {
         <h2 className="place-card__name">
           <p>{card.title}</p>
         </h2>
-        <p className="place-card__type">{`${card.type
-          .slice(0, 1)
-          .toUpperCase()}${card.type.slice(1, card.type.length)}`}</p>
+        <p className="place-card__type">
+          {`${card.type.slice(0, 1).toUpperCase()}${card.type.slice(
+            1,
+            card.type.length
+          )}`}
+        </p>
       </div>
     </div>
   );
