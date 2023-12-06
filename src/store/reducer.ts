@@ -32,7 +32,7 @@ const initialState: initialStateInt = {
   AuthorizationStatus: AuthorizationStatus.Unknown,
   NearByOffers: [],
   comments: [],
-  currentOffer: {},
+  currentOffer: undefined,
   sendedComment: [],
   userData: {
     id: '',
@@ -54,7 +54,7 @@ interface initialStateInt {
   AuthorizationStatus: AuthorizationStatus;
   comments: Comments[];
   NearByOffers: Offers[];
-  currentOffer: OfferDetails;
+  currentOffer: OfferDetails | undefined;
   sendedComment: Comments[];
   userData: UserData;
   favoritesOffers: Offers[];
