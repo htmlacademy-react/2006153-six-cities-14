@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosError } from 'axios';
+import axios, { AxiosInstance, AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 import { StatusCodes } from 'http-status-codes';
 import { getToken } from '../token/token';
