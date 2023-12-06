@@ -8,7 +8,10 @@ function CityLink({ location }: CityLinkProps) {
   const dispatch = useAppDispatch();
 
   const getCityName = (evt: React.MouseEvent<HTMLLIElement>): string => {
-    const cityName = evt.target.textContent;
+    const cityName = (evt.target as HTMLLIElement).textContent;
+    if (cityName === null) {
+      return '';
+    }
     return cityName;
   };
   return (

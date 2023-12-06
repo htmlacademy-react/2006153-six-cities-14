@@ -46,7 +46,7 @@ const initialState: initialStateInt = {
 };
 
 interface initialStateInt {
-  city: string | null;
+  city: string;
   sortType: string;
   apiOffersList: Offers[];
   currentCard: Offers | number;
