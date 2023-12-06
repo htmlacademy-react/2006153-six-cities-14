@@ -48,7 +48,7 @@ function Offer(): JSX.Element {
   let currentCard: Offers | undefined;
   if (offersList !== undefined) {
     currentCard = offersList.find((offer) => {
-      if (offer.id === currentOffer.id) {
+      if (offer.id === currentOffer?.id) {
         return offer;
       }
     });
@@ -67,14 +67,14 @@ function Offer(): JSX.Element {
     <div className="page">
       <Header />
       {(loading === false && currentOffer !== undefined) ||
-      currentOffer.id === undefined ? (
+      currentOffer?.id === undefined ? (
         <Spinner />
       ) : (
         <main className="page__main page__main--offer">
           <section className="offer">
             <div className="offer__gallery-container container">
               <div className="offer__gallery">
-                {currentOffer.images.map((image) => {
+                {currentOffer?.images.map((image) => {
                   return (
                     <div key={image} className="offer__image-wrapper">
                       <ImageComponent
