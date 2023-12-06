@@ -7,7 +7,7 @@ import {
   UserData,
 } from '../const/const';
 
-export const changeCity = createAction<string | null>('main/changeCity');
+export const changeCity = createAction<string>('main/changeCity');
 export const setSortType = createAction<string>('typeOfSort/setSortType');
 export const loadOffers = createAction<Offers[]>('data/loadOffers');
 export const setCurrentCard = createAction<Offers | number>(
