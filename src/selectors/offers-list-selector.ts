@@ -1,5 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { State } from '../../const/const';
+import { State } from '../const/const';
 
 const getOffersList = (state: State) => state.apiOffersList;
 const getSelectedCity = (state: State) => state.city;

@@ -1,6 +1,7 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { store } from '../store';
-interface Location {
+
+export interface Location {
   city: string;
   id: number;
 }
@@ -14,12 +15,30 @@ export interface Offers {
   title: string;
   type: string;
   price: number;
-  previewImage: string;
+  previewImage?: string;
   city: CityLocation;
   location: HotelsPoints;
   isFavorite: boolean;
   isPremium: boolean;
   rating: number;
+}
+export interface OfferDetails {
+  bedrooms: number;
+  city: Hotels;
+  description: string;
+  goods: string[];
+  host: CommentsUser;
+  id: string;
+  images: string[];
+
+  isFavorite: boolean;
+  isPremium: boolean;
+  location: HotelsPoints;
+  maxAdults: number;
+  price: number;
+  rating: number;
+  title: string;
+  type: string;
 }
 export interface OffersLocation {
   location: HotelsPoints;
@@ -81,9 +100,21 @@ export const isAuthorized = true;
 export const urlForPins: string[] = ['/img/pin.svg', '/img/pin-active.svg'];
 
 export interface Comments {
-  userName: string;
+  comment: string;
+  date: string;
+  id: string;
   rating: number;
-  message: string;
+  user: CommentsUser;
+  userName?: string;
+  userRating?: string;
+  userMessage?: string;
+}
+export interface CommentsUser {
+  name: string;
+  avatarUrl: string;
+  isPro: boolean;
+}
+export interface offerID {
   id: string;
 }
 export const startCity = 'Paris';
@@ -121,4 +152,55 @@ interface SortListsItems {
 export enum APIRoutes {
   Offers = '/offers',
   Title = '/title',
+  Login = '/login',
+  Comments = '/comments',
+  Favorite = '/favorite',
+}
+
+export enum AuthorizationStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
+}
+export type AuthData = {
+  login: string;
+  password: string;
+  email?: string;
+  avatarUrl?: string;
+};
+export type UserID = {
+  id: string;
+};
+export type UserData = {
+  id: string;
+  email: string;
+  token: string;
+  avatarUrl?: string;
+  emailUser?: string;
+  isPro: boolean;
+};
+export type DetailMessageType = {
+  type: string;
+  message: string;
+};
+export type userDataType = {
+  email: string;
+  avatarUrl: string;
+};
+export interface NearByOffersInterface {}
+
+export interface cardStatus {
+  offerID: string;
+  favoritesStatus: number;
+}
+export interface sendCommentData {
+  comment: string;
+  rating: string;
+  date: string;
+  id: string;
+  user: UserData;
+}
+export interface addToFavorite {
+  offerID: String;
+  favoritesStatus: number;
 }
