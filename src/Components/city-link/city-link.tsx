@@ -7,7 +7,7 @@ interface CityLinkProps {
 function CityLink({ location }: CityLinkProps) {
   const dispatch = useAppDispatch();
 
-  const getCityName = (evt: React.ChangeEvent<HTMLLIElement>) => {
+  const getCityName = (evt: React.MouseEvent<HTMLLIElement>): string => {
     const cityName = evt.target.textContent;
     return cityName;
   };

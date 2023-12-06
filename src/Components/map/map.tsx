@@ -1,4 +1,4 @@
-import { OfferDetails, Offers, useAppSelector } from '../../const/const';
+import { Offers, useAppSelector } from '../../const/const';
 import { useRef, useEffect } from 'react';
 import useMap from '../../Hooks/useMap/use-map';
 import { urlForPins } from '../../const/const';
@@ -8,7 +8,8 @@ import 'leaflet/dist/leaflet.css';
 
 interface MapProps {
   hotelsPins: Offers[] | number;
-  activePin: string;
+  activePin?: string;
+  isNeedHover?: boolean;
 }
 function Map({ hotelsPins, activePin }: MapProps) {
   const currentCard = useAppSelector((state) => state.currentCard);
@@ -65,6 +66,7 @@ function Map({ hotelsPins, activePin }: MapProps) {
     defaultCustomIcon,
     currentCustomIcon,
     isSelectedPointDefined,
+    activePin,
   ]);
   return <div ref={mapRef} style={{ height: '100%' }}></div>;
 }

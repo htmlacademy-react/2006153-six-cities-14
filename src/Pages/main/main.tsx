@@ -1,6 +1,5 @@
 import CardList from '../../Components/card-list/card-list';
 import Header from '../../Components/header/header';
-import LocationLink from '../../Components/cities-list/cities-list';
 import Spinner from '../../Components/spinner/spinner';
 import Map from '../../Components/map/map';
 import TypesOfSort from '../../Components/types-of-sort/types-of-sort';
