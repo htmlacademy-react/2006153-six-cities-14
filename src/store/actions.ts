@@ -19,7 +19,7 @@ export const requireAuth = createAction<AuthorizationStatus>('app/requireAuth');
 export const loadCurrentOffer = createAction<OfferDetails>(
   'offer/loadCurrentOffer'
 );
-export const loadNearByCurrentOffer = createAction<Offers[] | OfferDetails>(
+export const loadNearByCurrentOffer = createAction<Offers[]>(
   'offer/loadNearByCurrentOffer'
 );
 export const loadComments = createAction<Comments[]>('offer/loadOfferComments');

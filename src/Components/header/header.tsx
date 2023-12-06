@@ -8,7 +8,7 @@ import { State } from '../../const/const';
 import {
   LogoutAction,
   fetchFavoritesOffers,
-} from '../../../api-actions/api-actions';
+} from '../../api-actions/api-actions';
 import { useEffect } from 'react';
 import { store } from '../../store';
 import './header.css';

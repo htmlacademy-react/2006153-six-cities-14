@@ -2,7 +2,7 @@ import Header from '../../Components/header/header';
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { State, useAppDispatch, useAppSelector } from '../../const/const';
-import { LoginAction } from '../../../api-actions/api-actions';
+import { LoginAction } from '../../api-actions/api-actions';
 
 function Login(): JSX.Element {
   const currentCity = useAppSelector((state: State) => state.city);

@@ -5,7 +5,7 @@ import {
   Comments,
   Offers,
   OfferDetails,
-} from '../src/const/const';
+} from '../const/const';
 import {
   loadOffers,
   requireAuth,
@@ -17,10 +17,10 @@ import {
   getUserData,
   getFavoritesOffers,
   changeStatus,
-} from '../src/store/actions';
-import { State, AppDispatch, AuthData, UserData } from '../src/const/const';
+} from '../store/actions';
+import { State, AppDispatch, AuthData, UserData } from '../const/const';
 import { AxiosInstance } from 'axios';
-import { dropToken, saveToken } from '../src/token/token';
+import { dropToken, saveToken } from '../token/token';
 
 export const fetchOffersAction = createAsyncThunk<
   void,
@@ -65,7 +65,7 @@ export const fetchNearByCurrentOfferAction = createAsyncThunk<
 >(
   'data/fetchNearByCurrentOfferAction',
   async (offerID, { dispatch, extra: api }) => {
-    const { data } = await api.get<Offers[] | OfferDetails>(
+    const { data } = await api.get<Offers[]>(
       `${APIRoutes.Offers}/${offerID}/nearby`
     );
     dispatch(loadNearByCurrentOffer(data));

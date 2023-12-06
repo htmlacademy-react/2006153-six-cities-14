@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { sendCommentAction } from '../../../api-actions/api-actions';
+import { sendCommentAction } from '../../api-actions/api-actions';
 import './sending-comment-form.css';
 import { store } from '../../store';
 import Spinner from '../spinner/spinner';

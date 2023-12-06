@@ -87,22 +87,13 @@ export const reducer = createReducer(initialState, (builder) => {
       if (!state.currentOffer) {
         return;
       }
-      const currentOfferInfo: Offers[] | OfferDetails = {
-        id: state.currentOffer?.id,
-        bedrooms: state.currentOffer?.bedrooms,
-        city: state.currentOffer?.city,
-        description: state.currentOffer?.description,
-        goods: state.currentOffer?.goods,
-        host: state.currentOffer?.host,
-        images: state.currentOffer?.images,
-        isFavorite: state.currentOffer?.isFavorite,
-        isPremium: state.currentOffer?.isPremium,
-        location: state.currentOffer?.location,
-        maxAdults: state.currentOffer?.maxAdults,
-        price: state.currentOffer?.price,
-        rating: state.currentOffer?.rating,
-        title: state.currentOffer?.title,
-        type: state.currentOffer?.type,
+      const currentOfferInfo: Offers = {
+        ...state.currentOffer,
+        city: {
+          ...state.currentOffer.city,
+          name: state.currentOffer.city.city,
+          location: state.currentOffer.location,
+        },
       };
 
       state.NearByOffers = [...action.payload.slice(0, 3), currentOfferInfo];

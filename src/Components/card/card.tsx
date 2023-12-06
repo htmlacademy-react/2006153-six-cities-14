@@ -9,7 +9,7 @@ import {
 import { setCurrentCard } from '../../store/actions';
 import ImageComponent from '../image-component/image-component';
 import { store } from '../../store';
-import { changeOfferStatus } from '../../../api-actions/api-actions';
+import { changeOfferStatus } from '../../api-actions/api-actions';
 
 type cardProps = {
   card: Offers;

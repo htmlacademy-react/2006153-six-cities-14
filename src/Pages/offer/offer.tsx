@@ -16,7 +16,7 @@ import {
   fetchNearByCurrentOfferAction,
   fetchOfferCommentsAction,
   changeOfferStatus,
-} from '../../../api-actions/api-actions';
+} from '../../api-actions/api-actions';
 import Header from '../../Components/header/header';
 import ImageComponent from '../../Components/image-component/image-component';
 import './offer.css';
