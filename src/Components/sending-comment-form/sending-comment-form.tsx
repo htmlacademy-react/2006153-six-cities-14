@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { sendCommentAction } from '../../api-actions/api-actions';
 import './sending-comment-form.css';
@@ -26,7 +26,7 @@ function SendingCommentsForm() {
     });
   }
 
-  function getValidate() {
+  const getValidate = useCallback(() => {
     if (
       formData.rating !== '' &&
       formData.comment !== undefined &&
@@ -37,7 +37,11 @@ function SendingCommentsForm() {
     } else {
       setNotIsActive(true);
     }
-  }
+  }, [formData.comment, formData.rating]);
+
+  useEffect(() => {
+    getValidate();
+  }, [formData.comment, formData.rating]);
 
   function onFieldChange(
     evt: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

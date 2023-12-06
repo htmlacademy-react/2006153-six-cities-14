@@ -38,22 +38,47 @@ function Card({ card, isNeedHover, url, imageWidth, imageHeight }: cardProps) {
       dispatch(setCurrentCard(0));
     }
   };
+  function checkForClass() {
+    let classForCard = '';
+    if (url === '/favorites') {
+      classForCard = 'favorites__card';
+    }
+    if (url !== '/favorites') {
+      classForCard = 'cities__card';
+    }
+    /* {
+      evt.target.classList.add('favorites__card place__card');
+      if (card) {
+        evt.target.classList.add('favorites__card place__card active');
+      } else {
+        evt.target.classList.remove('active');
+      }
+    }
+    if (url !== '/favorites') {
+      if (card) {
+        evt.target.classList.add('cities__card place-card active');
+      } else {
+        evt.target.classList.remove('active');
+      }
+    } */
+    return classForCard;
+  }
 
   return (
     <div
-      /* to={`/offer/:${card.id}`} */
       className={
-        url === '/favorites'
-          ? card
-            ? 'favorites__card place__card active'
-            : 'favorites__card place__card '
-          : card
+        card
+          ? `${checkForClass()} place__card active`
+          : `${checkForClass()} place__card `
+        /* : card
           ? 'cities__card place-card active'
-          : 'cities__card place-card'
+          : 'cities__card place-card' */
       }
       onMouseEnter={handleHover}
       onMouseLeave={handleLeave}
-      onClick={handleHover}
+      onClick={() => {
+        handleHover();
+      }}
     >
       {card.isPremium ? (
         <div className="place-card__mark">
@@ -65,7 +90,7 @@ function Card({ card, isNeedHover, url, imageWidth, imageHeight }: cardProps) {
           url === '/favorites'
             ? 'favorites__image-wrapper place-card__image-wrapper'
             : 'cities__image-wrapper place-card__image-wrapper '
-        } /* favorites__image-wrapper */
+        }
       >
         <Link to={`/offer/${card.id}`}>
           <ImageComponent
@@ -79,7 +104,7 @@ function Card({ card, isNeedHover, url, imageWidth, imageHeight }: cardProps) {
       <div
         className={
           url === '/favorites' ? 'favorites__card-info' : 'place-card__info'
-        } /* favorites__card-info */
+        }
       >
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
@@ -122,7 +147,9 @@ function Card({ card, isNeedHover, url, imageWidth, imageHeight }: cardProps) {
         <h2 className="place-card__name">
           <p>{card.title}</p>
         </h2>
-        <p className="place-card__type">{card.type}</p>
+        <p className="place-card__type">{`${card.type
+          .slice(0, 1)
+          .toUpperCase()}${card.type.slice(1, card.type.length)}`}</p>
       </div>
     </div>
   );
