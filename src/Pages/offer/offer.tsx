@@ -45,7 +45,7 @@ function Offer(): JSX.Element {
     }
   }, [params]);
 
-  let currentCard: Offers | number = 0;
+  let currentCard: Offers | undefined;
   if (offersList !== undefined) {
     currentCard = offersList.find((offer) => {
       if (offer.id === currentOffer.id) {
@@ -67,7 +67,7 @@ function Offer(): JSX.Element {
     <div className="page">
       <Header />
       {(loading === false && currentOffer !== undefined) ||
-      typeof currentOffer !== 'object' ? (
+      currentOffer.id === undefined ? (
         <Spinner />
       ) : (
         <main className="page__main page__main--offer">
@@ -97,19 +97,25 @@ function Offer(): JSX.Element {
                 <div className="offer__name-wrapper">
                   <h1 className="offer__name">{currentOffer.title}</h1>
                   <button
-                    onClick={(evt) => {
+                    onClick={() => {
                       isAuth === AuthorizationStatus.Auth
                         ? store.dispatch(
                             changeOfferStatus({
-                              offerID: currentCard.id,
-                              favoritesStatus: currentCard.isFavorite,
+                              offerID:
+                                currentCard !== undefined ? currentCard.id : '',
+                              favoritesStatus:
+                                currentCard !== undefined
+                                  ? currentCard.isFavorite
+                                  : 0,
                             })
                           )
                         : navigate('/login');
                     }}
                     className={
-                      currentCard.isFavorite === true
-                        ? 'offer__bookmark-button active-button button'
+                      currentCard !== undefined
+                        ? currentCard.isFavorite === true
+                          ? 'offer__bookmark-button active-button button'
+                          : 'offer__bookmark-button  button'
                         : 'offer__bookmark-button  button'
                     }
                     type="button"

@@ -171,7 +171,7 @@ export type UserID = {
   id: string;
 };
 export type UserData = {
-  id: number;
+  id: string;
   email: string;
   token: string;
   avatarUrl?: string;

@@ -9,11 +9,7 @@ import {
 import { setCurrentCard } from '../../store/actions';
 import ImageComponent from '../image-component/image-component';
 import { store } from '../../store';
-import {
-  changeOfferStatus,
-  fetchFavoritesOffers,
-  fetchOffersAction,
-} from '../../../api-actions/api-actions';
+import { changeOfferStatus } from '../../../api-actions/api-actions';
 
 type cardProps = {
   card: Offers;
@@ -26,15 +22,7 @@ type cardProps = {
 function Card({ card, isNeedHover, url, imageWidth, imageHeight }: cardProps) {
   const dispatch = useAppDispatch();
   const isAuth = useAppSelector((state: State) => state.AuthorizationStatus);
-  /*  function checkCard() {
-    if (favoritesList.length !== 0) {
-      favoritesList.map((favorite) => {
-        if (favorite === card) {
-          return favorite.isFavorite;
-        }
-      });
-    }
-  } */
+
   function getRating() {
     const maxRating = 5;
     const rating = Math.round((card.rating / maxRating) * 100);

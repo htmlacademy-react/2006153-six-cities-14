@@ -18,12 +18,14 @@ function SendingCommentsForm() {
     comment: '',
     rating: '',
   });
+
   function clearFields() {
     setFormData({
       comment: '',
       rating: '',
     });
   }
+
   function getValidate() {
     if (
       formData.rating !== '' &&
@@ -36,14 +38,28 @@ function SendingCommentsForm() {
       setNotIsActive(true);
     }
   }
+
   function onFieldChange(
     evt: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
-    const { name, value }: FormData = evt.target;
-
-    setFormData({ ...formData, [name]: value });
     getValidate();
+    const name = evt.target.name;
+    const value = evt.target.value;
+    setFormData({ ...formData, [name]: value });
   }
+
+  function getUserInputValidation() {
+    if (
+      formData.comment !== undefined &&
+      formData.comment.length >= 50 &&
+      formData.comment.length < 300
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   const params = useParams();
   const lablesTitle = [
     'terrebly',
@@ -58,17 +74,13 @@ function SendingCommentsForm() {
     store.dispatch(
       sendCommentAction({
         setIsSubmitting,
-        offerID: params.id,
+        offerID: params.id !== undefined ? params.id : '',
         userComment:
-          formData.comment !== undefined &&
-          formData.comment.length >= 50 &&
-          formData.comment.length < 300
+          getUserInputValidation() && formData.comment !== undefined
             ? formData.comment
-            : null,
+            : '',
         rating:
-          Number(formData.rating) !== undefined
-            ? Number(formData.rating)
-            : null,
+          Number(formData.rating) !== undefined ? Number(formData.rating) : 0,
       })
     );
   }
@@ -98,7 +110,8 @@ function SendingCommentsForm() {
               return (
                 <div key={value}>
                   <input
-                    onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
+                    onInput={(evt: React.ChangeEvent<HTMLInputElement>) => {
+                      getValidate();
                       onFieldChange(evt);
                     }}
                     className={

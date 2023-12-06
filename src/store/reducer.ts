@@ -32,11 +32,17 @@ const initialState: initialStateInt = {
   AuthorizationStatus: AuthorizationStatus.Unknown,
   NearByOffers: [],
   comments: [],
-  currentOffer: {} | 0,
+  currentOffer: {},
   sendedComment: [],
-  userData: {},
+  userData: {
+    id: '',
+    email: '',
+    token: '',
+    avatarUrl: '',
+    emailUser: '',
+    isPro: false,
+  },
   favoritesOffers: [],
-  isFavorite: [],
 };
 
 interface initialStateInt {
@@ -48,11 +54,10 @@ interface initialStateInt {
   AuthorizationStatus: AuthorizationStatus;
   comments: Comments[];
   NearByOffers: Offers[];
-  currentOffer: OfferDetails | number;
+  currentOffer: OfferDetails;
   sendedComment: Comments[];
   userData: UserData;
   favoritesOffers: Offers[];
-  isFavorite: Offers | object;
 }
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -89,7 +94,6 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(getUserData, (state, action) => {
       state.userData = action.payload;
-      console.log(action.payload);
     })
     .addCase(getFavoritesOffers, (state, action) => {
       state.favoritesOffers = action.payload;

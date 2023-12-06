@@ -1,19 +1,22 @@
 import Header from '../../Components/header/header';
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../const/const';
+import { State, useAppDispatch, useAppSelector } from '../../const/const';
 import { LoginAction } from '../../../api-actions/api-actions';
 
 function Login(): JSX.Element {
+  const currentCity = useAppSelector((state: State) => state.city);
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   function getValidate(passInput: string) {
     if (passwordRef.current !== null) {
       return /^(?=.*[a-zA-Z])(?=.*\d).+$/.test(passInput);
     }
   }
+
   function sendUserData() {
     if (loginRef.current !== null && passwordRef.current !== null) {
       if (getValidate(passwordRef.current.value)) {
@@ -38,7 +41,7 @@ function Login(): JSX.Element {
             <h1 className="login__title">Sign in</h1>
             <form
               onSubmit={(e) => e.preventDefault()}
-              className="login__form form" /* action="#" method="post" */
+              className="login__form form"
             >
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
@@ -73,7 +76,7 @@ function Login(): JSX.Element {
           <section className="locations locations--login locations--current">
             <div className="locations__item">
               <a className="locations__item-link" href="#">
-                <span>Amsterdam</span>
+                <span>{currentCity !== undefined ? currentCity : null}</span>
               </a>
             </div>
           </section>

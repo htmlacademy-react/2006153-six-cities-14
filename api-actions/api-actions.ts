@@ -48,9 +48,10 @@ export const fetchCurrentOfferAction = createAsyncThunk<
     extra: AxiosInstance;
   }
 >('data/loadCurrentOfferAction', async (offerID, { dispatch, extra: api }) => {
-  const { data } = await api.get<OfferDetails | string>(
+  const { data } = await api.get<OfferDetails>(
     `${APIRoutes.Offers}/${offerID}`
   );
+
   dispatch(loadCurrentOffer(data));
 });
 export const fetchNearByCurrentOfferAction = createAsyncThunk<
@@ -64,7 +65,7 @@ export const fetchNearByCurrentOfferAction = createAsyncThunk<
 >(
   'data/fetchNearByCurrentOfferAction',
   async (offerID, { dispatch, extra: api }) => {
-    const { data } = await api.get<Offers[] | string>(
+    const { data } = await api.get<Offers[]>(
       `${APIRoutes.Offers}/${offerID}/nearby`
     );
     dispatch(loadNearByCurrentOffer(data));
@@ -192,7 +193,7 @@ export const fetchFavoritesOffers = createAsyncThunk<
 
 export const changeOfferStatus = createAsyncThunk<
   void,
-  { offerID: string; favoritesStatus: number },
+  { offerID: string; favoritesStatus: boolean | number },
   {
     dispatch: AppDispatch;
     state: State;

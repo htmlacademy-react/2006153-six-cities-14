@@ -5,17 +5,8 @@ import Favorites from '../../Pages/favorites/favorites';
 import Offer from '../../Pages/offer/offer';
 import NotFound from '../../Pages/not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
-import {
-  AuthorizationStatus,
-  OffersList,
-  useAppSelector,
-} from '../../const/const';
-import { HelmetProvider } from 'react-helmet-async';
-import OffersNotLogged from '../../Pages/offers-not-logged/offers-not-logged';
 
-export type AppProps = {
-  offersList: OffersList[];
-};
+import { HelmetProvider } from 'react-helmet-async';
 
 function App(): JSX.Element {
   return (
