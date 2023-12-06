@@ -54,6 +54,20 @@ function Offer(): JSX.Element {
     });
   }
 
+  function changeCardStatus() {
+    if (isAuth === AuthorizationStatus.Auth) {
+      store.dispatch(
+        changeOfferStatus({
+          offerID: currentCard !== undefined ? currentCard?.id : '',
+          favoritesStatus:
+            currentCard !== undefined ? currentCard.isFavorite : 0,
+        })
+      );
+    } else {
+      navigate('/login');
+    }
+  }
+
   function getRating() {
     const maxRating = 5;
     if (typeof currentOffer !== 'object') {
@@ -97,20 +111,7 @@ function Offer(): JSX.Element {
                 <div className="offer__name-wrapper">
                   <h1 className="offer__name">{currentOffer.title}</h1>
                   <button
-                    onClick={() => {
-                      isAuth === AuthorizationStatus.Auth
-                        ? store.dispatch(
-                            changeOfferStatus({
-                              offerID:
-                                currentCard !== undefined ? currentCard.id : '',
-                              favoritesStatus:
-                                currentCard !== undefined
-                                  ? currentCard.isFavorite
-                                  : 0,
-                            })
-                          )
-                        : navigate('/login');
-                    }}
+                    onClick={changeCardStatus}
                     className={
                       currentCard !== undefined
                         ? currentCard.isFavorite === true

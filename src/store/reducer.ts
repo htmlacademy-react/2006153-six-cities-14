@@ -84,7 +84,28 @@ export const reducer = createReducer(initialState, (builder) => {
       state.currentOffer = action.payload;
     })
     .addCase(loadNearByCurrentOffer, (state, action) => {
-      state.NearByOffers = [...action.payload.slice(0, 3), state.currentOffer];
+      if (!state.currentOffer) {
+        return;
+      }
+      const currentOfferInfo: Offers[] | OfferDetails = {
+        id: state.currentOffer?.id,
+        bedrooms: state.currentOffer?.bedrooms,
+        city: state.currentOffer?.city,
+        description: state.currentOffer?.description,
+        goods: state.currentOffer?.goods,
+        host: state.currentOffer?.host,
+        images: state.currentOffer?.images,
+        isFavorite: state.currentOffer?.isFavorite,
+        isPremium: state.currentOffer?.isPremium,
+        location: state.currentOffer?.location,
+        maxAdults: state.currentOffer?.maxAdults,
+        price: state.currentOffer?.price,
+        rating: state.currentOffer?.rating,
+        title: state.currentOffer?.title,
+        type: state.currentOffer?.type,
+      };
+
+      state.NearByOffers = [...action.payload.slice(0, 3), currentOfferInfo];
     })
     .addCase(loadComments, (state, action) => {
       state.comments = action.payload;

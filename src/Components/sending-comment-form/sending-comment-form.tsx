@@ -110,16 +110,15 @@ function SendingCommentsForm() {
               return (
                 <div key={value}>
                   <input
-                    onInput={(evt: React.ChangeEvent<HTMLInputElement>) => {
+                    onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
                       getValidate();
                       onFieldChange(evt);
                     }}
                     className={
-                      formData.rating !== undefined
-                        ? Number(formData.rating) >= value
-                          ? 'htmlForm__rating-input visually-hidden painted-star'
-                          : 'htmlForm__rating-input visually-hidden'
-                        : ''
+                      formData.rating !== undefined &&
+                      Number(formData.rating) >= value
+                        ? 'htmlForm__rating-input visually-hidden painted-star'
+                        : 'htmlForm__rating-input visually-hidden'
                     }
                     name="rating"
                     value={value}

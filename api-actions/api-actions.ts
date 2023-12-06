@@ -65,7 +65,7 @@ export const fetchNearByCurrentOfferAction = createAsyncThunk<
 >(
   'data/fetchNearByCurrentOfferAction',
   async (offerID, { dispatch, extra: api }) => {
-    const { data } = await api.get<Offers[]>(
+    const { data } = await api.get<Offers[] | OfferDetails>(
       `${APIRoutes.Offers}/${offerID}/nearby`
     );
     dispatch(loadNearByCurrentOffer(data));
@@ -148,7 +148,7 @@ export const sendCommentAction = createAsyncThunk<
     { dispatch, extra: api }
   ) => {
     try {
-      const { data } = await api.post<Comments[]>(
+      const { data } = await api.post<Comments>(
         `${APIRoutes.Comments}/${offerID}`,
         {
           comment,

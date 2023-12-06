@@ -19,11 +19,11 @@ export const requireAuth = createAction<AuthorizationStatus>('app/requireAuth');
 export const loadCurrentOffer = createAction<OfferDetails>(
   'offer/loadCurrentOffer'
 );
-export const loadNearByCurrentOffer = createAction<Offers[]>(
+export const loadNearByCurrentOffer = createAction<Offers[] | OfferDetails>(
   'offer/loadNearByCurrentOffer'
 );
 export const loadComments = createAction<Comments[]>('offer/loadOfferComments');
-export const sendCommentActionDispatcher = createAction<Comments[]>(
+export const sendCommentActionDispatcher = createAction<Comments>(
   'form/sendCommentActionDispatcher'
 );
 export const getUserData = createAction<UserData>('login/getUserData');

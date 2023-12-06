@@ -15,7 +15,7 @@ export interface Offers {
   title: string;
   type: string;
   price: number;
-  previewImage: string;
+  previewImage?: string;
   city: CityLocation;
   location: HotelsPoints;
   isFavorite: boolean;
@@ -30,6 +30,7 @@ export interface OfferDetails {
   host: CommentsUser;
   id: string;
   images: string[];
+
   isFavorite: boolean;
   isPremium: boolean;
   location: HotelsPoints;
