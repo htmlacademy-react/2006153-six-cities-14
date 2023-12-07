@@ -47,48 +47,46 @@ function Header(): JSX.Element {
             </Link>
           </div>
           <nav className="header__nav">
-            {isAuth === AuthorizationStatus.NoAuth ? (
-              pathName !== '/login' ? (
-                <Link to={'/login'}>SignIn</Link>
-              ) : null
-            ) : (
-              <ul className="header__nav-list">
-                <Link
-                  to={
-                    AuthorizationStatus.Auth === isAuth
-                      ? '/favorites'
-                      : '/login'
-                  }
-                  onClick={() => {
-                    if (AuthorizationStatus.Auth === isAuth) {
-                      dispatch(fetchFavoritesOffers());
+            {isAuth === AuthorizationStatus.NoAuth && pathName !== '/login' ?
+              <Link to={'/login'}>SignIn</Link>
+              : (
+                <ul className="header__nav-list">
+                  <Link
+                    to={
+                      AuthorizationStatus.Auth === isAuth
+                        ? '/favorites'
+                        : '/login'
                     }
-                  }}
-                  className="header__nav-item user"
-                >
-                  <div className="header__nav-link header__nav-link--profile">
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                      <img src={userData?.avatarUrl}></img>
-                    </div>
-
-                    <span className="header__user-name user__name">
-                      {userData?.email}
-                    </span>
-                    <span className="header__favorite-count">
-                      {favoritesList.length}
-                    </span>
-                  </div>
-                </Link>
-                <li className="header__nav-item">
-                  <button
-                    onClick={signOut}
-                    className="header__nav-link" /* to="/Login" title="/Login" */
+                    onClick={() => {
+                      if (AuthorizationStatus.Auth === isAuth) {
+                        dispatch(fetchFavoritesOffers());
+                      }
+                    }}
+                    className="header__nav-item user"
                   >
-                    <span className="header__signout">Sign out</span>
-                  </button>
-                </li>
-              </ul>
-            )}
+                    <div className="header__nav-link header__nav-link--profile">
+                      <div className="header__avatar-wrapper user__avatar-wrapper">
+                        <img src={userData?.avatarUrl}></img>
+                      </div>
+
+                      <span className="header__user-name user__name">
+                        {userData?.email}
+                      </span>
+                      <span className="header__favorite-count">
+                        {favoritesList.length}
+                      </span>
+                    </div>
+                  </Link>
+                  <li className="header__nav-item">
+                    <button
+                      onClick={signOut}
+                      className="header__nav-link" /* to="/Login" title="/Login" */
+                    >
+                      <span className="header__signout">Sign out</span>
+                    </button>
+                  </li>
+                </ul>
+              )}
           </nav>
         </div>
       </div>

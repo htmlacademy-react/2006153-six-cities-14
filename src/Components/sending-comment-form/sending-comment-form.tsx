@@ -111,41 +111,35 @@ function SendingCommentsForm() {
         </label>
         <div className="reviews__rating-htmlForm htmlForm__rating">
           <div className="stars__wrp">
-            {[1, 2, 3, 4, 5].map((value) => {
-              return (
-                <div key={value}>
-                  <input
-                    onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
-                      getValidate();
-                      onFieldChange(evt);
-                    }}
-                    className={
-                      formData.rating !== undefined &&
-                      Number(formData.rating) >= value
-                        ? 'htmlForm__rating-input visually-hidden painted-star'
-                        : 'htmlForm__rating-input visually-hidden'
-                    }
-                    name="rating"
-                    value={value}
-                    id={`${value}-stars`}
-                    type="radio"
-                  />
-                  <label
-                    htmlFor={`${value}-stars`}
-                    className="reviews__rating-label htmlForm__rating-label"
-                    title={`${lablesTitle[value - 1]}`}
-                  >
-                    <svg
-                      className="htmlForm__star-image"
-                      width="37"
-                      height="33"
-                    >
-                      <use xlinkHref="#icon-star"></use>
-                    </svg>
-                  </label>
-                </div>
-              );
-            })}
+            {[1, 2, 3, 4, 5].map((value) => (
+              <div key={value}>
+                <input
+                  onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
+                    getValidate();
+                    onFieldChange(evt);
+                  }}
+                  className={
+                    formData.rating !== undefined &&
+                    Number(formData.rating) >= value
+                      ? 'htmlForm__rating-input visually-hidden painted-star'
+                      : 'htmlForm__rating-input visually-hidden'
+                  }
+                  name="rating"
+                  value={value}
+                  id={`${value}-stars`}
+                  type="radio"
+                />
+                <label
+                  htmlFor={`${value}-stars`}
+                  className="reviews__rating-label htmlForm__rating-label"
+                  title={`${lablesTitle[value - 1]}`}
+                >
+                  <svg className="htmlForm__star-image" width="37" height="33">
+                    <use xlinkHref="#icon-star"></use>
+                  </svg>
+                </label>
+              </div>
+            ))}
           </div>
         </div>
         <textarea

@@ -17,8 +17,7 @@ function CityLink({ location }: CityLinkProps) {
   return (
     <li
       onClick={(evt: React.MouseEvent<HTMLLIElement>) =>
-        dispatch(changeCity(getCityName(evt)))
-      }
+        dispatch(changeCity(getCityName(evt)))}
       key={location.id}
       className="locations__item"
     >

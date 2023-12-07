@@ -10,8 +10,8 @@ function CommentsList({ commentsList }: CommentsListProps) {
       {[...commentsList]
         .sort(
           (a: Comments, b: Comments) =>
-            new Date(b.date as string).getTime() -
-            new Date(a.date as string).getTime()
+            new Date(b.date).getTime() -
+            new Date(a.date).getTime()
         )
         .slice(0, 10)
         .map((comment) => (

@@ -9,7 +9,6 @@ import 'leaflet/dist/leaflet.css';
 interface MapProps {
   hotelsPins: Offers[] | number;
   activePin?: string;
-  isNeedHover?: boolean;
 }
 function Map({ hotelsPins, activePin }: MapProps) {
   const currentCard = useAppSelector((state) => state.currentCard);

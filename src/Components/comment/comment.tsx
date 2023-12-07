@@ -30,7 +30,8 @@ function Comment({ comment }: commentProps) {
               style={{
                 width: `${getRating()}%`,
               }}
-            ></span>
+            >
+            </span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

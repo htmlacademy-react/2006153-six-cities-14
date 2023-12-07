@@ -99,7 +99,7 @@ export const checkAuth = createAsyncThunk<
   }
 >('data/checkAuth', async (_arg, { dispatch, extra: api }) => {
   try {
-    const { data } = await api.get(APIRoutes.Login);
+    const { data } = await api.get<UserData>(APIRoutes.Login);
     dispatch(requireAuth(AuthorizationStatus.Auth));
     dispatch(getUserData(data));
   } catch {
@@ -129,41 +129,41 @@ export const LoginAction = createAsyncThunk<
 );
 export const sendCommentAction = createAsyncThunk<
   void,
-  {
-    offerID: string;
-    userComment: string;
-    rating: number;
+      {
+        offerID: string;
+        userComment: string;
+        rating: number;
 
-    setIsSubmitting: (isSumbitting: boolean) => void;
-  },
-  {
-    dispatch: AppDispatch;
-    state: State;
-    extra: AxiosInstance;
-  }
->(
-  'user/sendComment',
-  async (
-    { offerID, userComment: comment, rating, setIsSubmitting },
-    { dispatch, extra: api }
-  ) => {
-    try {
-      const { data } = await api.post<Comments>(
-        `${APIRoutes.Comments}/${offerID}`,
-        {
-          comment,
-          rating,
+      setIsSubmitting: (isSumbitting: boolean) => void;
+        },
+            {
+              dispatch: AppDispatch;
+              state: State;
+              extra: AxiosInstance;
+            }
+        >(
+        'user/sendComment',
+        async (
+          { offerID, userComment: comment, rating, setIsSubmitting },
+          { dispatch, extra: api }
+        ) => {
+          try {
+            const { data } = await api.post<Comments>(
+              `${APIRoutes.Comments}/${offerID}`,
+              {
+                comment,
+                rating,
+              }
+            );
+
+            dispatch(sendCommentActionDispatcher(data));
+          } catch (error) {
+            console.log('Wrong Validation');
+          } finally {
+            setIsSubmitting(false);
+          }
         }
-      );
-
-      dispatch(sendCommentActionDispatcher(data));
-    } catch (error) {
-      console.log('Wrong Validation');
-    } finally {
-      setIsSubmitting(false);
-    }
-  }
-);
+        );
 
 export const LogoutAction = createAsyncThunk<
   void,

@@ -25,7 +25,7 @@ function Card({ card, isNeedHover, url, imageWidth, imageHeight }: cardProps) {
   const dispatch = useAppDispatch();
   const isAuth = useAppSelector((state: State) => state.AuthorizationStatus);
   const currentCard = useAppSelector((state: State) => state.currentCard);
-  const NAVIGATE = useNavigate();
+  const navigate = useNavigate();
   function getRating() {
     const rating = Math.round(
       (card.rating / QuantityOfThings.MAX_RATING) * 100
@@ -103,13 +103,13 @@ function Card({ card, isNeedHover, url, imageWidth, imageHeight }: cardProps) {
             onClick={() => {
               {
                 isAuth !== AuthorizationStatus.Auth
-                  ? NAVIGATE('/login')
+                  ? navigate('/login')
                   : store.dispatch(
-                      changeOfferStatus({
-                        offerID: card.id,
-                        favoritesStatus: Number(card.isFavorite),
-                      })
-                    );
+                    changeOfferStatus({
+                      offerID: card.id,
+                      favoritesStatus: Number(card.isFavorite),
+                    })
+                  );
               }
             }}
             className="place-card__bookmark-button button"

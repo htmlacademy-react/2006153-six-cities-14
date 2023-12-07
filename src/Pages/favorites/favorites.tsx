@@ -21,53 +21,48 @@ function Favorites(): JSX.Element {
             <section className="favorites">
               <h1 className="favorites__title">Saved listing</h1>
               <ul className="favorites__list">
-                {locations.map((location) => {
-                  return (
-                    <li
-                      key={location.id}
-                      className="favorites__locations-items"
-                    >
-                      <div className="favorites__locations locations locations--current">
-                        <div className="locations__item" key={location.id}>
-                          {favoritesList.map((favoriteOffer) => {
-                            if (
-                              favoriteOffer.city.name === location.city &&
-                              favoriteOffer !== undefined
-                            ) {
-                              return (
-                                <a
-                                  className="locations__item-link"
-                                  href="#"
-                                  key={location.id}
-                                >
-                                  <span>{location.city}</span>
-                                </a>
-                              );
-                            }
-                          })}
-                        </div>
+                {locations.map((location) => (
+                  <li key={location.id} className="favorites__locations-items">
+                    <div className="favorites__locations locations locations--current">
+                      <div className="locations__item" key={location.id}>
+                        {favoritesList.map((favoriteOffer) => {
+                          if (
+                            favoriteOffer.city.name === location.city &&
+                            favoriteOffer !== undefined
+                          ) {
+                            return (
+                              <a
+                                className="locations__item-link"
+                                href="#"
+                                key={location.id}
+                              >
+                                <span>{location.city}</span>
+                              </a>
+                            );
+                          }
+                        })}
                       </div>
-                      <div className="favorites__places">
-                        {favoritesList !== undefined
-                          ? favoritesList.map((favoriteOffer) => {
-                              if (favoriteOffer.city.name === location.city) {
-                                return (
-                                  <CardList
-                                    key={favoriteOffer.id}
-                                    imageHeight={'110'}
-                                    imageWidth={'150'}
-                                    offersList={[favoriteOffer]}
-                                    isNeedHover={false}
-                                    url={currentUrl}
-                                  />
-                                );
-                              }
-                            })
-                          : null}
-                      </div>
-                    </li>
-                  );
-                })}
+                    </div>
+                    <div className="favorites__places">
+                      {favoritesList !== undefined
+                        ? favoritesList.map((favoriteOffer) => {
+                          if (favoriteOffer.city.name === location.city) {
+                            return (
+                              <CardList
+                                key={favoriteOffer.id}
+                                imageHeight={'110'}
+                                imageWidth={'150'}
+                                offersList={[favoriteOffer]}
+                                isNeedHover={false}
+                                url={currentUrl}
+                              />
+                            );
+                          }
+                        })
+                        : null}
+                    </div>
+                  </li>
+                ))}
               </ul>
             </section>
           </div>

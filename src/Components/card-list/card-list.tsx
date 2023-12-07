@@ -20,15 +20,15 @@ function CardList({
       offersList !== undefined &&
       offersList.length !== 0
         ? offersList.map((card) => (
-            <Card
-              imageHeight={imageHeight}
-              imageWidth={imageWidth}
-              card={card}
-              key={card.id}
-              isNeedHover={isNeedHover}
-              url={url}
-            />
-          ))
+          <Card
+            imageHeight={imageHeight}
+            imageWidth={imageWidth}
+            card={card}
+            key={card.id}
+            isNeedHover={isNeedHover}
+            url={url}
+          />
+        ))
         : null}
     </div>
   );

@@ -111,8 +111,6 @@ export const reducer = createReducer(initialState, (builder) => {
       state.favoritesOffers = action.payload;
     })
     .addCase(changeStatus, (state, action) => {
-      state.apiOffersList = state.apiOffersList.map((offer) => {
-        return offer.id === action.payload.id ? action.payload : offer;
-      });
+      state.apiOffersList = state.apiOffersList.map((offer) => offer.id === action.payload.id ? action.payload : offer);
     });
 });

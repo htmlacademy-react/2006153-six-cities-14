@@ -198,6 +198,6 @@ export interface sendCommentData {
   user: UserData;
 }
 export interface addToFavorite {
-  offerID: String;
+  offerID: string;
   favoritesStatus: number;
 }
