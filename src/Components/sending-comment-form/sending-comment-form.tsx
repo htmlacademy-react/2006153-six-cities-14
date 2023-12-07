@@ -4,6 +4,7 @@ import { sendCommentAction } from '../../api-actions/api-actions';
 import './sending-comment-form.css';
 import { store } from '../../store';
 import Spinner from '../spinner/spinner';
+import QuantityOfThings from '../../const/const';
 interface FormData {
   name?: string;
   value?: string;
@@ -30,8 +31,8 @@ function SendingCommentsForm() {
     if (
       formData.rating !== '' &&
       formData.comment !== undefined &&
-      formData.comment.length > 50 &&
-      formData.comment.length < 300
+      formData.comment.length > QuantityOfThings.MIN_COMMENT_LENGTH &&
+      formData.comment.length < QuantityOfThings.MAX_COMMENT_LENGTH
     ) {
       setNotIsActive(false);
     } else {
@@ -55,8 +56,8 @@ function SendingCommentsForm() {
   function getUserInputValidation() {
     if (
       formData.comment !== undefined &&
-      formData.comment.length >= 50 &&
-      formData.comment.length < 300
+      formData.comment.length >= QuantityOfThings.MIN_COMMENT_LENGTH &&
+      formData.comment.length < QuantityOfThings.MAX_COMMENT_LENGTH
     ) {
       return true;
     } else {

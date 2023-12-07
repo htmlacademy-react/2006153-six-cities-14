@@ -28,10 +28,23 @@ function Favorites(): JSX.Element {
                       className="favorites__locations-items"
                     >
                       <div className="favorites__locations locations locations--current">
-                        <div className="locations__item">
-                          <a className="locations__item-link" href="#">
-                            <span>{location.city}</span>
-                          </a>
+                        <div className="locations__item" key={location.id}>
+                          {favoritesList.map((favoriteOffer) => {
+                            if (
+                              favoriteOffer.city.name === location.city &&
+                              favoriteOffer !== undefined
+                            ) {
+                              return (
+                                <a
+                                  className="locations__item-link"
+                                  href="#"
+                                  key={location.id}
+                                >
+                                  <span>{location.city}</span>
+                                </a>
+                              );
+                            }
+                          })}
                         </div>
                       </div>
                       <div className="favorites__places">
@@ -40,6 +53,7 @@ function Favorites(): JSX.Element {
                               if (favoriteOffer.city.name === location.city) {
                                 return (
                                   <CardList
+                                    key={favoriteOffer.id}
                                     imageHeight={'110'}
                                     imageWidth={'150'}
                                     offersList={[favoriteOffer]}

@@ -1,14 +1,14 @@
 import { Comments } from '../../const/const';
 import ImageComponent from '../image-component/image-component';
-
+import QuantityOfThings from '../../const/const';
 interface commentProps {
   comment: Comments;
 }
 function Comment({ comment }: commentProps) {
   function getRating() {
-    const maxRating = 5;
-
-    const rating = Math.round((comment.rating / maxRating) * 100);
+    const rating = Math.round(
+      (comment.rating / QuantityOfThings.MAX_RATING) * 100
+    );
     return rating;
   }
   return (

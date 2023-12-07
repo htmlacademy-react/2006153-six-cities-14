@@ -5,7 +5,6 @@ import Favorites from '../../Pages/favorites/favorites';
 import Offer from '../../Pages/offer/offer';
 import NotFound from '../../Pages/not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
-
 import { HelmetProvider } from 'react-helmet-async';
 
 function App(): JSX.Element {
@@ -17,7 +16,7 @@ function App(): JSX.Element {
           <Route path="/login" element={<Login />} />
           <Route
             path="/favorites"
-            element={<PrivateRoute childrenProps={<Favorites />} />}
+            element={<PrivateRoute children={<Favorites />} />}
           />
           <Route path="/offer/:id" element={<Offer />} />
           <Route path="*" element={<NotFound />} />

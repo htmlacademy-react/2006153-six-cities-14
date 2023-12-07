@@ -5,11 +5,6 @@ export interface Location {
   city: string;
   id: number;
 }
-export interface OffersList {
-  city: string;
-  offers: Offers[];
-  points: HotelsPoints[];
-}
 export interface Offers {
   id: string;
   title: string;
@@ -30,7 +25,6 @@ export interface OfferDetails {
   host: CommentsUser;
   id: string;
   images: string[];
-
   isFavorite: boolean;
   isPremium: boolean;
   location: HotelsPoints;
@@ -43,7 +37,7 @@ export interface OfferDetails {
 export interface OffersLocation {
   location: HotelsPoints;
 }
-export interface CityLocation {
+interface CityLocation {
   name: string;
   location: HotelsPoints;
 }
@@ -89,11 +83,14 @@ export const locations: Location[] = [
   },
 ];
 
-const Quantity = {
-  cards: 5,
+const QuantityOfThings = {
+  MAX_RATING: 5,
+  REQUEST_TIMEOUT: 5000,
+  MIN_COMMENT_LENGTH: 50,
+  MAX_COMMENT_LENGTH: 300,
 } as const;
 
-export default Quantity;
+export default QuantityOfThings;
 
 export const isAuthorized = true;
 

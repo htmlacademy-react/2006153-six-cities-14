@@ -1,0 +1,7 @@
+.place__card {
+  position: relative;
+  transition: 0.4s;
+}
+.place__card:hover {
+  opacity: 0.4;
+}

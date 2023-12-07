@@ -22,7 +22,7 @@ import ImageComponent from '../../Components/image-component/image-component';
 import './offer.css';
 import Spinner from '../../Components/spinner/spinner';
 import SendingCommentsForm from '../../Components/sending-comment-form/sending-comment-form';
-
+import QuantityOfThings from '../../const/const';
 function Offer(): JSX.Element {
   const isAuth = useAppSelector((state: State) => state.AuthorizationStatus);
   const currentOffer = useAppSelector((state: State) => state.currentOffer);
@@ -69,11 +69,12 @@ function Offer(): JSX.Element {
   }
 
   function getRating() {
-    const maxRating = 5;
     if (typeof currentOffer !== 'object') {
       return 0;
     }
-    const rating = Math.round((currentOffer.rating / maxRating) * 100);
+    const rating = Math.round(
+      (currentOffer.rating / QuantityOfThings.MAX_RATING) * 100
+    );
     return rating;
   }
 

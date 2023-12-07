@@ -2,7 +2,7 @@ import axios, { AxiosInstance, AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 import { StatusCodes } from 'http-status-codes';
 import { getToken } from '../token/token';
-import { DetailMessageType } from '../const/const';
+import QuantityOfThings, { DetailMessageType } from '../const/const';
 import { AxiosResponse } from 'axios';
 
 const StatusCodeMapping: Record<number, boolean> = {
@@ -15,12 +15,11 @@ const shouldDisplayError = (response: AxiosResponse) =>
   !!StatusCodeMapping[response.status];
 
 const BACKEND_URL = 'https://14.design.pages.academy/six-cities';
-const REQUEST_TIMEOUT = 5000;
 
 export const createAPI = (): AxiosInstance => {
   const api = axios.create({
     baseURL: BACKEND_URL,
-    timeout: REQUEST_TIMEOUT,
+    timeout: QuantityOfThings.REQUEST_TIMEOUT,
   });
 
   api.interceptors.request.use((config) => {
