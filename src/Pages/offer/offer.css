@@ -1,0 +1,13 @@
+.offer__noAuth__form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.offer__noAuth__form--text-decoration {
+  color: darkblue;
+  text-decoration: underline;
+}
+.active-button .offer__bookmark-icon {
+  stroke: #4481c3;
+  fill: #4481c3;
+}

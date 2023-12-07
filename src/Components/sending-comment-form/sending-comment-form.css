@@ -1,0 +1,6 @@
+.painted-star + label svg {
+  fill: #ff9000;
+}
+.stars__wrp {
+  display: flex;
+}

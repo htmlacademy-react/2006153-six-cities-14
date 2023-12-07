@@ -7,9 +7,16 @@ interface CommentsListProps {
 function CommentsList({ commentsList }: CommentsListProps) {
   return (
     <ul className="reviews__list">
-      {commentsList.map((comment) => (
-        <Comment key={comment.id} comment={comment} />
-      ))}
+      {[...commentsList]
+        .sort(
+          (a: Comments, b: Comments) =>
+            new Date(b.date as string).getTime() -
+            new Date(a.date as string).getTime()
+        )
+        .slice(0, 10)
+        .map((comment) => (
+          <Comment key={comment.id} comment={comment} />
+        ))}
     </ul>
   );
 }
