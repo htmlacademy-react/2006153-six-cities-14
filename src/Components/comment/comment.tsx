@@ -1,14 +1,14 @@
 import { Comments } from '../../const/const';
 import ImageComponent from '../image-component/image-component';
-
+import QuantityOfThings from '../../const/const';
 interface commentProps {
   comment: Comments;
 }
 function Comment({ comment }: commentProps) {
   function getRating() {
-    const maxRating = 5;
-
-    const rating = Math.round((comment.rating / maxRating) * 100);
+    const rating = Math.round(
+      (comment.rating / QuantityOfThings.MAX_RATING) * 100
+    );
     return rating;
   }
   return (
@@ -30,7 +30,8 @@ function Comment({ comment }: commentProps) {
               style={{
                 width: `${getRating()}%`,
               }}
-            ></span>
+            >
+            </span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
@@ -45,8 +46,8 @@ function Comment({ comment }: commentProps) {
             comment.date
           ).getMonth()}-${new Date(comment.date).getDate()}`}
         >
-          {new Date(comment.date).getFullYear()}{' '}
-          {new Date(comment.date).toLocaleString('default', { month: 'long' })}
+          {new Date(comment.date).toLocaleString('en-US', { month: 'long' })}{' '}
+          {new Date(comment.date).getFullYear()}
         </time>
       </div>
     </li>

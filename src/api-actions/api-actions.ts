@@ -21,6 +21,7 @@ import {
 import { State, AppDispatch, AuthData, UserData } from '../const/const';
 import { AxiosInstance } from 'axios';
 import { dropToken, saveToken } from '../token/token';
+import { toast } from 'react-toastify';
 
 export const fetchOffersAction = createAsyncThunk<
   void,
@@ -41,7 +42,7 @@ export const fetchOffersAction = createAsyncThunk<
 });
 export const fetchCurrentOfferAction = createAsyncThunk<
   void,
-  OfferDetails | string,
+  string,
   {
     dispatch: AppDispatch;
     state: State;
@@ -56,7 +57,7 @@ export const fetchCurrentOfferAction = createAsyncThunk<
 });
 export const fetchNearByCurrentOfferAction = createAsyncThunk<
   void,
-  Offers[] | string,
+  string,
   {
     dispatch: AppDispatch;
     state: State;
@@ -73,7 +74,7 @@ export const fetchNearByCurrentOfferAction = createAsyncThunk<
 );
 export const fetchOfferCommentsAction = createAsyncThunk<
   void,
-  Comments[] | string,
+  string,
   {
     dispatch: AppDispatch;
     state: State;
@@ -99,7 +100,7 @@ export const checkAuth = createAsyncThunk<
   }
 >('data/checkAuth', async (_arg, { dispatch, extra: api }) => {
   try {
-    const { data } = await api.get(APIRoutes.Login);
+    const { data } = await api.get<UserData>(APIRoutes.Login);
     dispatch(requireAuth(AuthorizationStatus.Auth));
     dispatch(getUserData(data));
   } catch {
@@ -129,41 +130,43 @@ export const LoginAction = createAsyncThunk<
 );
 export const sendCommentAction = createAsyncThunk<
   void,
-  {
-    offerID: string;
-    userComment: string;
-    rating: number;
+      {
+        offerID: string;
+        userComment: string;
+        rating: number;
 
-    setIsSubmitting: (isSumbitting: boolean) => void;
-  },
-  {
-    dispatch: AppDispatch;
-    state: State;
-    extra: AxiosInstance;
-  }
->(
-  'user/sendComment',
-  async (
-    { offerID, userComment: comment, rating, setIsSubmitting },
-    { dispatch, extra: api }
-  ) => {
-    try {
-      const { data } = await api.post<Comments>(
-        `${APIRoutes.Comments}/${offerID}`,
-        {
-          comment,
-          rating,
+      setIsSubmitting: (isSumbitting: boolean) => void;
+      setIsInputBlocked: (isInputBlocked: boolean) => void;
+        },
+            {
+              dispatch: AppDispatch;
+              state: State;
+              extra: AxiosInstance;
+            }
+        >(
+        'user/sendComment',
+        async (
+          { offerID, userComment: comment, rating, setIsSubmitting },
+          { dispatch, extra: api }
+        ) => {
+          try {
+            const { data } = await api.post<Comments>(
+              `${APIRoutes.Comments}/${offerID}`,
+              {
+                comment,
+                rating,
+              }
+            );
+
+            dispatch(sendCommentActionDispatcher(data));
+          } catch (error) {
+            toast('Wrong Validation');
+          } finally {
+            setIsSubmitting(false);
+            setIsInputBlocked(false);
+          }
         }
-      );
-
-      dispatch(sendCommentActionDispatcher(data));
-    } catch (error) {
-      console.log('Wrong Validation');
-    } finally {
-      setIsSubmitting(false);
-    }
-  }
-);
+        );
 
 export const LogoutAction = createAsyncThunk<
   void,

@@ -1,7 +1,7 @@
 import { Offers } from '../../const/const';
 import Card from '../card/card';
 interface CardListProps {
-  offersList: Offers[] | number;
+  offersList: Offers[];
   isNeedHover: boolean;
   url?: string;
   imageHeight?: string;
@@ -20,15 +20,15 @@ function CardList({
       offersList !== undefined &&
       offersList.length !== 0
         ? offersList.map((card) => (
-            <Card
-              imageHeight={imageHeight}
-              imageWidth={imageWidth}
-              card={card}
-              key={card.id}
-              isNeedHover={isNeedHover}
-              url={url}
-            />
-          ))
+          <Card
+            imageHeight={imageHeight}
+            imageWidth={imageWidth}
+            card={card}
+            key={card.id}
+            isNeedHover={isNeedHover}
+            url={url}
+          />
+        ))
         : null}
     </div>
   );

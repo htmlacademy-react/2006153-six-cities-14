@@ -7,10 +7,21 @@ import { useLocation } from 'react-router-dom';
 
 function Favorites(): JSX.Element {
   const currentUrl = useLocation().pathname;
+  const favoritesList = useAppSelector(
+    (state: State) => state.offers.favoritesOffers
+  );
 
-  const favoritesList = useAppSelector((state: State) => state.favoritesOffers);
+  function checkForCity(locationCityName: string) {
+    let shown = false;
+    favoritesList.filter((favoriteOffer) => {
+      if (favoriteOffer.city.name === locationCityName) {
+        shown = true;
+      }
+    });
+    return shown;
+  }
 
-  if (favoritesList.length === 0 || favoritesList === undefined) {
+  if (favoritesList === undefined || favoritesList.length === 0) {
     return <FavoritesPageEmpty />;
   } else {
     return (
@@ -21,39 +32,41 @@ function Favorites(): JSX.Element {
             <section className="favorites">
               <h1 className="favorites__title">Saved listing</h1>
               <ul className="favorites__list">
-                {locations.map((location) => {
-                  return (
+                {locations
+                  .filter((location) =>
+                    favoritesList.some(
+                      (offer) => offer.city.name === location.city
+                    )
+                  )
+                  .map((location) => (
                     <li
                       key={location.id}
                       className="favorites__locations-items"
                     >
                       <div className="favorites__locations locations locations--current">
-                        <div className="locations__item">
-                          <a className="locations__item-link" href="#">
+                        <div className="locations__item" key={location.id}>
+                          <a
+                            className="locations__item-link"
+                            href="#"
+                            key={`${location.id}-${location.city}`}
+                          >
                             <span>{location.city}</span>
                           </a>
                         </div>
                       </div>
                       <div className="favorites__places">
-                        {favoritesList !== undefined
-                          ? favoritesList.map((favoriteOffer) => {
-                              if (favoriteOffer.city.name === location.city) {
-                                return (
-                                  <CardList
-                                    imageHeight={'110'}
-                                    imageWidth={'150'}
-                                    offersList={[favoriteOffer]}
-                                    isNeedHover={false}
-                                    url={currentUrl}
-                                  />
-                                );
-                              }
-                            })
-                          : null}
+                        <CardList
+                          imageHeight={'110'}
+                          imageWidth={'150'}
+                          offersList={favoritesList.filter(
+                            (offer) => offer.city.name === location.city
+                          )}
+                          isNeedHover={false}
+                          url={currentUrl}
+                        />
                       </div>
                     </li>
-                  );
-                })}
+                  ))}
               </ul>
             </section>
           </div>
