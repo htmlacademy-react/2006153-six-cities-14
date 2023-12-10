@@ -1,7 +1,7 @@
 import { Offers } from '../../const/const';
 import Card from '../card/card';
 interface CardListProps {
-  offersList: Offers[] | number;
+  offersList: Offers[];
   isNeedHover: boolean;
   url?: string;
   imageHeight?: string;

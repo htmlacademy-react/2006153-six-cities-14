@@ -91,9 +91,6 @@ const QuantityOfThings = {
 } as const;
 
 export default QuantityOfThings;
-
-export const isAuthorized = true;
-
 export const urlForPins: string[] = ['/img/pin.svg', '/img/pin-active.svg'];
 
 export interface Comments {
@@ -186,10 +183,6 @@ export type userDataType = {
 };
 export interface NearByOffersInterface {}
 
-export interface cardStatus {
-  offerID: string;
-  favoritesStatus: number;
-}
 export interface sendCommentData {
   comment: string;
   rating: string;

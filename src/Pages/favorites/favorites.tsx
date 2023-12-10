@@ -7,10 +7,21 @@ import { useLocation } from 'react-router-dom';
 
 function Favorites(): JSX.Element {
   const currentUrl = useLocation().pathname;
+  const favoritesList = useAppSelector(
+    (state: State) => state.offers.favoritesOffers
+  );
 
-  const favoritesList = useAppSelector((state: State) => state.favoritesOffers);
+  function checkForCity(locationCityName: string) {
+    let shown = false;
+    favoritesList.filter((favoriteOffer) => {
+      if (favoriteOffer.city.name === locationCityName) {
+        shown = true;
+      }
+    });
+    return shown;
+  }
 
-  if (favoritesList.length === 0 || favoritesList === undefined) {
+  if (favoritesList === undefined || favoritesList.length === 0) {
     return <FavoritesPageEmpty />;
   } else {
     return (
@@ -25,22 +36,15 @@ function Favorites(): JSX.Element {
                   <li key={location.id} className="favorites__locations-items">
                     <div className="favorites__locations locations locations--current">
                       <div className="locations__item" key={location.id}>
-                        {favoritesList.map((favoriteOffer) => {
-                          if (
-                            favoriteOffer.city.name === location.city &&
-                            favoriteOffer !== undefined
-                          ) {
-                            return (
-                              <a
-                                className="locations__item-link"
-                                href="#"
-                                key={location.id}
-                              >
-                                <span>{location.city}</span>
-                              </a>
-                            );
-                          }
-                        })}
+                        {checkForCity(location.city) ? (
+                          <a
+                            className="locations__item-link"
+                            href="#"
+                            key={`${location.id}-${location.city}`}
+                          >
+                            <span>{location.city}</span>
+                          </a>
+                        ) : null}
                       </div>
                     </div>
                     <div className="favorites__places">

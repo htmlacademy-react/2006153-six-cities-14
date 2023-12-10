@@ -21,6 +21,7 @@ import {
 import { State, AppDispatch, AuthData, UserData } from '../const/const';
 import { AxiosInstance } from 'axios';
 import { dropToken, saveToken } from '../token/token';
+import { toast } from 'react-toastify';
 
 export const fetchOffersAction = createAsyncThunk<
   void,
@@ -41,7 +42,7 @@ export const fetchOffersAction = createAsyncThunk<
 });
 export const fetchCurrentOfferAction = createAsyncThunk<
   void,
-  OfferDetails | string,
+  string,
   {
     dispatch: AppDispatch;
     state: State;
@@ -56,7 +57,7 @@ export const fetchCurrentOfferAction = createAsyncThunk<
 });
 export const fetchNearByCurrentOfferAction = createAsyncThunk<
   void,
-  Offers[] | string,
+  string,
   {
     dispatch: AppDispatch;
     state: State;
@@ -73,7 +74,7 @@ export const fetchNearByCurrentOfferAction = createAsyncThunk<
 );
 export const fetchOfferCommentsAction = createAsyncThunk<
   void,
-  Comments[] | string,
+  string,
   {
     dispatch: AppDispatch;
     state: State;
@@ -135,6 +136,7 @@ export const sendCommentAction = createAsyncThunk<
         rating: number;
 
       setIsSubmitting: (isSumbitting: boolean) => void;
+      setIsInputBlocked: (isInputBlocked: boolean) => void;
         },
             {
               dispatch: AppDispatch;
@@ -158,9 +160,10 @@ export const sendCommentAction = createAsyncThunk<
 
             dispatch(sendCommentActionDispatcher(data));
           } catch (error) {
-            console.log('Wrong Validation');
+            toast('Wrong Validation');
           } finally {
             setIsSubmitting(false);
+            setIsInputBlocked(false);
           }
         }
         );

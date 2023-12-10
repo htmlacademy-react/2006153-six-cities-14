@@ -8,14 +8,12 @@ interface TypesOfSortProps {
   classForSort: boolean;
 }
 function TypesOfSort({ classForSort }: TypesOfSortProps) {
-  const sortType = useAppSelector((state) => state.sortType);
+  const sortType = useAppSelector((state) => state.offers.sortType);
   const dispatch = useAppDispatch();
 
   function handleClick(value: string) {
     dispatch(setSortType(value));
   }
-  /* "places__options places__options--custom places__options--opened" */
-  /* classForSort */
   return (
     <ul
       className={classNames('places__options', {

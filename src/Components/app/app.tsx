@@ -16,7 +16,7 @@ function App(): JSX.Element {
           <Route path="/login" element={<Login />} />
           <Route
             path="/favorites"
-            element={<PrivateRoute children={<Favorites />} />}
+            element={<PrivateRoute><Favorites /></PrivateRoute>}
           />
           <Route path="/offer/:id" element={<Offer />} />
           <Route path="*" element={<NotFound />} />

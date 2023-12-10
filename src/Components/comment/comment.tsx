@@ -46,8 +46,8 @@ function Comment({ comment }: commentProps) {
             comment.date
           ).getMonth()}-${new Date(comment.date).getDate()}`}
         >
-          {new Date(comment.date).getFullYear()}{' '}
-          {new Date(comment.date).toLocaleString('default', { month: 'long' })}
+          {new Date(comment.date).toLocaleString('en-US', { month: 'long' })}{' '}
+          {new Date(comment.date).getFullYear()}
         </time>
       </div>
     </li>

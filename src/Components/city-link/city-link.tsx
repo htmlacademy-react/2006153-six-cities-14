@@ -1,4 +1,4 @@
-import { useAppDispatch } from '../../const/const';
+import { State, useAppDispatch, useAppSelector } from '../../const/const';
 import { changeCity } from '../../store/actions';
 import { Location } from '../../const/const';
 interface CityLinkProps {
@@ -6,7 +6,7 @@ interface CityLinkProps {
 }
 function CityLink({ location }: CityLinkProps) {
   const dispatch = useAppDispatch();
-
+  const currentCity = useAppSelector((state: State) => state.offers.city);
   const getCityName = (evt: React.MouseEvent<HTMLLIElement>): string => {
     const cityName = (evt.target as HTMLLIElement).textContent;
     if (cityName === null) {
@@ -14,6 +14,7 @@ function CityLink({ location }: CityLinkProps) {
     }
     return cityName;
   };
+
   return (
     <li
       onClick={(evt: React.MouseEvent<HTMLLIElement>) =>
@@ -21,7 +22,12 @@ function CityLink({ location }: CityLinkProps) {
       key={location.id}
       className="locations__item"
     >
-      <a className="locations__item-link tabs__item" href="#">
+      <a
+        className={`locations__item-link  ${
+          location.city === currentCity ? 'tabs__item--active' : 'tabs__item'
+        }`}
+        href="#"
+      >
         <span>{location.city}</span>
       </a>
     </li>

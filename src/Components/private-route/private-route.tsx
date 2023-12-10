@@ -6,7 +6,9 @@ interface PrivateRouteProps {
 }
 
 function PrivateRoute({ children }: PrivateRouteProps) {
-  const isAuth = useAppSelector((state) => state.AuthorizationStatus);
+  const isAuth = useAppSelector(
+    (state) => state.dataLoadAndAuthSlice.AuthorizationStatus
+  );
 
   if (isAuth === AuthorizationStatus.Auth) {
     return children;

@@ -23,15 +23,17 @@ type cardProps = {
 
 function Card({ card, isNeedHover, url, imageWidth, imageHeight }: cardProps) {
   const dispatch = useAppDispatch();
-  const isAuth = useAppSelector((state: State) => state.AuthorizationStatus);
-  const currentCard = useAppSelector((state: State) => state.currentCard);
+  const isAuth = useAppSelector((state: State) => state.dataLoadAndAuthSlice.AuthorizationStatus);
+  const currentCard = useAppSelector((state: State) => state.offers.currentCard);
   const navigate = useNavigate();
-  function getRating() {
-    const rating = Math.round(
-      (card.rating / QuantityOfThings.MAX_RATING) * 100
-    );
+  function getRating(card) {
+    if (typeof currentCard !== 'object') {
+      return 0;
+    }
+    const rating = parseInt((card.rating / QuantityOfThings.MAX_RATING) * 100)
     return rating;
   }
+  
   const handleCardHover = () => {
     if (isNeedHover) {
       dispatch(setCurrentCard(card));
@@ -47,19 +49,34 @@ function Card({ card, isNeedHover, url, imageWidth, imageHeight }: cardProps) {
     if (url === '/favorites') {
       classForCard = 'favorites__card';
     }
-    if (url !== '/favorites') {
+    if (url === '/main') {
       classForCard = 'cities__card';
+    }
+    if(url !== undefined && url.slice(0,6) === '/offer') {
+      classForCard = 'near-places__card';
     }
 
     return classForCard;
   }
 
+  
+  function getRating2() {
+    /* if (typeof currentOffer !== 'object') {
+      return 0;
+    } */
+    const rating = parseInt(
+      ((2.1 / QuantityOfThings.MAX_RATING) * 100)
+    );
+    return rating;
+  }
+  console.log(getRating2());
+  
   return (
     <div
       className={
         card === currentCard
-          ? `${checkForClass()} place__card active`
-          : `${checkForClass()} place__card `
+          ? `${checkForClass()} place-card active`
+          : `${checkForClass()} place-card`
       }
       onMouseEnter={handleCardHover}
       onMouseLeave={handleCardLeave}
@@ -101,18 +118,22 @@ function Card({ card, isNeedHover, url, imageWidth, imageHeight }: cardProps) {
 
           <button
             onClick={() => {
-              {
-                isAuth !== AuthorizationStatus.Auth
-                  ? navigate('/login')
-                  : store.dispatch(
-                    changeOfferStatus({
-                      offerID: card.id,
-                      favoritesStatus: Number(card.isFavorite),
-                    })
-                  );
+              if(isAuth !== AuthorizationStatus.Auth) {
+                navigate('/login');
+              } else {
+                store.dispatch(
+                  changeOfferStatus({
+                    offerID: card.id,
+                    favoritesStatus: Number(card.isFavorite),
+                  })
+                );
               }
             }}
-            className="place-card__bookmark-button button"
+            className={`${
+              !card.isFavorite
+                ? 'place-card__bookmark-button'
+                : 'place-card__bookmark-button place-card__bookmark-button--active'
+            } button`}
             type="button"
           >
             <svg
@@ -130,7 +151,7 @@ function Card({ card, isNeedHover, url, imageWidth, imageHeight }: cardProps) {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: getRating() }}></span>
+            <span style={{ width: getRating(card) }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

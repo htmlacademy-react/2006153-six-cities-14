@@ -5,12 +5,12 @@ import { State, useAppDispatch, useAppSelector } from '../../const/const';
 import { LoginAction } from '../../api-actions/api-actions';
 
 function Login(): JSX.Element {
-  const currentCity = useAppSelector((state: State) => state.city);
+  const currentCity = useAppSelector((state: State) => state.offers.city);
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
+  
   function getValidate(passInput: string) {
     if (passwordRef.current !== null) {
       return /^(?=.*[a-zA-Z])(?=.*\d).+$/.test(passInput);
@@ -26,7 +26,7 @@ function Login(): JSX.Element {
             password: passwordRef.current.value,
           })
         ).then(() => {
-          navigate(-1);
+          navigate('/');
         });
       }
     }

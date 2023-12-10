@@ -14,6 +14,7 @@ interface FormData {
 
 function SendingCommentsForm() {
   const [notIsActive, setNotIsActive] = useState(true);
+  const [isInputBlocked, setIsInputBlocked] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     comment: '',
@@ -67,18 +68,18 @@ function SendingCommentsForm() {
 
   const params = useParams();
   const lablesTitle = [
-    'terrebly',
+    'terribly',
     'badly',
     'not bad',
     'good',
     'perfect',
     'not bad',
   ];
-
   function sendComment() {
     store.dispatch(
       sendCommentAction({
         setIsSubmitting,
+        setIsInputBlocked,
         offerID: params.id !== undefined ? params.id : '',
         userComment:
           getUserInputValidation() && formData.comment !== undefined
@@ -117,7 +118,9 @@ function SendingCommentsForm() {
                   onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
                     getValidate();
                     onFieldChange(evt);
+                    setIsInputBlocked(true);
                   }}
+                  disabled = {isInputBlocked}
                   className={
                     formData.rating !== undefined &&
                     Number(formData.rating) >= value
@@ -146,6 +149,7 @@ function SendingCommentsForm() {
           onChange={(evt) => {
             onFieldChange(evt);
           }}
+          disabled = {isSubmitting}
           className="reviews__textarea htmlForm__textarea"
           id="review"
           name="comment"

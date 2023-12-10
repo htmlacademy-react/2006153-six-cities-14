@@ -2,7 +2,7 @@ import CommentsList from '../../Components/comments-list/comments-list';
 import Map from '../../Components/map/map';
 import CardList from '../../Components/card-list/card-list';
 import { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import {
   Offers,
@@ -24,13 +24,23 @@ import Spinner from '../../Components/spinner/spinner';
 import SendingCommentsForm from '../../Components/sending-comment-form/sending-comment-form';
 import QuantityOfThings from '../../const/const';
 function Offer(): JSX.Element {
-  const isAuth = useAppSelector((state: State) => state.AuthorizationStatus);
-  const currentOffer = useAppSelector((state: State) => state.currentOffer);
-  const offersList = useAppSelector((state: State) => state.apiOffersList);
-  const nearByList = useAppSelector((state: State) => state.NearByOffers);
-  const loading = useAppSelector((state: State) => state.isQuesLoaded);
-
-  const comments = useAppSelector((state: State) => state.comments);
+  const isAuth = useAppSelector(
+    (state: State) => state.dataLoadAndAuthSlice.AuthorizationStatus
+  );
+  const currentOffer = useAppSelector(
+    (state: State) => state.offers.currentOffer
+  );
+  const offersList = useAppSelector(
+    (state: State) => state.offers.apiOffersList
+  );
+  const nearByList = useAppSelector(
+    (state: State) => state.offers.NearByOffers
+  );
+  const loading = useAppSelector(
+    (state: State) => state.dataLoadAndAuthSlice.isQuesLoaded
+  );
+  const currentUrl = useLocation().pathname;
+  const comments = useAppSelector((state: State) => state.comments.comments);
 
   interface OfferParams {
     id?: string;
@@ -77,7 +87,8 @@ function Offer(): JSX.Element {
     );
     return rating;
   }
-
+ 
+  
   return (
     <div className="page">
       <Header />
@@ -228,6 +239,7 @@ function Offer(): JSX.Element {
                   <CardList
                     offersList={nearByList.slice(0, 3)}
                     isNeedHover={false}
+                    url={currentUrl}
                   />
                 </div>
               </section>

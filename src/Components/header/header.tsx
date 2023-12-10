@@ -14,10 +14,10 @@ import { store } from '../../store';
 import './header.css';
 
 function Header(): JSX.Element {
-  const isAuth = useAppSelector((state: State) => state.AuthorizationStatus);
-  const favoritesList = useAppSelector((state: State) => state.favoritesOffers);
-  const offersList = useAppSelector((state: State) => state.apiOffersList);
-  const userData = useAppSelector((state: State) => state.userData);
+  const isAuth = useAppSelector((state: State) => state.dataLoadAndAuthSlice.AuthorizationStatus);
+  const favoritesList = useAppSelector((state: State) => state.offers.favoritesOffers);
+  const offersList = useAppSelector((state: State) => state.offers.apiOffersList);
+  const userData = useAppSelector((state: State) => state.dataLoadAndAuthSlice.userData);
   const pathName = useLocation().pathname;
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -47,9 +47,9 @@ function Header(): JSX.Element {
             </Link>
           </div>
           <nav className="header__nav">
-            {isAuth === AuthorizationStatus.NoAuth && pathName !== '/login' ?
-              <Link to={'/login'}>SignIn</Link>
-              : (
+            
+              <Link style={AuthorizationStatus.Auth === isAuth ? {opacity: 1} : {opacity: 0}} className='header__login' to={'/login'}>SignIn</Link>
+              
                 <ul className="header__nav-list">
                   <Link
                     to={
@@ -80,13 +80,13 @@ function Header(): JSX.Element {
                   <li className="header__nav-item">
                     <button
                       onClick={signOut}
-                      className="header__nav-link" /* to="/Login" title="/Login" */
+                      className="header__nav-link"
                     >
                       <span className="header__signout">Sign out</span>
                     </button>
                   </li>
                 </ul>
-              )}
+              
           </nav>
         </div>
       </div>

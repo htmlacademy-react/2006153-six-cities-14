@@ -11,7 +11,7 @@ interface MapProps {
   activePin?: string;
 }
 function Map({ hotelsPins, activePin }: MapProps) {
-  const currentCard = useAppSelector((state) => state.currentCard);
+  const currentCard = useAppSelector((state) => state.offers.currentCard);
 
   const mapRef = useRef<HTMLDivElement | null>(null);
   const map = useMap(mapRef, hotelsPins);
