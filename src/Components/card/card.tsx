@@ -30,11 +30,14 @@ function Card({ card, isNeedHover, url, imageWidth, imageHeight }: cardProps) {
     (state: State) => state.offers.currentCard
   );
   const navigate = useNavigate();
-  function getRating(card) {
+
+  function getRating(cardObj: Offers) {
     if (typeof currentCard !== 'object') {
       return 0;
     }
-    const rating = parseInt((card.rating / QuantityOfThings.MAX_RATING) * 100);
+    const rating = Math.round(
+      (cardObj.rating / QuantityOfThings.MAX_RATING) * 100
+    );
     return rating;
   }
   const handleCardHover = () => {

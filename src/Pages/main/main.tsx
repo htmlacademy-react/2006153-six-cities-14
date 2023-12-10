@@ -15,8 +15,6 @@ import { useLocation } from 'react-router-dom';
 import { ImageSize } from '../../const/const';
 
 function Main(): JSX.Element {
-  const imageHeight = '200';
-  const imageWidth = '260';
   const sortedOffers = useAppSelector(getSortedOffers);
   const sortType = useAppSelector((state) => state.offers.sortType);
   const [isSortOpened, setIsSortOpened] = useState(false);

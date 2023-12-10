@@ -18,19 +18,26 @@ function Login(): JSX.Element {
   const offersList: Offers[] = useAppSelector(
     (state: State) => state.offers.apiOffersList
   );
-  function getValidate(passInput: string) {
+  function getValidatePassword(passInput: string) {
     if (passwordRef.current !== null) {
       return /^(?=.*[a-zA-Z])(?=.*\d).+$/.test(passInput);
     }
   }
-
+  function getValidateEmail(emailInput: string) {
+    if (loginRef.current !== null) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput);
+    }
+  }
   const city =
     offersList?.find((offer) => offer.city.name !== currentCity)?.city.name ??
     currentCity;
 
   function sendUserData() {
     if (loginRef.current !== null && passwordRef.current !== null) {
-      if (getValidate(passwordRef.current.value)) {
+      if (
+        getValidatePassword(passwordRef.current.value) &&
+        getValidateEmail(loginRef.current.value)
+      ) {
         dispatch(
           LoginAction({
             login: loginRef.current.value,

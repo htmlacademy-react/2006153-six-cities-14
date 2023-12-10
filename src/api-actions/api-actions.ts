@@ -130,43 +130,49 @@ export const LoginAction = createAsyncThunk<
 );
 export const sendCommentAction = createAsyncThunk<
   void,
-      {
-        offerID: string;
-        userComment: string;
-        rating: number;
+  {
+    offerID: string;
+    userComment: string;
+    rating: number;
 
-      setIsSubmitting: (isSumbitting: boolean) => void;
-      setIsInputBlocked: (isInputBlocked: boolean) => void;
+    setIsSubmitting: (isSumbitting: boolean) => void;
+    setIsInputBlocked: (isInputBlocked: boolean) => void;
+      },
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+      >(
+      'user/sendComment',
+      async (
+        {
+          offerID,
+          userComment: comment,
+          rating,
+          setIsSubmitting,
+          setIsInputBlocked,
         },
+        { dispatch, extra: api }
+      ) => {
+        try {
+          const { data } = await api.post<Comments>(
+            `${APIRoutes.Comments}/${offerID}`,
             {
-              dispatch: AppDispatch;
-              state: State;
-              extra: AxiosInstance;
+              comment,
+              rating,
             }
-        >(
-        'user/sendComment',
-        async (
-          { offerID, userComment: comment, rating, setIsSubmitting },
-          { dispatch, extra: api }
-        ) => {
-          try {
-            const { data } = await api.post<Comments>(
-              `${APIRoutes.Comments}/${offerID}`,
-              {
-                comment,
-                rating,
-              }
-            );
+          );
 
-            dispatch(sendCommentActionDispatcher(data));
-          } catch (error) {
-            toast('Wrong Validation');
-          } finally {
-            setIsSubmitting(false);
-            setIsInputBlocked(false);
-          }
+          dispatch(sendCommentActionDispatcher(data));
+        } catch (error) {
+          toast('Wrong Validation');
+        } finally {
+          setIsSubmitting(false);
+          setIsInputBlocked(false);
         }
-        );
+      }
+      );
 
 export const LogoutAction = createAsyncThunk<
   void,
