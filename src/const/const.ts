@@ -41,7 +41,7 @@ interface CityLocation {
   name: string;
   location: HotelsPoints;
 }
-export interface Hotels {
+interface Hotels {
   city: string;
   points: HotelsPoints;
 }
@@ -91,6 +91,7 @@ const QuantityOfThings = {
 } as const;
 
 export default QuantityOfThings;
+
 export const urlForPins: string[] = ['/img/pin.svg', '/img/pin-active.svg'];
 
 export interface Comments {
@@ -183,17 +184,6 @@ export type userDataType = {
 };
 export interface NearByOffersInterface {}
 
-export interface sendCommentData {
-  comment: string;
-  rating: string;
-  date: string;
-  id: string;
-  user: UserData;
-}
-export interface addToFavorite {
-  offerID: string;
-  favoritesStatus: number;
-}
 export const ImageSize: ImageSizeInt = {
   imageHeight: '200',
   imageWidth: '260',

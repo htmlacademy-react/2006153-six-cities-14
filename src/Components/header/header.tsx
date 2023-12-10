@@ -1,4 +1,4 @@
-import { Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   AuthorizationStatus,
   useAppDispatch,
@@ -61,35 +61,39 @@ function Header(): JSX.Element {
             ) : null}
 
             <ul className="header__nav-list">
-              <Link
-                to={
-                  AuthorizationStatus.Auth === isAuth ? '/favorites' : '/login'
-                }
-                onClick={() => {
-                  if (AuthorizationStatus.Auth === isAuth) {
-                    dispatch(fetchFavoritesOffers());
+              {isAuth === AuthorizationStatus.Auth ? (
+                <Link
+                  to={
+                    AuthorizationStatus.Auth === isAuth
+                      ? '/favorites'
+                      : '/login'
                   }
-                }}
-                className="header__nav-item user"
-              >
-                <div className="header__nav-link header__nav-link--profile">
-                  <div className="header__avatar-wrapper user__avatar-wrapper">
-                    <img src={userData?.avatarUrl}></img>
-                  </div>
+                  onClick={() => {
+                    if (AuthorizationStatus.Auth === isAuth) {
+                      dispatch(fetchFavoritesOffers());
+                    }
+                  }}
+                  className="header__nav-item user"
+                >
+                  <div className="header__nav-link header__nav-link--profile">
+                    <div className="header__avatar-wrapper user__avatar-wrapper">
+                      <img src={userData?.avatarUrl}></img>
+                    </div>
 
-                  <span className="header__user-name user__name">
-                    {userData?.email}
-                  </span>
-                  <span className="header__favorite-count">
-                    {favoritesList.length}
-                  </span>
-                </div>
-              </Link>
-              <li className="header__nav-item">
-                <button onClick={signOut} className="header__nav-link">
-                  <span className="header__signout">Sign out</span>
-                </button>
-              </li>
+                    <span className="header__user-name user__name">
+                      {userData?.email}
+                    </span>
+                    <span className="header__favorite-count">
+                      {favoritesList.length}
+                    </span>
+                  </div>
+                  <li className="header__nav-item">
+                    <button onClick={signOut} className="header__nav-link">
+                      <span className="header__signout">Sign out</span>
+                    </button>
+                  </li>
+                </Link>
+              ) : null}
             </ul>
           </nav>
         </div>

@@ -1,15 +1,21 @@
 import Header from '../../Components/header/header';
-import { State, useAppSelector } from '../../const/const';
+import { AuthorizationStatus, State, useAppSelector } from '../../const/const';
 import FavoritesPageEmpty from '../favorites-page-empty/favorites-page-empty';
 import { locations } from '../../const/const';
 import CardList from '../../Components/card-list/card-list';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function Favorites(): JSX.Element {
   const currentUrl = useLocation().pathname;
   const favoritesList = useAppSelector(
     (state: State) => state.offers.favoritesOffers
   );
+  const isAuth = useAppSelector((state: State) => state.dataLoadAndAuthSlice.AuthorizationStatus);
+  const navigate = useNavigate();
+
+  if(isAuth === AuthorizationStatus.NoAuth) {
+    navigate('/');
+  }
 
   if (favoritesList === undefined || favoritesList.length === 0) {
     return <FavoritesPageEmpty />;
