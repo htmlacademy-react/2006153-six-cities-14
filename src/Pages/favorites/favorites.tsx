@@ -11,16 +11,6 @@ function Favorites(): JSX.Element {
     (state: State) => state.offers.favoritesOffers
   );
 
-  function checkForCity(locationCityName: string) {
-    let shown = false;
-    favoritesList.filter((favoriteOffer) => {
-      if (favoriteOffer.city.name === locationCityName) {
-        shown = true;
-      }
-    });
-    return shown;
-  }
-
   if (favoritesList === undefined || favoritesList.length === 0) {
     return <FavoritesPageEmpty />;
   } else {

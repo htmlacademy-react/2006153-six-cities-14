@@ -194,7 +194,11 @@ export interface addToFavorite {
   offerID: string;
   favoritesStatus: number;
 }
-export enum ImageSize {
-  imageHeight = '200',
-  imageWidth = '260',
+export const ImageSize: ImageSizeInt = {
+  imageHeight: '200',
+  imageWidth: '260',
+};
+interface ImageSizeInt {
+  imageHeight: string;
+  imageWidth: string;
 }

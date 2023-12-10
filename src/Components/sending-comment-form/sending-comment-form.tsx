@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { sendCommentAction } from '../../api-actions/api-actions';
 import './sending-comment-form.css';
