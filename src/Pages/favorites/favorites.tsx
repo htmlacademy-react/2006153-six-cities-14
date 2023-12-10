@@ -32,11 +32,19 @@ function Favorites(): JSX.Element {
             <section className="favorites">
               <h1 className="favorites__title">Saved listing</h1>
               <ul className="favorites__list">
-                {locations.map((location) => (
-                  <li key={location.id} className="favorites__locations-items">
-                    <div className="favorites__locations locations locations--current">
-                      <div className="locations__item" key={location.id}>
-                        {checkForCity(location.city) ? (
+                {locations
+                  .filter((location) =>
+                    favoritesList.some(
+                      (offer) => offer.city.name === location.city
+                    )
+                  )
+                  .map((location) => (
+                    <li
+                      key={location.id}
+                      className="favorites__locations-items"
+                    >
+                      <div className="favorites__locations locations locations--current">
+                        <div className="locations__item" key={location.id}>
                           <a
                             className="locations__item-link"
                             href="#"
@@ -44,29 +52,21 @@ function Favorites(): JSX.Element {
                           >
                             <span>{location.city}</span>
                           </a>
-                        ) : null}
+                        </div>
                       </div>
-                    </div>
-                    <div className="favorites__places">
-                      {favoritesList !== undefined
-                        ? favoritesList.map((favoriteOffer) => {
-                          if (favoriteOffer.city.name === location.city) {
-                            return (
-                              <CardList
-                                key={favoriteOffer.id}
-                                imageHeight={'110'}
-                                imageWidth={'150'}
-                                offersList={[favoriteOffer]}
-                                isNeedHover={false}
-                                url={currentUrl}
-                              />
-                            );
-                          }
-                        })
-                        : null}
-                    </div>
-                  </li>
-                ))}
+                      <div className="favorites__places">
+                        <CardList
+                          imageHeight={'110'}
+                          imageWidth={'150'}
+                          offersList={favoritesList.filter(
+                            (offer) => offer.city.name === location.city
+                          )}
+                          isNeedHover={false}
+                          url={currentUrl}
+                        />
+                      </div>
+                    </li>
+                  ))}
               </ul>
             </section>
           </div>

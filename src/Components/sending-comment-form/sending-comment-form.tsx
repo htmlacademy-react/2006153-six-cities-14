@@ -28,30 +28,29 @@ function SendingCommentsForm() {
     });
   }
 
-  const getValidate = useCallback(() => {
+  const getValidate = (data: FormData) => {
     if (
-      formData.rating !== '' &&
-      formData.comment !== undefined &&
-      formData.comment.length > QuantityOfThings.MIN_COMMENT_LENGTH &&
-      formData.comment.length < QuantityOfThings.MAX_COMMENT_LENGTH
+      data.rating !== '' &&
+      data.comment !== undefined &&
+      data.comment.length > QuantityOfThings.MIN_COMMENT_LENGTH &&
+      data.comment.length < QuantityOfThings.MAX_COMMENT_LENGTH
     ) {
       setNotIsActive(false);
     } else {
       setNotIsActive(true);
     }
-  }, [formData.comment, formData.rating]);
-
-  useEffect(() => {
-    getValidate();
-  }, [formData.comment, formData.rating, getValidate]);
+  };
 
   function onFieldChange(
     evt: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
-    getValidate();
     const name = evt.target.name;
     const value = evt.target.value;
-    setFormData({ ...formData, [name]: value });
+    setFormData(() => {
+      const newFromData = { ...formData, [name]: value };
+      getValidate(newFromData);
+      return newFromData;
+    });
   }
 
   function getUserInputValidation() {
@@ -116,11 +115,10 @@ function SendingCommentsForm() {
               <div key={value}>
                 <input
                   onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
-                    getValidate();
                     onFieldChange(evt);
                     setIsInputBlocked(true);
                   }}
-                  disabled = {isInputBlocked}
+                  disabled={isInputBlocked}
                   className={
                     formData.rating !== undefined &&
                     Number(formData.rating) >= value
@@ -149,7 +147,7 @@ function SendingCommentsForm() {
           onChange={(evt) => {
             onFieldChange(evt);
           }}
-          disabled = {isSubmitting}
+          disabled={isSubmitting}
           className="reviews__textarea htmlForm__textarea"
           id="review"
           name="comment"

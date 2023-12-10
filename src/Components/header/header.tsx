@@ -14,11 +14,18 @@ import { store } from '../../store';
 import './header.css';
 
 function Header(): JSX.Element {
-  const isAuth = useAppSelector((state: State) => state.dataLoadAndAuthSlice.AuthorizationStatus);
-  const favoritesList = useAppSelector((state: State) => state.offers.favoritesOffers);
-  const offersList = useAppSelector((state: State) => state.offers.apiOffersList);
-  const userData = useAppSelector((state: State) => state.dataLoadAndAuthSlice.userData);
-  const pathName = useLocation().pathname;
+  const isAuth = useAppSelector(
+    (state: State) => state.dataLoadAndAuthSlice.AuthorizationStatus
+  );
+  const favoritesList = useAppSelector(
+    (state: State) => state.offers.favoritesOffers
+  );
+  const offersList = useAppSelector(
+    (state: State) => state.offers.apiOffersList
+  );
+  const userData = useAppSelector(
+    (state: State) => state.dataLoadAndAuthSlice.userData
+  );
   const dispatch = useAppDispatch();
   useEffect(() => {
     store.dispatch(fetchFavoritesOffers());
@@ -47,46 +54,43 @@ function Header(): JSX.Element {
             </Link>
           </div>
           <nav className="header__nav">
-            
-              <Link style={AuthorizationStatus.Auth === isAuth ? {opacity: 1} : {opacity: 0}} className='header__login' to={'/login'}>SignIn</Link>
-              
-                <ul className="header__nav-list">
-                  <Link
-                    to={
-                      AuthorizationStatus.Auth === isAuth
-                        ? '/favorites'
-                        : '/login'
-                    }
-                    onClick={() => {
-                      if (AuthorizationStatus.Auth === isAuth) {
-                        dispatch(fetchFavoritesOffers());
-                      }
-                    }}
-                    className="header__nav-item user"
-                  >
-                    <div className="header__nav-link header__nav-link--profile">
-                      <div className="header__avatar-wrapper user__avatar-wrapper">
-                        <img src={userData?.avatarUrl}></img>
-                      </div>
+            {isAuth === AuthorizationStatus.NoAuth ? (
+              <Link className="header__login" to={'/login'}>
+                SignIn
+              </Link>
+            ) : null}
 
-                      <span className="header__user-name user__name">
-                        {userData?.email}
-                      </span>
-                      <span className="header__favorite-count">
-                        {favoritesList.length}
-                      </span>
-                    </div>
-                  </Link>
-                  <li className="header__nav-item">
-                    <button
-                      onClick={signOut}
-                      className="header__nav-link"
-                    >
-                      <span className="header__signout">Sign out</span>
-                    </button>
-                  </li>
-                </ul>
-              
+            <ul className="header__nav-list">
+              <Link
+                to={
+                  AuthorizationStatus.Auth === isAuth ? '/favorites' : '/login'
+                }
+                onClick={() => {
+                  if (AuthorizationStatus.Auth === isAuth) {
+                    dispatch(fetchFavoritesOffers());
+                  }
+                }}
+                className="header__nav-item user"
+              >
+                <div className="header__nav-link header__nav-link--profile">
+                  <div className="header__avatar-wrapper user__avatar-wrapper">
+                    <img src={userData?.avatarUrl}></img>
+                  </div>
+
+                  <span className="header__user-name user__name">
+                    {userData?.email}
+                  </span>
+                  <span className="header__favorite-count">
+                    {favoritesList.length}
+                  </span>
+                </div>
+              </Link>
+              <li className="header__nav-item">
+                <button onClick={signOut} className="header__nav-link">
+                  <span className="header__signout">Sign out</span>
+                </button>
+              </li>
+            </ul>
           </nav>
         </div>
       </div>

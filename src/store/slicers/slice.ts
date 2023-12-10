@@ -89,7 +89,6 @@ export const offersSlice = createSlice({
             location: state.currentOffer.location,
           },
         };
-
         state.NearByOffers = [...action.payload.slice(0, 3), currentOfferInfo];
       })
       .addCase(getFavoritesOffers, (state, action) => {
@@ -129,8 +128,6 @@ export const dataLoadAndAuthSlice = createSlice({
       })
       .addCase(getUserData, (state, action) => {
         state.userData = action.payload;
-        console.log(action.payload);
-        
       })
       .addCase(setIsQuesLoaded, (state, action) => {
         state.isQuesLoaded = action.payload;

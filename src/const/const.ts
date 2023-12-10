@@ -194,3 +194,7 @@ export interface addToFavorite {
   offerID: string;
   favoritesStatus: number;
 }
+export enum ImageSize {
+  imageHeight = '200',
+  imageWidth = '260',
+}

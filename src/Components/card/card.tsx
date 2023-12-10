@@ -23,17 +23,20 @@ type cardProps = {
 
 function Card({ card, isNeedHover, url, imageWidth, imageHeight }: cardProps) {
   const dispatch = useAppDispatch();
-  const isAuth = useAppSelector((state: State) => state.dataLoadAndAuthSlice.AuthorizationStatus);
-  const currentCard = useAppSelector((state: State) => state.offers.currentCard);
+  const isAuth = useAppSelector(
+    (state: State) => state.dataLoadAndAuthSlice.AuthorizationStatus
+  );
+  const currentCard = useAppSelector(
+    (state: State) => state.offers.currentCard
+  );
   const navigate = useNavigate();
   function getRating(card) {
     if (typeof currentCard !== 'object') {
       return 0;
     }
-    const rating = parseInt((card.rating / QuantityOfThings.MAX_RATING) * 100)
+    const rating = parseInt((card.rating / QuantityOfThings.MAX_RATING) * 100);
     return rating;
   }
-  
   const handleCardHover = () => {
     if (isNeedHover) {
       dispatch(setCurrentCard(card));
@@ -49,28 +52,16 @@ function Card({ card, isNeedHover, url, imageWidth, imageHeight }: cardProps) {
     if (url === '/favorites') {
       classForCard = 'favorites__card';
     }
-    if (url === '/main') {
+    if (url === '/') {
       classForCard = 'cities__card';
     }
-    if(url !== undefined && url.slice(0,6) === '/offer') {
+    if (url !== undefined && url.slice(0, 6) === '/offer') {
       classForCard = 'near-places__card';
     }
 
     return classForCard;
   }
 
-  
-  function getRating2() {
-    /* if (typeof currentOffer !== 'object') {
-      return 0;
-    } */
-    const rating = parseInt(
-      ((2.1 / QuantityOfThings.MAX_RATING) * 100)
-    );
-    return rating;
-  }
-  console.log(getRating2());
-  
   return (
     <div
       className={
@@ -118,7 +109,7 @@ function Card({ card, isNeedHover, url, imageWidth, imageHeight }: cardProps) {
 
           <button
             onClick={() => {
-              if(isAuth !== AuthorizationStatus.Auth) {
+              if (isAuth !== AuthorizationStatus.Auth) {
                 navigate('/login');
               } else {
                 store.dispatch(

@@ -11,17 +11,21 @@ import { getSortedOffers } from '../../selectors/offers-list-selector';
 import { sortListsItems } from '../../const/const';
 import CitiesList from '../../Components/cities-list/cities-list';
 import MainEmpty from '../main-empty/main-empty';
+import { useLocation } from 'react-router-dom';
+import { ImageSize } from '../../const/const';
 
 function Main(): JSX.Element {
-
   const imageHeight = '200';
   const imageWidth = '260';
   const sortedOffers = useAppSelector(getSortedOffers);
   const sortType = useAppSelector((state) => state.offers.sortType);
   const [isSortOpened, setIsSortOpened] = useState(false);
-  const loading = useAppSelector((state: State) => state.dataLoadAndAuthSlice.isQuesLoaded);
+  const loading = useAppSelector(
+    (state: State) => state.dataLoadAndAuthSlice.isQuesLoaded
+  );
   const isNeedHover = true;
 
+  const currentUrl = useLocation().pathname;
   function takeClass() {
     if (isSortOpened) {
       setIsSortOpened(false);
@@ -75,7 +79,7 @@ function Main(): JSX.Element {
                       {sortedOffers !== undefined
                         ? sortedOffers.length + getEndOfWord()
                         : null}{' '}
-                    to stay in {getCityName()}
+                      to stay in {getCityName()}
                     </b>
                     <form
                       onClick={takeClass}
@@ -102,8 +106,9 @@ function Main(): JSX.Element {
                     </form>
                     {sortedOffers !== undefined ? (
                       <CardList
-                        imageWidth={imageWidth}
-                        imageHeight={imageHeight}
+                        url={currentUrl}
+                        imageWidth={ImageSize.imageWidth}
+                        imageHeight={ImageSize.imageHeight}
                         offersList={sortedOffers}
                         isNeedHover={isNeedHover}
                       />
@@ -113,11 +118,11 @@ function Main(): JSX.Element {
                           <section className="cities__no-places">
                             <div className="cities__status-wrapper tabs__content">
                               <b className="cities__status">
-                              No places to stay available
+                                No places to stay available
                               </b>
                               <p className="cities__status-description">
-                              We could not find any property available at the
-                              moment in Dusseldorf
+                                We could not find any property available at the
+                                moment in Dusseldorf
                               </p>
                             </div>
                           </section>
