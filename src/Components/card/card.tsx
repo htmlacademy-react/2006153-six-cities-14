@@ -36,7 +36,7 @@ function Card({ card, isNeedHover, url, imageWidth, imageHeight }: cardProps) {
       return 0;
     }
     const rating = Math.round(
-      (cardObj.rating / QuantityOfThings.MAX_RATING) * 100
+      (cardObj.rating / QuantityOfThings.maxRating) * 100
     );
     return rating;
   }
@@ -114,7 +114,10 @@ function Card({ card, isNeedHover, url, imageWidth, imageHeight }: cardProps) {
             onClick={() => {
               if (isAuth !== AuthorizationStatus.Auth) {
                 navigate('/login');
-              } else {
+              } else if (
+                url !== '/offer' &&
+                isAuth === AuthorizationStatus.Auth
+              ) {
                 store.dispatch(
                   changeOfferStatus({
                     offerID: card.id,

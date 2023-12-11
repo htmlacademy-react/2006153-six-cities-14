@@ -9,6 +9,7 @@ import {
   State,
   useAppSelector,
   AuthorizationStatus,
+  MAX_VALUE_OF_SHOWN_IMAGES,
 } from '../../const/const';
 import { store } from '../../store';
 import {
@@ -83,7 +84,7 @@ function Offer(): JSX.Element {
       return 0;
     }
     const rating = Math.round(
-      (currentOffer.rating / QuantityOfThings.MAX_RATING) * 100
+      (currentOffer.rating / QuantityOfThings.maxRating) * 100
     );
     return rating;
   }
@@ -99,11 +100,16 @@ function Offer(): JSX.Element {
             <section className="offer">
               <div className="offer__gallery-container container">
                 <div className="offer__gallery">
-                  {currentOffer?.images.slice(0, 6).map((image) => (
-                    <div key={image} className="offer__image-wrapper">
-                      <ImageComponent image={image} classProp={'offer__image'} />
-                    </div>
-                  ))}
+                  {currentOffer?.images
+                    .slice(0, MAX_VALUE_OF_SHOWN_IMAGES)
+                    .map((image) => (
+                      <div key={image} className="offer__image-wrapper">
+                        <ImageComponent
+                          image={image}
+                          classProp={'offer__image'}
+                        />
+                      </div>
+                    ))}
                 </div>
               </div>
               <div className="offer__container container">
