@@ -5,3 +5,6 @@
 .place__card:hover {
   opacity: 0.4;
 }
+.place-card__info:hover {
+  cursor: pointer;
+}

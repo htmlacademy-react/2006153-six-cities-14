@@ -78,7 +78,11 @@ function Offer(): JSX.Element {
       navigate('/login');
     }
   }
-
+  useEffect(() => {
+    if (params.id) {
+      store.dispatch(fetchNearByCurrentOfferAction(params.id));
+    }
+  });
   function getRating() {
     if (typeof currentOffer !== 'object') {
       return 0;
@@ -235,12 +239,7 @@ function Offer(): JSX.Element {
                 <h2 className="near-places__title">
                 Other places in the neighbourhood
                 </h2>
-                <div
-                  className="near-places__list places__list"
-                  onClick={() => {
-                    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-                  }}
-                >
+                <div className="near-places__list places__list">
                   <CardList
                     offersList={nearByList.slice(0, 3)}
                     isNeedHover={false}

@@ -8,6 +8,7 @@ import { State } from '../../const/const';
 import {
   LogoutAction,
   fetchFavoritesOffers,
+  fetchOffersAction,
 } from '../../api-actions/api-actions';
 import { useEffect } from 'react';
 import { store } from '../../store';
@@ -32,6 +33,15 @@ function Header(): JSX.Element {
   useEffect(() => {
     store.dispatch(fetchFavoritesOffers());
   }, [offersList]);
+
+  useEffect(() => {
+    if (
+      isAuth === AuthorizationStatus.NoAuth ||
+      isAuth === AuthorizationStatus.Unknown
+    ) {
+      store.dispatch(fetchOffersAction());
+    }
+  }, [isAuth]);
 
   function handleClickButtonSignOut() {
     dispatch(LogoutAction({}));
