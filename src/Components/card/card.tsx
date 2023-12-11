@@ -149,20 +149,15 @@ function Card({ card, isNeedHover, url, imageWidth, imageHeight }: cardProps) {
           </div>
         </div>
 
-        {url?.slice(0, MAX_VALUE_OF_SHOWN_IMAGES) === '/offer' ? (
-          <div
-            onClick={() => {
-              window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-            }}
-            className="place-card__name"
-          >
-            <p>{card.title}</p>
-          </div>
-        ) : (
-          <Link to={`/offer/${card.id}`} className="place-card__name">
-            <p>{card.title}</p>
-          </Link>
-        )}
+        <Link
+          onClick={() => {
+            window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+          }}
+          to={`/offer/${card.id}`}
+          className="place-card__name"
+        >
+          <p>{card.title}</p>
+        </Link>
         <p className="place-card__type">
           {`${card.type.slice(0, 1).toUpperCase()}${card.type.slice(
             1,
