@@ -19,7 +19,7 @@ const BACKEND_URL = 'https://14.design.pages.academy/six-cities';
 export const createAPI = (): AxiosInstance => {
   const api = axios.create({
     baseURL: BACKEND_URL,
-    timeout: QuantityOfThings.REQUEST_TIMEOUT,
+    timeout: QuantityOfThings.requestTimeout,
   });
 
   api.interceptors.request.use((config) => {

@@ -5,6 +5,7 @@ import {
   useAppDispatch,
   useAppSelector,
   State,
+  MAX_VALUE_OF_SHOWN_IMAGES,
 } from '../../const/const';
 import { setCurrentCard } from '../../store/actions';
 import ImageComponent from '../image-component/image-component';
@@ -30,13 +31,12 @@ function Card({ card, isNeedHover, url, imageWidth, imageHeight }: cardProps) {
     (state: State) => state.offers.currentCard
   );
   const navigate = useNavigate();
-
   function getRating(cardObj: Offers) {
     if (typeof currentCard !== 'object') {
       return 0;
     }
     const rating = Math.round(
-      (cardObj.rating / QuantityOfThings.MAX_RATING) * 100
+      (cardObj.rating / QuantityOfThings.maxRating) * 100
     );
     return rating;
   }
@@ -58,7 +58,10 @@ function Card({ card, isNeedHover, url, imageWidth, imageHeight }: cardProps) {
     if (url === '/') {
       classForCard = 'cities__card';
     }
-    if (url !== undefined && url.slice(0, 6) === '/offer') {
+    if (
+      url !== undefined &&
+      url.slice(0, MAX_VALUE_OF_SHOWN_IMAGES) === '/offer'
+    ) {
       classForCard = 'near-places__card';
     }
 
@@ -114,7 +117,10 @@ function Card({ card, isNeedHover, url, imageWidth, imageHeight }: cardProps) {
             onClick={() => {
               if (isAuth !== AuthorizationStatus.Auth) {
                 navigate('/login');
-              } else {
+              } else if (
+                url !== '/offer' &&
+                isAuth === AuthorizationStatus.Auth
+              ) {
                 store.dispatch(
                   changeOfferStatus({
                     offerID: card.id,
@@ -130,14 +136,7 @@ function Card({ card, isNeedHover, url, imageWidth, imageHeight }: cardProps) {
             } button`}
             type="button"
           >
-            <svg
-              className="place-card__bookmark-icon"
-              width="18"
-              height="19"
-              style={
-                card.isFavorite ? { fill: '#4481c3', stroke: '#4481c3' } : {}
-              }
-            >
+            <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
             <span className="visually-hidden">To bookmarks</span>
@@ -149,7 +148,14 @@ function Card({ card, isNeedHover, url, imageWidth, imageHeight }: cardProps) {
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
-        <Link to={`/offer/${card.id}`} className="place-card__name">
+
+        <Link
+          onClick={() => {
+            window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+          }}
+          to={`/offer/${card.id}`}
+          className="place-card__name"
+        >
           <p>{card.title}</p>
         </Link>
         <p className="place-card__type">

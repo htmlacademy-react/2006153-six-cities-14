@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
   AuthorizationStatus,
   Comments,
+  MAX_VALUE_OF_SHOWN_OFFERS,
   OfferDetails,
   Offers,
   UserData,
@@ -89,7 +90,10 @@ export const offersSlice = createSlice({
             location: state.currentOffer.location,
           },
         };
-        state.NearByOffers = [...action.payload.slice(0, 3), currentOfferInfo];
+        state.NearByOffers = [
+          ...action.payload.slice(0, MAX_VALUE_OF_SHOWN_OFFERS),
+          currentOfferInfo,
+        ];
       })
       .addCase(getFavoritesOffers, (state, action) => {
         state.favoritesOffers = action.payload;

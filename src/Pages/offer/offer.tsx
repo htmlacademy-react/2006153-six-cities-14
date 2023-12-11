@@ -9,6 +9,7 @@ import {
   State,
   useAppSelector,
   AuthorizationStatus,
+  MAX_VALUE_OF_SHOWN_IMAGES,
 } from '../../const/const';
 import { store } from '../../store';
 import {
@@ -77,13 +78,17 @@ function Offer(): JSX.Element {
       navigate('/login');
     }
   }
-
+  useEffect(() => {
+    if (params.id) {
+      store.dispatch(fetchNearByCurrentOfferAction(params.id));
+    }
+  });
   function getRating() {
     if (typeof currentOffer !== 'object') {
       return 0;
     }
     const rating = Math.round(
-      (currentOffer.rating / QuantityOfThings.MAX_RATING) * 100
+      (currentOffer.rating / QuantityOfThings.maxRating) * 100
     );
     return rating;
   }
@@ -99,11 +104,16 @@ function Offer(): JSX.Element {
             <section className="offer">
               <div className="offer__gallery-container container">
                 <div className="offer__gallery">
-                  {currentOffer?.images.slice(0, 6).map((image) => (
-                    <div key={image} className="offer__image-wrapper">
-                      <ImageComponent image={image} classProp={'offer__image'} />
-                    </div>
-                  ))}
+                  {currentOffer?.images
+                    .slice(0, MAX_VALUE_OF_SHOWN_IMAGES)
+                    .map((image) => (
+                      <div key={image} className="offer__image-wrapper">
+                        <ImageComponent
+                          image={image}
+                          classProp={'offer__image'}
+                        />
+                      </div>
+                    ))}
                 </div>
               </div>
               <div className="offer__container container">
@@ -229,12 +239,7 @@ function Offer(): JSX.Element {
                 <h2 className="near-places__title">
                 Other places in the neighbourhood
                 </h2>
-                <div
-                  className="near-places__list places__list"
-                  onClick={() => {
-                    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-                  }}
-                >
+                <div className="near-places__list places__list">
                   <CardList
                     offersList={nearByList.slice(0, 3)}
                     isNeedHover={false}

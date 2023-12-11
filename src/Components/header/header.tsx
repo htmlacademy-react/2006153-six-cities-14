@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
   AuthorizationStatus,
   useAppDispatch,
@@ -8,6 +8,7 @@ import { State } from '../../const/const';
 import {
   LogoutAction,
   fetchFavoritesOffers,
+  fetchOffersAction,
 } from '../../api-actions/api-actions';
 import { useEffect } from 'react';
 import { store } from '../../store';
@@ -26,14 +27,26 @@ function Header(): JSX.Element {
   const userData = useAppSelector(
     (state: State) => state.dataLoadAndAuthSlice.userData
   );
+  const currentUrl = useLocation().pathname;
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     store.dispatch(fetchFavoritesOffers());
   }, [offersList]);
 
-  function signOut() {
+  useEffect(() => {
+    if (
+      isAuth === AuthorizationStatus.NoAuth ||
+      isAuth === AuthorizationStatus.Unknown
+    ) {
+      store.dispatch(fetchOffersAction());
+    }
+  }, [isAuth]);
+
+  function handleClickButtonSignOut() {
     dispatch(LogoutAction({}));
   }
+
   return (
     <header className="header">
       <div className="container">
@@ -54,11 +67,12 @@ function Header(): JSX.Element {
             </Link>
           </div>
           <nav className="header__nav">
-            {isAuth === AuthorizationStatus.NoAuth ? (
-              <Link className="header__login" to={'/login'}>
+            {isAuth === AuthorizationStatus.NoAuth &&
+            currentUrl !== '/login' ? (
+                <Link className="header__login" to={'/login'}>
                 SignIn
-              </Link>
-            ) : null}
+                </Link>
+              ) : null}
 
             <ul className="header__nav-list">
               {isAuth === AuthorizationStatus.Auth ? (
@@ -87,12 +101,17 @@ function Header(): JSX.Element {
                       {favoritesList.length}
                     </span>
                   </div>
-                  <li className="header__nav-item">
-                    <button onClick={signOut} className="header__nav-link">
-                      <span className="header__signout">Sign out</span>
-                    </button>
-                  </li>
                 </Link>
+              ) : null}
+              {isAuth === AuthorizationStatus.Auth ? (
+                <li className="header__nav-item">
+                  <button
+                    onClick={handleClickButtonSignOut}
+                    className="header__nav-link"
+                  >
+                    <span className="header__signout">Sign out</span>
+                  </button>
+                </li>
               ) : null}
             </ul>
           </nav>

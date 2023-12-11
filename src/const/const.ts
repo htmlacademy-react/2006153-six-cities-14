@@ -84,10 +84,10 @@ export const locations: Location[] = [
 ];
 
 const QuantityOfThings = {
-  MAX_RATING: 5,
-  REQUEST_TIMEOUT: 5000,
-  MIN_COMMENT_LENGTH: 50,
-  MAX_COMMENT_LENGTH: 300,
+  maxRating: 5,
+  requestTimeout: 5000,
+  minCommentLength: 50,
+  maxCommentLength: 300,
 } as const;
 
 export default QuantityOfThings;
@@ -109,9 +109,7 @@ export interface CommentsUser {
   avatarUrl: string;
   isPro: boolean;
 }
-export interface offerID {
-  id: string;
-}
+
 export const startCity = 'Paris';
 
 export type State = ReturnType<typeof store.getState>;
@@ -163,9 +161,6 @@ export type AuthData = {
   email?: string;
   avatarUrl?: string;
 };
-export type UserID = {
-  id: string;
-};
 export type UserData = {
   id: string;
   email: string;
@@ -178,11 +173,6 @@ export type DetailMessageType = {
   type: string;
   message: string;
 };
-export type userDataType = {
-  email: string;
-  avatarUrl: string;
-};
-export interface NearByOffersInterface {}
 
 export const ImageSize: ImageSizeInt = {
   imageHeight: '200',
@@ -192,3 +182,6 @@ interface ImageSizeInt {
   imageHeight: string;
   imageWidth: string;
 }
+export const MAX_VALUE_OF_SHOWN_OFFERS = 3;
+
+export const MAX_VALUE_OF_SHOWN_IMAGES = 6;
